@@ -8,7 +8,7 @@ import {useColorScheme} from '@/components/useColorScheme';
 import {useClientOnlyValue} from '@/components/useClientOnlyValue';
 
 //hanger icon import
-import {MaterialCommunityIcons} from '@expo/vector-icons';
+import {AntDesign, MaterialCommunityIcons} from '@expo/vector-icons';
 //man outline import
 import {Ionicons} from '@expo/vector-icons';
 
@@ -38,7 +38,6 @@ export default function TabLayout() {
                 name="index"
                 options={{
                     title: 'Home',
-                    // tabBarIcon: ({color}) => <TabBarIcon name="home" color={color}/>,
                     tabBarIcon: ({color}) => <FontAwesome name="home" size={28} style={{marginBottom: -3}}
                                                           color={color}/>,
                     headerRight: () => (
@@ -63,6 +62,20 @@ export default function TabLayout() {
                 options={{
                     title: 'Closet',
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name="hanger" size={24} color={color}/>,
+                    headerRight: () => (
+                        <Link href="/addClothe" asChild>
+                            <Pressable>
+                                {({pressed}) => (
+                                    <AntDesign
+                                        name="pluscircle"
+                                        size={25}
+                                        color={Colors[colorScheme ?? 'light'].text}
+                                        style={{marginRight: 15, opacity: pressed ? 0.5 : 1}}
+                                    />
+                                )}
+                            </Pressable>
+                        </Link>
+                    ),
                 }}
             />
         </Tabs>
