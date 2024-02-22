@@ -41,3 +41,62 @@ export async function insertClothe(name: string, description: string, link: stri
 
     return success;
 }
+
+/**
+ * Gets all the clothes from the DB.
+ */
+export async function getClothes(): Promise<{ [key: string]: string | number | null | Clothe }[]> {
+    const db = await openDatabase();
+    let clothes: { [key: string]: string | number | null | Clothe }[] = [];
+
+    await db.transactionAsync(async tx => {
+        const clotheRows = (await tx.executeSqlAsync('SELECT * FROM clothes')).rows;
+        clothes = clotheRows.map((value, index, array) => {
+            return {
+                "id": value.id,
+                "name": value.name,
+                "description": value.description,
+                "link": value.link,
+                "clothe": JSON.parse(value.clothe, (key, value) => {
+                    if (value === null) {
+                        return null;
+                    }
+                    return new Clothe(value.type, value.color, value.sleeveSize);
+                })
+            };
+        });
+    }, true);
+
+    return clothes;
+}
+
+/**
+ * Filters the clothes from the DB.
+ * @param type The type of clothes to filter.
+ * @param color The color of the clothes to filter.
+ * @param sleeveSize The sleeve size of the clothes to filter.
+ * @return The filtered clothes based on the filters passed.
+ */
+export async function filterClothes(type?: string, color?: string, sleeveSize?: number): Promise<{
+    [key: string]: string | number | null | Clothe
+}[]> {
+    return (await getClothes())
+        .filter((value) => {
+            const clothe = value.clothe as Clothe
+            let shouldFilter = true;
+
+            if (type !== undefined) {
+                shouldFilter = shouldFilter && clothe.type === type;
+            }
+
+            if (color !== undefined) {
+                shouldFilter = shouldFilter && clothe.color === color;
+            }
+
+            if (sleeveSize !== undefined) {
+                shouldFilter = shouldFilter && clothe.sleeveSize === sleeveSize;
+            }
+
+            return shouldFilter;
+        });
+}
