@@ -1,4 +1,4 @@
-class Clothes {
+class Clothe {
     private _type: string;
     private _color: string;
     private _sleeveSize: number;
@@ -9,12 +9,11 @@ class Clothes {
         this._sleeveSize = sleeveSize;
     }
 
-    // Getter for type attribute
     get type(): string {
         return this._type;
     }
 
-    // Setter for type attribute
+    // Clothe type must be pant, skirt, shirt or shoe
     set type(type: string) {
         if (["pant", "skirt", "shirt", "shoe"].includes(type)) {
             this._type = type;
@@ -23,22 +22,19 @@ class Clothes {
         }
     }
 
-    // Getter for color attribute
     get color(): string {
         return this._color;
     }
 
-    // Setter for color attribute
     set color(color: string) {
         this._color = color;
     }
 
-    // Getter for sleeveSize attribute
     get sleeveSize(): number {
         return this._sleeveSize;
     }
 
-    // Setter for sleeveSize attribute
+    // Sleeve size cannot be negative
     set sleeveSize(sleeveSize: number) {
         if (sleeveSize >= 0) {
             this._sleeveSize = sleeveSize;
