@@ -3,7 +3,7 @@ import {StyleSheet, Image} from 'react-native';
 import {Text, View} from './Themed';
 
 // Clothe item with hanger bar
-export default function Item() {
+export function Item({name, description, imageLink}: { name: string, description: string, imageLink: string }) {
     return (
         <View style={styles.getStartedContainer}>
             {/* Hanger bar image */}
@@ -16,17 +16,25 @@ export default function Item() {
             <View style={styles.itemContainer}>
                 <Image
                     style={styles.itemPicture}
-                    source={{uri: "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035"}}
+                    source={{uri: imageLink}}
                 />
 
                 <View style={styles.itemBottomText}>
-                    <Text style={styles.name}>Item Name</Text>
-                    <Text style={styles.description}>Item Description</Text>
+                    <Text style={styles.name}>{name}</Text>
+                    <Text style={styles.description}>{description}</Text>
                 </View>
 
             </View>
         </View>
     );
+}
+
+export default function ItemDefault() {
+    return Item({
+        name: "Item name",
+        description: "Item description",
+        imageLink: "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035"
+    });
 }
 
 const styles = StyleSheet.create({

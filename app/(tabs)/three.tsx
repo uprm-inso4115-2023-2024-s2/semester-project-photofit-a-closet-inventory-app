@@ -1,13 +1,13 @@
 import {StyleSheet} from 'react-native';
 import {View} from '@/components/Themed';
-import Item from '@/components/Item'
+import ItemDefault from "@/components/Item";
 
 // Closet screen
 export default function TabThreeScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.hangerBar}/>
-            <Item/>
+            <ItemDefault/>
         </View>
     );
 }
