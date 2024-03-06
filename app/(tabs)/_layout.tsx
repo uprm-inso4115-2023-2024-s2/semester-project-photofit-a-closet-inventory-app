@@ -76,6 +76,20 @@ export default function TabLayout() {
                             </Pressable>
                         </Link>
                     ),
+                    headerLeft: () => (
+                        <Link href="/photoCapture" asChild>
+                            <Pressable>
+                                {({pressed}) => (
+                                    <AntDesign
+                                        name="camera"
+                                        size={25}
+                                        color={Colors[colorScheme ?? 'light'].text}
+                                        style={{marginLeft: 15, opacity: pressed ? 0.5 : 1}}
+                                    />
+                                )}
+                            </Pressable>
+                        </Link>
+                    ),
                 }}
             />
         </Tabs>
