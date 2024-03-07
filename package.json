@@ -33,7 +33,8 @@
     "expo-sqlite": "~13.2.2",
     "typescript": "^5.1.3",
     "@types/react": "~18.2.14",
-    "expo-camera": "~14.0.5"
+    "expo-camera": "~14.0.5",
+    "expo-image-picker": "~14.7.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

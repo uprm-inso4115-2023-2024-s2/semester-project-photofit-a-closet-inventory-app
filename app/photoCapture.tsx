@@ -2,7 +2,8 @@ import { Camera, CameraType } from 'expo-camera';
 import { useState, useRef } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {useNavigation} from "@react-navigation/native";
-
+import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function photoCapture() {
   const cameraRef = useRef<Camera>(null);
@@ -10,8 +11,7 @@ export default function photoCapture() {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isCameraReady, setIsCameraReady] = useState(false);
   const navigation = useNavigation();
-
-  
+  const [image, setImage] = useState(String);
 
   if (!permission) {
     // Camera permissions are still loading
@@ -50,19 +50,44 @@ export default function photoCapture() {
       }
     }
   }
+
+   /**
+   * Selecting a photo from Photo Gallery
+   * 
+   **/
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
     
+  };
+
   
 
   return (
     <View style={styles.container}>
       <Camera ref={cameraRef} style={styles.camera} type={type} onCameraReady={() => setIsCameraReady(true)}>
         <View style={styles.buttonContainer}>
+
+          <TouchableOpacity style={styles.button} onPress={pickImage}>
+            <AntDesign name="picture" size={40} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.middleButton]} onPress={takePicture}>
+            <MaterialCommunityIcons name="circle" size={80} color="white" />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
+            <MaterialCommunityIcons name="camera-flip" size={40} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <Text style={styles.text}>Take Picture</Text>
-          </TouchableOpacity>
+        
         </View>
       </Camera>
     </View>
@@ -78,15 +103,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    flex: 1,
+    flex: 0,
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    margin: 64,
+    position: 'absolute', // Position absolutely within the parent View
+    bottom: 20, // Adjust based on your needs
+    width: '100%', // Ensure it spans the entire width
+    justifyContent: 'space-between', // This spreads out the child elements
+    paddingHorizontal: 20,
   },
   button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  middleButton: {
+    marginTop: -40,
   },
   text: {
     fontSize: 24,
