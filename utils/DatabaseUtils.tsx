@@ -24,7 +24,7 @@ async function openDatabase(): Promise<SQLite.SQLiteDatabase> {
  * @param clothe The clothe object or null.
  * @return Returns true if it successfully added the Clothe object to the DB, false otherwise.
  */
-export async function addClothe(clothe: Clothe): Promise<boolean> {
+export async function insertClothe(clothe: Clothe): Promise<boolean> {
     const db = SQLite.openDatabase('closet.db');
     let success = false;
 
