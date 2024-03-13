@@ -4,6 +4,8 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { SearchBar } from 'react-native-elements';
+
 
 import { useColorScheme } from '@/components/useColorScheme';
 
@@ -47,8 +49,20 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
+  const handleSearch = (searchText: string) => {
+    // Handle search logic here
+    console.log('Searching for:', searchText);
+  };
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+       <SearchBar
+          placeholder="Search..."
+          onChangeText={handleSearch}
+          onCancel={() => console.log('Search cancelled')}
+          onClear={() => console.log('Search cleared')}
+          platform="default" 
+        />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
