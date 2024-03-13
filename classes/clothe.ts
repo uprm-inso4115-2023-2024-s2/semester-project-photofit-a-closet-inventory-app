@@ -1,5 +1,5 @@
 export enum Type {
-    Pant, Skirt, Shirt, Shoe
+    Unknown
 }
 
 export class Clothe {
@@ -70,5 +70,14 @@ export class Clothe {
         } else {
             throw new Error("Sleeve size cannot be negative");
         }
+    }
+
+    serialize(): string {
+        return JSON.stringify(this);
+    }
+
+    static deserialize(json: string): Clothe {
+        const parse = JSON.parse(json);
+        return new Clothe(parse._name, parse._description, parse._link, parse._type, parse._color, parse._sleeveSize);
     }
 }
