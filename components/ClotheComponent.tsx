@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, Image} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import {Text, View} from './Themed';
+import {Clothe} from "@/classes/clothe";
 
 // Clothe item with hanger bar
-export function Item({name, description, imageLink}: { name: string, description: string, imageLink: string }) {
+export function ClotheComponent(clothe: Clothe) {
     return (
         <View style={styles.getStartedContainer}>
             {/* Hanger bar image */}
@@ -16,25 +17,17 @@ export function Item({name, description, imageLink}: { name: string, description
             <View style={styles.itemContainer}>
                 <Image
                     style={styles.itemPicture}
-                    source={{uri: imageLink}}
+                    source={{uri: clothe.link}}
                 />
 
                 <View style={styles.itemBottomText}>
-                    <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.description}>{description}</Text>
+                    <Text style={styles.name}>{clothe.name}</Text>
+                    <Text style={styles.description}>{clothe.description}</Text>
                 </View>
 
             </View>
         </View>
     );
-}
-
-export default function ItemDefault() {
-    return Item({
-        name: "Item name",
-        description: "Item description",
-        imageLink: "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035"
-    });
 }
 
 const styles = StyleSheet.create({

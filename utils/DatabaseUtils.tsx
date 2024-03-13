@@ -24,16 +24,15 @@ async function openDatabase(): Promise<SQLite.SQLiteDatabase> {
  * @param clothe The clothe object or null.
  * @return Returns true if it successfully added the Clothe object to the DB, false otherwise.
  */
-export async function insertClothe(clothe: Clothe): Promise<boolean> {
+export async function addClothe(clothe: Clothe): Promise<boolean> {
     const db = SQLite.openDatabase('closet.db');
-    const serializedClothe = JSON.stringify(clothe);
     let success = false;
 
-    console.log(`Saving ${serializedClothe} to clothes table`)
+    console.log(`Saving ${clothe.name} to clothes table`)
 
     await db.transactionAsync(async tx => {
         const result = await tx.executeSqlAsync('INSERT INTO clothes (clothe) VALUES (?)',
-            [serializedClothe]);
+            [clothe.serialize()]);
         success = result.rowsAffected > 0;
     }, false);
 
@@ -50,7 +49,7 @@ export async function getClothes(): Promise<Clothe[]> {
     await db.transactionAsync(async tx => {
         const clotheRows = (await tx.executeSqlAsync('SELECT * FROM clothes')).rows;
         clothes = clotheRows.map((value, index, array) => {
-            return JSON.parse(value.clothe);
+            return Clothe.deserialize(value.clothe);
         });
     }, true);
 

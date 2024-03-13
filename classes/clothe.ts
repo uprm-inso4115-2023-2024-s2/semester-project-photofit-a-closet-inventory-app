@@ -81,3 +81,12 @@ export class Clothe {
         return new Clothe(parse._name, parse._description, parse._link, parse._type, parse._color, parse._sleeveSize);
     }
 }
+
+export default function DefaultClothe(): Clothe {
+    return new Clothe("Clothe Name",
+        "Clothe Description",
+        "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035",
+        Type.Unknown,
+        "Black",
+        1);
+}

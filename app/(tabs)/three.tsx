@@ -1,23 +1,36 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {View} from '@/components/Themed';
-import {ReactNode, useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
+import {getClothes} from "@/utils/DatabaseUtils";
+import {ClotheComponent} from "@/components/ClotheComponent";
+import {newClotheAddedTrigger} from "@/app/addClothe";
 
 // Closet screen
 export default function TabThreeScreen() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [components, setComponents] = useState<ReactNode[]>([]);
+    const [currentClotheIndex, setCurrentClotheIndex] = useState(0);
+    const [clotheItems, setClotheItems] = useState<ReactNode[]>([]);
 
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % components.length);
+        setCurrentClotheIndex((prevIndex) => (prevIndex + 1) % clotheItems.length);
     };
 
     const handlePrevious = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? components.length - 1 : prevIndex - 1
+        setCurrentClotheIndex((prevIndex) =>
+            prevIndex === 0 ? clotheItems.length - 1 : prevIndex - 1
         );
     };
 
-    if (components.length === 0) {
+    // Using useEffect in order to query database once (initial render) and whenever newClotheAddedTrigger changes,
+    // otherwise it continuously queries database which interferes with future operations
+    useEffect(() => {
+        getClothes().then((clothes) => {
+            setClotheItems(clothes.map((clothe) => {
+                return ClotheComponent(clothe);
+            }));
+        });
+    }, [newClotheAddedTrigger]);
+
+    if (clotheItems.length === 0) {
         return (
             <View style={styles.container}>
                 <Text>No clothes saved</Text>
@@ -29,9 +42,9 @@ export default function TabThreeScreen() {
         <View style={styles.container}>
             <View style={styles.hangerBar}/>
 
-            {/* Clothe Item cycler */}
+            {/* The ClotheComponent cycler */}
             <View style={styles.cyclerContainer}>
-                <View style={styles.componentContainer}>{components[currentIndex]}</View>
+                <View style={styles.componentContainer}>{clotheItems[currentClotheIndex]}</View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={handlePrevious}>
                         <Text style={styles.buttonText}>Previous</Text>
