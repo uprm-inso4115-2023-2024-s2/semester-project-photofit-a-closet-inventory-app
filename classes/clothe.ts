@@ -1,8 +1,8 @@
-enum Type {
+export enum Type {
     Pant, Skirt, Shirt, Shoe
 }
 
-class Clothe {
+export class Clothe {
     private _name: string;
     private _description: string;
     private _link: string;
