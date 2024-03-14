@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {View} from '@/components/Themed';
 import {ReactNode, useEffect, useState} from "react";
-import {getClothes} from "@/utils/DatabaseUtils";
+import DatabaseController from "@/classes/DatabaseController";
 import {ClotheComponent} from "@/components/ClotheComponent";
 import {newClotheAddedTrigger} from "@/app/addClothe";
 
@@ -23,7 +23,7 @@ export default function TabThreeScreen() {
     // Using useEffect in order to query database once (initial render) and whenever newClotheAddedTrigger changes,
     // otherwise it continuously queries database which interferes with future operations
     useEffect(() => {
-        getClothes().then((clothes) => {
+        DatabaseController.getClothes().then((clothes) => {
             setClotheItems(clothes.map((clothe) => {
                 return ClotheComponent(clothe);
             }));

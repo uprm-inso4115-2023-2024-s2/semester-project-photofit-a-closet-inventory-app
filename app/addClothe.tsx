@@ -1,9 +1,9 @@
 import {Button, StyleSheet, TextInput} from 'react-native';
 import {View} from '@/components/Themed';
 import {useState} from "react";
-import {insertClothe} from "@/utils/DatabaseUtils"
 import {useNavigation} from "@react-navigation/native";
 import DefaultClothe from "@/classes/clothe";
+import DatabaseController from "@/classes/DatabaseController";
 
 /** This is a dependency for TabThreeScreen aka the Closet screen, because the closet screen only
  *  queries the database once (when it initially renders), but we need it to query everytime we add
@@ -19,7 +19,7 @@ export default function AddClotheScreen() {
     // Adds clothe to DB and changes screen back to the previous one
     async function addClothe() {
         // const clothe = new Clothe(clotheName, clotheDescription, clotheImageLink, Type.Unknown, "Black", 10);
-        const success = await insertClothe(clothe);
+        const success = await DatabaseController.addClothe(clothe);
 
         if (success) {
             console.log("Successfully added clothe!")
