@@ -4,13 +4,18 @@ import {Clothe, Type} from "@/classes/clothe"
 
 export default class DatabaseController {
 
-    private static database: SQLite.SQLiteDatabase | null = null
+    // Database cache, use getDatabase when accessing the database.
+    private static database: SQLite.SQLiteDatabase | null = null;
+
+    // Clothes cache, use getClothes when querying for the clothes.
+    private static clothes: Clothe[] = [];
 
     private constructor() {
     }
 
     /**
-     * Opens the database (closet.db) and creates a clothes table if it doesn't exist.
+     * If the database has not been opened, then opens the database (closet.db), and creates a clothes table
+     * if it doesn't exist.
      */
     private static async getDatabase(): Promise<SQLite.SQLiteDatabase> {
         if (this.database !== null) {
@@ -34,6 +39,23 @@ export default class DatabaseController {
     }
 
     /**
+     * Gets all the clothes from the DB.
+     */
+    public static async getClothes(): Promise<Clothe[]> {
+        if (this.clothes.length !== 0) return this.clothes;
+
+        const db = await this.getDatabase();
+        await db.transactionAsync(async tx => {
+            const clotheRows = (await tx.executeSqlAsync('SELECT * FROM clothes')).rows;
+            this.clothes = clotheRows.map((value, index, array) => {
+                return Clothe.deserialize(value.clothe);
+            });
+        }, true);
+
+        return this.clothes;
+    }
+
+    /**
      * Inserts a clothe object into the clothes table.
      * @param clothe The clothe object or null.
      * @return Returns true if it successfully added the Clothe object to the DB, false otherwise.
@@ -50,24 +72,12 @@ export default class DatabaseController {
             success = result.rowsAffected > 0;
         }, false);
 
+        // Add the clothe to the cached clothes array
+        if (success) {
+            this.clothes.push(clothe);
+        }
+
         return success;
-    }
-
-    /**
-     * Gets all the clothes from the DB.
-     */
-    public static async getClothes(): Promise<Clothe[]> {
-        const db = await this.getDatabase();
-        let clothes: Clothe[] = [];
-
-        await db.transactionAsync(async tx => {
-            const clotheRows = (await tx.executeSqlAsync('SELECT * FROM clothes')).rows;
-            clothes = clotheRows.map((value, index, array) => {
-                return Clothe.deserialize(value.clothe);
-            });
-        }, true);
-
-        return clothes;
     }
 
     /**
