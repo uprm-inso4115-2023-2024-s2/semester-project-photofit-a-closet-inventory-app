@@ -25,8 +25,7 @@ export default function Item({ path }: { path: string }) {
           source = "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035"
           />
           <View style = {styles.itemBottomText}>
-          <Text style = {styles.name}>Item Name</Text>
-          <Text style = {styles.description}>Item Description</Text>
+    
           
           </View>
         </View>

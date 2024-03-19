@@ -1,4 +1,4 @@
-class Clothes {
+class clothes {
     private _type: string;
     private _color: string;
     private _sleeveSize: number;
@@ -47,3 +47,4 @@ class Clothes {
         }
     }
 }
+export default clothes;
