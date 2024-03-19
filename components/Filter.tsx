@@ -18,6 +18,7 @@ export default function Filter() {
                         onValueChange={(itemValue, itemIndex) => {
                             selectClotheType(itemIndex);
                         }}>
+                    {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
                     {["None"]
                         .concat(
                             Object.keys(Clothe.Type)
