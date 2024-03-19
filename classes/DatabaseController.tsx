@@ -1,6 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import * as SQLite from 'expo-sqlite';
-import {Clothe, Type} from "@/classes/clothe"
+import {Clothe} from "@/classes/clothe"
 
 export default class DatabaseController {
 
@@ -87,7 +87,7 @@ export default class DatabaseController {
      * @param sleeveSize The sleeve size of the clothes to filter.
      * @return The filtered clothes based on the filters passed.
      */
-    public static async filterClothes(type?: Type, color?: string, sleeveSize?: number): Promise<Clothe[]> {
+    public static async filterClothes(type?: Clothe.Type, color?: string, sleeveSize?: number): Promise<Clothe[]> {
         return (await this.getClothes())
             .filter((clothe) => {
                 let shouldFilter = true;
