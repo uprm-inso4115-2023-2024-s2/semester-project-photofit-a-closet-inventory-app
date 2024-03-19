@@ -1,16 +1,12 @@
-export enum Type {
-    Unknown
-}
-
 export class Clothe {
     private _name: string;
     private _description: string;
     private _link: string;
-    private _type: Type;
+    private _type: Clothe.Type;
     private _color: string;
     private _sleeveSize: number;
 
-    constructor(name: string, description: string, link: string, type: Type, color: string, sleeveSize: number) {
+    constructor(name: string, description: string, link: string, type: Clothe.Type, color: string, sleeveSize: number) {
         this._name = name;
         this._description = description;
         this._link = link;
@@ -43,11 +39,11 @@ export class Clothe {
         this._link = link;
     }
 
-    get type(): Type {
+    get type(): Clothe.Type {
         return this._type;
     }
 
-    set type(type: Type) {
+    set type(type: Clothe.Type) {
         this._type = type;
     }
 
@@ -86,7 +82,13 @@ export default function DefaultClothe(): Clothe {
     return new Clothe("Clothe Name",
         "Clothe Description",
         "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035",
-        Type.Unknown,
+        Clothe.Type.Unknown,
         "Black",
         1);
+}
+
+export namespace Clothe {
+    export enum Type {
+        Unknown
+    }
 }
