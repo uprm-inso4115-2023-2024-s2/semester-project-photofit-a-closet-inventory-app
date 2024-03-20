@@ -2,13 +2,15 @@ import * as FileSystem from 'expo-file-system';
 import * as SQLite from 'expo-sqlite';
 import {Clothe} from "@/classes/clothe"
 
-export default class DatabaseController {
+export class DatabaseController {
 
     // Database cache, use getDatabase when accessing the database.
     private static database: SQLite.SQLiteDatabase | null = null;
 
     // Clothes cache, use getClothes when querying for the clothes.
     private static clothes: Clothe[] = [];
+
+    public static dependencies: DatabaseController.ClotheAddedCallback[] = [];
 
     private constructor() {
     }
@@ -75,6 +77,9 @@ export default class DatabaseController {
         // Add the clothe to the cached clothes array
         if (success) {
             this.clothes.push(clothe);
+            this.dependencies.forEach((registeredCallback) => {
+                registeredCallback.callback();
+            });
         }
 
         return success;
@@ -106,5 +111,16 @@ export default class DatabaseController {
 
                 return shouldFilter;
             });
+    }
+}
+
+export namespace DatabaseController {
+    /**
+     * Callback interface used by components that need to refresh whenever there is a new clothe added to the database.
+     * Components should add their own implementation to the DatabaseController.dependencies array, and then
+     * add their own trigger implementation from the component.
+     */
+    export interface ClotheAddedCallback {
+        callback(): void;
     }
 }

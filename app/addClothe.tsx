@@ -3,14 +3,7 @@ import {View} from '@/components/Themed';
 import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import DefaultClothe from "@/classes/clothe";
-import DatabaseController from "@/classes/DatabaseController";
-
-/** This is a dependency for TabThreeScreen aka the Closet screen, because the closet screen only
- *  queries the database once (when it initially renders), but we need it to query everytime we add
- *  a new clothe to the database, so we use this as a dependency trigger for it to query the database
- *  everytime this value is changed.
- */
-export let newClotheAddedTrigger = false;
+import {DatabaseController} from "@/classes/DatabaseController";
 
 export default function AddClotheScreen() {
     const [clothe] = useState(DefaultClothe());
@@ -18,12 +11,10 @@ export default function AddClotheScreen() {
 
     // Adds clothe to DB and changes screen back to the previous one
     async function addClothe() {
-        // const clothe = new Clothe(clotheName, clotheDescription, clotheImageLink, Type.Unknown, "Black", 10);
         const success = await DatabaseController.addClothe(clothe);
 
         if (success) {
             console.log("Successfully added clothe!")
-            newClotheAddedTrigger = !newClotheAddedTrigger;
         } else {
             console.log("Failed to add clothe!")
         }
