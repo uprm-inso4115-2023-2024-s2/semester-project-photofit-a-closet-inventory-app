@@ -1,18 +1,17 @@
 import {Button, StyleSheet, TextInput} from 'react-native';
 import {View} from '@/components/Themed';
 import {useState} from "react";
-import {insertClothe} from "@/utils/DatabaseUtils"
 import {useNavigation} from "@react-navigation/native";
+import DefaultClothe from "@/classes/clothe";
+import {DatabaseController} from "@/classes/DatabaseController";
 
 export default function AddClotheScreen() {
-    const [clotheName, setClotheName] = useState('');
-    const [clotheDescription, setClotheDescription] = useState('');
-    const [clotheImageLink, setClotheImageLink] = useState('');
+    const [clothe] = useState(DefaultClothe());
     const navigation = useNavigation();
 
-    // Adds clothe to DB and changes screen back to closet
+    // Adds clothe to DB and changes screen back to the previous one
     async function addClothe() {
-        const success = await insertClothe(clotheName, clotheDescription, clotheImageLink, null);
+        const success = await DatabaseController.addClothe(clothe);
 
         if (success) {
             console.log("Successfully added clothe!")
@@ -26,15 +25,15 @@ export default function AddClotheScreen() {
     return (
         <View style={styles.container}>
             <TextInput style={styles.input} placeholder="Clothe name"
-                       onChangeText={(text) => setClotheName(text)}/>
+                       onChangeText={(text) => clothe.name = text}/>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
 
             <TextInput style={styles.input} placeholder="Clothe description"
-                       onChangeText={(text) => setClotheDescription(text)}/>
+                       onChangeText={(text) => clothe.description = text}/>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
 
             <TextInput style={styles.input} placeholder="Clothe image link"
-                       onChangeText={(text) => setClotheImageLink(text)}/>
+                       onChangeText={(text) => clothe.link = text}/>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
 
             <Button title="Add Clothe" onPress={addClothe}/>
