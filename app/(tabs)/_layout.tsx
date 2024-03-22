@@ -27,7 +27,7 @@ export default function TabLayout() {
             }}>
 
             <Tabs.Screen
-                name="two"
+                name="outfits"
                 options={{
                     title: 'Outfits',
                     tabBarIcon: ({color}) => <Ionicons name="man-outline" size={24} color={color}/>,
