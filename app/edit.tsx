@@ -28,7 +28,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 function addOutfitButton(){
 
     return(
-      <View>
+      <View style={{paddingBottom:5}}>
+
       {/* Separator */}
         <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
   
@@ -41,14 +42,17 @@ function addOutfitButton(){
             flexDirection: 'row', 
             alignItems:'center', 
             justifyContent:'space-between',
-            backgroundColor: '#F194FF'}}>
+            backgroundColor: '#F0F0F0' //'#F194FF'
+            
+            }}>
 
                 {/* drag icon */}
                 <Icon
                     name="drag"
                     size={30}
-                    color="white"
-                    onPress={() => console.log('pressed')}
+                    color="#C100E0"
+                    onPress={() => console.log('pressed')
+                }
                 />
                 {/* two lines drag icon */}
                 {/* <MaterialIcons 
@@ -65,7 +69,7 @@ function addOutfitButton(){
                 <Icon
                     name="delete"
                     size={24}
-                    color="white"
+                    color="#C100E0"
                     onPress={() => console.log('pressed')}
                 />
 
@@ -90,10 +94,9 @@ export default function EditOutfits() {
     const deleteOutfitButton = () => {
 
     }
-    // const arrangeOutfitButton = () => {
+    const arrangeOutfitButton = () => {
         
-    // }
-
+    }
 
     const handleCancel = () => {
         setInputValue('');
@@ -120,6 +123,7 @@ export default function EditOutfits() {
 
             <View style={styles.container2}>
 
+            <View style={{paddingBottom:5}}>
 
         {/* Outfit Buttons */}
         
@@ -130,15 +134,17 @@ export default function EditOutfits() {
             >
         <View style={{flex: 1, 
             flexDirection: 'row', 
-            alignItems:'center', 
+            alignItems: 'center', //'flex-start', 
             justifyContent:'space-between',
-            backgroundColor: '#F194FF'}}>
+            backgroundColor: '#F0F0F0' 
+            // '#F194FF'
+            }}>
 
                 {/* drag icon */}
                 <Icon
                     name="drag"
                     size={30}
-                    color="white"
+                    color="#C100E0"
                     onPress={() => console.log('pressed')}
                 />
                 {/* two lines drag icon */}
@@ -156,17 +162,17 @@ export default function EditOutfits() {
                 <Icon
                     name="delete"
                     size={24}
-                    color="white"
+                    color="#C100E0"
                     onPress={() => console.log('pressed')}
                 />
 
             </View>                
 
           </Pressable>
+          </View>                
 
 
         </View>
-
 
 
         {/* Button */}
@@ -254,11 +260,12 @@ const styles = StyleSheet.create({
         padding: 25, 
         margin: 10, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
+
     },
 
     separator: { //added this to separate each button a smidge, is added just before a new button
         marginVertical: 10,
-        height: 1,
+        height: .5,
         width: '80%',
       },
     separator2: { //added this to create a space between cancel and save buttons
@@ -279,13 +286,22 @@ const styles = StyleSheet.create({
     },
 
     OutfitButton: {
-        borderRadius: 10,
+        borderRadius: 15,
         padding: 20,
         elevation: 2,
-        backgroundColor: '#F194FF', //'#f8f4f4'
+        backgroundColor: '#F0F0F0', //'#F194FF', //'#f8f4f4'
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,   
+        // maxHeight:60, 
       },
+
       textStyle: {
-        color: 'white', //'#c404f0' //'#F194FF'
+        color: '#C100E0', //'white', //'#c404f0' //'#F194FF'
         fontWeight: 'bold',
         textAlign: 'center',
         justifyContent: 'center',
@@ -309,7 +325,8 @@ const styles = StyleSheet.create({
     saveButton: {
         borderRadius: 10,
         padding: 10,
-        height:'40%',
+        // height:'40%',
+        maxHeight:35,
         backgroundColor: 'limegreen',
         justifyContent: 'center'
     },

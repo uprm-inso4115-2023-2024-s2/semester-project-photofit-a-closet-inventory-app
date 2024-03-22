@@ -10,27 +10,16 @@ import EditOutfits from '@/app/edit'
 
 /* To Do: 
 - add photos of "outfits" inside the button on the left side (--> *photo* <-- Outfits)
-- add an "Edit" feature functional: 
-    -> eliminate outfits
-    -> move outfit button (arrange outfits)
+- add functionality in Edit Outfit Page: 
+    -> eliminate outfits - delete feature
+    -> move outfit button - arrange outfits feature
 
-- add "AddOutfit" feature:
-  -"Make your Outfit" title, upper middle part
-  - add a filters search bar: includes three dropdown: Color, Type, Sleeve Size (???)
+- continue implementing AddOutfit / Make your Outfit feature:
+  - add a filters search bar: includes three dropdown: Color, Type, Sleeve Size, etc
   - has photos of their closet / database
-  - just at the bottom, a text field to name the outfit, "Name for Outfit"
-  - just under that, a cancel button and a save button
 
   --see https://www.figma.com/file/ojPtY7fqcm1botgu9QryZf/PhotoFit-UI?type=design&node-id=0-1&mode=design&t=xGQxI8btmzRFtTNz-0
 
-
-  Finished: 
-  - adding "Outfits" buttons 
-  - added the "Add Outfit" *plus* symbol on upper right corner
-      -> added the cancel button and a save button
-
-  Working right now: 
-  - redo "Edit" page
 
   What i did: 
   Mar 1 - 11
@@ -69,7 +58,13 @@ import EditOutfits from '@/app/edit'
     -> added save button to save progress (right now it only goes back to main Outfit page)
     - started implementation of Make Your Outfit page
     -> added save and cancel button (right now both go back to main Outfit page)
-    -> separated each major part: started on the name of outfit section
+    -> separated each major part: started on the name of outfit section, added text and buttons
+    -> added "Make your Outfit" title, upper middle part
+    - polishing pages
+    -> change into App Colors
+    -> added shadowing in the buttons
+    -> spacing between buttons to show shadowing
+
 */
 
 
@@ -77,7 +72,7 @@ import EditOutfits from '@/app/edit'
 function addOutfitButton(){
 
   return(
-    <View>
+    <View style={{paddingBottom:5}}>
     {/* Separator */}
       <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
 
@@ -95,12 +90,6 @@ function addOutfitButton(){
 
   );
 }
-
-
-
-
-
-
 
 
 
@@ -136,10 +125,6 @@ export default function TabTwoScreen() {
 
     <View style={styles.container}>
 
-
-
-      
-
     {/* FlatList */}
       {/* <View style={styles.container2}>
       <FlatList
@@ -150,11 +135,12 @@ export default function TabTwoScreen() {
       />
       </View> */}
 
-      {/* inside container 1 */}
+      {/* inside container of buttons */}
       <View style={styles.container2}> 
 
-        {/* Button */}
+      <View style={{paddingBottom:5}}>
 
+        {/* Button */}
         <View style={styles.OutfitButton}> 
             <Pressable  // onPress={() => setModalVisible(true)}
             >
@@ -162,20 +148,8 @@ export default function TabTwoScreen() {
             </Pressable>
             
         </View>
-
-
-        {/* Separator */}
-        <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
-        <View style={styles.OutfitButton}> 
-            <Pressable  // onPress={() => setModalVisible(true)}
-            >
-                <Text style={styles.textStyle}>Outfit</Text>
-            </Pressable>
-            
         </View>
 
-        {/* Button */}
-        {addOutfitButton()}
 
         {/* Button */}
         {addOutfitButton()}
@@ -185,6 +159,10 @@ export default function TabTwoScreen() {
 
         {/* Button */}
         {addOutfitButton()}
+
+        {/* Button */}
+        {addOutfitButton()}
+
 
       </View>
 
@@ -233,146 +211,26 @@ const styles = StyleSheet.create({
 
   separator: { //added this to separate each button a smidge, is added just before a new button
     marginVertical: 10,
-    height: 1,
+    height: .5,
     width: '80%',
+    backgroundColor: 'white'
   },
-
-  // background:{
-  //   backgroundColor: 'white',
-  // },
-
-  buttonFlatList: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    backgroundColor: 'pink',
-    borderRadius: 10,
-    padding: 10,
-    margin: 5,
-    flex: 1,
-  },
-
-
-
-// Modals - View Outfits
-  backgroundModal: { //background behind modal
-    flex: 1,
-    justifyContent: 'center',
-    // alignItems: 'center',
-    marginTop: 22,
-    marginBottom: 55,
-    marginHorizontal: 30,
-    borderRadius: 20,
-    backgroundColor: "white",
-
-  },
-  modalBox: { //modal's box per se. not the background
-    margin: 20,
-    backgroundColor: 'pink',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 10,
-    padding: 20,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF', //#F194FF (pink) #f4f0ec lightish grey
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3', //#f2f3f4
-  },
-  // textStyle: {
-  //   color: 'white', //'#F194FF'
-  //   fontWeight: 'bold',
-  //   textAlign: 'center',
-  // },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-
-
-
-
-  titleEdit: {
-    marginBottom: 15,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'black',
-  },
-  modalEditView: {
-    margin: 80,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  buttonEdit:{
-    backgroundColor: 'lightblue',
-  },
-  outsideBox:{
-    flex: 1,
-    // backgroundColor: 'lightgrey',
-    // padding: 25, 
-    // margin: 10, //margin of the square - how big is it
-    // borderRadius: 20, //rounds edges
-    marginTop: 22,
-
-  },
-  containerEdit:{
-    flex: 1,
-    backgroundColor: 'lightgrey',
-    // flexDirection: 'row',
-
-    // padding: 25, 
-    // margin: 10, //margin of the square - how big is it
-    // borderRadius: 20, //rounds edges
-  },
-  buttonOpenEdit: {
-    backgroundColor: 'lightblue',
-  },
-  buttonCloseEdit: {
-    backgroundColor: '#2196F3', //#f2f3f4
-  },
-  textStyleEdit: {
-    color: 'white', //'#F194FF'
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalTextEdit: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-
-
-
 
   OutfitButton: {
-    borderRadius: 10,
+    borderRadius: 15,
     padding: 20,
-    elevation: 2,
-    backgroundColor: '#F194FF' // '#C100E0' //'#f8f4f4'
+    // elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,    
+    backgroundColor: '#F0F0F0' //'#F194FF' // '#C100E0' //'#f8f4f4'
   },
   textStyle: {
-    color: 'white', //'#c404f0' //'#F194FF'
+    color: '#C100E0',
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -533,3 +391,53 @@ const styles = StyleSheet.create({
       //   <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
         
       //   </View>  {/* container 2*/}
+
+
+// 3. Idea - use modals to view outfits
+// // Modals - View Outfits
+// backgroundModal: { //background behind modal
+//   flex: 1,
+//   justifyContent: 'center',
+//   // alignItems: 'center',
+//   marginTop: 22,
+//   marginBottom: 55,
+//   marginHorizontal: 30,
+//   borderRadius: 20,
+//   backgroundColor: "white",
+
+// },
+// modalBox: { //modal's box per se. not the background
+//   margin: 20,
+//   backgroundColor: 'pink',
+//   borderRadius: 20,
+//   padding: 35,
+//   alignItems: 'center',
+//   shadowColor: '#000',
+//   shadowOffset: {
+//     width: 0,
+//     height: 2,
+//   },
+//   shadowOpacity: 0.25,
+//   shadowRadius: 4,
+//   elevation: 5,
+// },
+// button: {
+//   borderRadius: 10,
+//   padding: 20,
+//   elevation: 2,
+// },
+// buttonOpen: {
+//   backgroundColor: '#F194FF', //#F194FF (pink) #f4f0ec lightish grey
+// },
+// buttonClose: {
+//   backgroundColor: '#2196F3', //#f2f3f4
+// },
+// // textStyle: {
+// //   color: 'white', //'#F194FF'
+// //   fontWeight: 'bold',
+// //   textAlign: 'center',
+// // },
+// modalText: {
+//   marginBottom: 15,
+//   textAlign: 'center',
+// },

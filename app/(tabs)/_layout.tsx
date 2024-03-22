@@ -34,13 +34,14 @@ export default function TabLayout() {
                     title: 'Outfits',
                     tabBarIcon: ({color}) => <Ionicons name="man-outline" size={24} color={color}/>,
                     headerTitleAlign: 'center', // Center the title "Outfits"
+                    // headerTintColor:'lightgray', //changes title color
 
                     // add icon for edit page
                     headerLeft: () => (
                         <Link href="/edit" asChild >
                             <Pressable>
                                 {({pressed}) => (
-                                    <Text style={{ color: '#f400a1', marginLeft: 15, fontWeight: 'bold',  opacity: pressed ? 0.5 : 1 }}>
+                                    <Text style={{ color: '#C100E0', marginLeft: 15, fontWeight: 'bold',  opacity: pressed ? 0.5 : 1 }}>
                                     Edit
                                     </Text>                                
                                 )}
@@ -56,7 +57,7 @@ export default function TabLayout() {
                                     <FontAwesome
                                         name="plus"
                                         size={25}
-                                        color={Colors[colorScheme ?? 'light'].text}
+                                        color={'#C100E0'}
                                         style={{marginRight: 15, opacity: pressed ? 0.5 : 1}}
                                     />
                                 )}
