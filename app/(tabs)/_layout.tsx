@@ -2,6 +2,8 @@ import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {Link, Tabs} from 'expo-router';
 import {Pressable} from 'react-native';
+import { Text, View } from '@/components/Themed';
+
 
 import Colors from '@/constants/Colors';
 import {useColorScheme} from '@/components/useColorScheme';
@@ -31,6 +33,37 @@ export default function TabLayout() {
                 options={{
                     title: 'Outfits',
                     tabBarIcon: ({color}) => <Ionicons name="man-outline" size={24} color={color}/>,
+                    headerTitleAlign: 'center', // Center the title "Outfits"
+
+                    // add icon for edit page
+                    headerLeft: () => (
+                        <Link href="/edit" asChild >
+                            <Pressable>
+                                {({pressed}) => (
+                                    <Text style={{ color: '#f400a1', marginLeft: 15, fontWeight: 'bold',  opacity: pressed ? 0.5 : 1 }}>
+                                    Edit
+                                    </Text>                                
+                                )}
+                            </Pressable>
+                        </Link>
+                    ),
+
+                    // add icon for add outfit page
+                    headerRight: () => (
+                        <Link href="/addOutfit" asChild > 
+                            <Pressable>
+                                {({pressed}) => (
+                                    <FontAwesome
+                                        name="plus"
+                                        size={25}
+                                        color={Colors[colorScheme ?? 'light'].text}
+                                        style={{marginRight: 15, opacity: pressed ? 0.5 : 1}}
+                                    />
+                                )}
+                            </Pressable>
+                        </Link>
+                    ),
+                    
                 }}
             />
 

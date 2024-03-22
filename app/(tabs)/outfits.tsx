@@ -4,7 +4,8 @@ import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 
 import React, {useState} from 'react';
-import {Alert, Modal, Pressable} from 'react-native';
+import {Alert, Modal, Pressable, FlatList, TouchableOpacity } from 'react-native';
+import {Link, Tabs} from 'expo-router';
 
 
 /* To Do: 
@@ -17,26 +18,91 @@ import {Alert, Modal, Pressable} from 'react-native';
   - add a filters search bar: includes three dropdown: Color, Type, Sleeve Size (???)
   - has photos of their closet / database
   - just at the bottom, a text field to name the outfit, "Name for Outfit"
-  - just under that, a cancel buttong and a save button
+  - just under that, a cancel button and a save button
 
   **you can make this page be a modal type of deal
 
   Just finished: - adding "Outfits" buttons 
-
+  Working right now: - add "Edit" button-modal page
+  What i did:
+  - added an edit button for the OutfitsEdit page on top left corner, as well as
+    -> gotta change that "edit" Title (Link)
+    -> save does the same as cancel
+  - changed buttons to modals but figure it be better to leave as buttons, as modals are for emergency mostly
+  - tinkered with a flatlist to project buttons and outfits but left it halfway, needed access to database
+  - added an addOutfit button on the top right corner
+    -> gotta change that "addOutfit" Title (Link)
+    -> save does the same as cancel
 */
 
 
-
 export default function TabTwoScreen() {
+
+  // FlatList Components
+  // const outfits = [
+  // { id: 1, name: 'Outfit 1' },
+  // { id: 2, name: 'Outfit 2' },
+  // { id: 3, name: 'Outfit 3' },
+  // // Add more outfits as needed
+  // ];
+  // interface Outfit {
+  //   id: number;
+  //   name: string;
+  // }
+  
+  // const renderItem = ({item }: { item: Outfit }) => (
+  //     <TouchableOpacity style={styles.buttonFlatList}>
+  //       <Text>{item.name}</Text>
+  //     </TouchableOpacity>
+  // );
 
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.container}>
 
-      <View style={styles.container2}>
+    {/* FlatList */}
+      {/* <View style={styles.container2}>
+      <FlatList
+        data={outfits}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
+        numColumns={2} // Adjust the number of columns as needed
+      />
+      </View> */}
+
+      {/* inside container 1 */}
+      <View style={styles.container2}> 
+      {/* Verifying how buttons and modals look inside one singular container */}
 
 
-        <Modal
+        {/* Button */}
+
+        <View style={styles.OutfitButton}> 
+            <Pressable>
+                <Text style={styles.textStyle}>Outfit</Text>
+            </Pressable>
+        </View>
+
+        {/* First Button */}
+        {/* <Button
+          title="Outfit"
+          // onPress={() => setModalVisible(true)}
+          color="#F194FF"
+        /> */}
+
+        {/* Close button and blue background inside Button component */}
+        {/* <Modal visible={modalVisible}>
+          <View style={{flex:1, backgroundColor: "lightblue", padding:60}}>
+            <Button title="close" color="red"/>
+          </View>
+        </Modal> */}
+
+        {/* Separator */}
+        <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
+
+
+        {/* Modal */}
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
@@ -44,9 +110,9 @@ export default function TabTwoScreen() {
             Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>Hello World!</Text>
+          <View style={styles.backgroundModal}>
+            <View style={styles.modalBox}>
+              <Text style={styles.modalText}>Outfit Button 1</Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}>
@@ -59,17 +125,20 @@ export default function TabTwoScreen() {
           style={[styles.button, styles.buttonOpen]}
           onPress={() => setModalVisible(true)}>
           <Text style={styles.textStyle}>Outfits</Text>
-        </Pressable>
-      {/* </View> */}
+        </Pressable> */}
+      </View>
 
 
-
+      {/* inside container 2 */}
+      <View style={styles.container2}>
+        {/* Seeing how two modals work together in same container */}
 
         {/* Modal 2*/}
         {/* <View style={styles.container2}> */}
-        <View style={styles.background}> <Text> {"\n"} </Text> </View>
+        {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
+        {/* <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" /> */}
 
-          <Modal
+          {/* <Modal
             animationType="slide"
             transparent={true}
             visible={modalVisible}
@@ -77,9 +146,9 @@ export default function TabTwoScreen() {
               Alert.alert('Modal has been closed.');
               setModalVisible(!modalVisible);
             }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>Hello World!</Text>
+            <View style={styles.backgroundModal}>
+              <View style={styles.modalBox}>
+                <Text style={styles.modalText}>Outfit Button 2</Text>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => setModalVisible(!modalVisible)}>
@@ -92,13 +161,15 @@ export default function TabTwoScreen() {
             style={[styles.button, styles.buttonOpen]}
             onPress={() => setModalVisible(true)}>
             <Text style={styles.textStyle}>Outfits</Text>
-          </Pressable>
+          </Pressable> */}
           {/* </View>   */}
 
 
 
         {/* Modal 3*/}
-        <View style={styles.background}> <Text> {"\n"} </Text> </View>
+        {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
+        <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
+
           <Modal
               animationType="slide"
               transparent={true}
@@ -107,8 +178,9 @@ export default function TabTwoScreen() {
                 Alert.alert('Modal has been closed.');
                 setModalVisible(!modalVisible);
               }}>
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
+              {/* <View style={styles.backgroundModal}> */}
+
+                <View style={styles.modalBox}>
                   <Text style={styles.modalText}>Photo of Outfit *here*</Text>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
@@ -116,14 +188,23 @@ export default function TabTwoScreen() {
                     <Text style={styles.textStyle}>Go Back</Text>
                   </Pressable>
                 </View>
-              </View>
+
+              {/* </View> */}
             </Modal>
+
             <Pressable
               style={[styles.button, styles.buttonOpen]}
               onPress={() => setModalVisible(true)}>
               <Text style={styles.textStyle}>Outfits</Text>
             </Pressable>
 
+
+        {/* Edit Modal*/}
+        {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
+        <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
+
+        
+        
 
 
         
@@ -136,7 +217,7 @@ export default function TabTwoScreen() {
 };
 
 
-
+  // Button Information
   // return (
   //   <View style={styles.container}>
   //       <View style={styles.container2}>
@@ -383,19 +464,13 @@ export default function TabTwoScreen() {
   // );
 // }
 
-
+// Styles
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    marginTop: 22,
-  },
-  container: {
+  container: { //all components are in this parent container
     flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
-    backgroundColor: 'white', //ffff
+    // backgroundColor: 'black', //ffff
     // marginTop: 22,
 
 
@@ -404,33 +479,59 @@ const styles = StyleSheet.create({
     // width: '100%',
     // marginVertical: 20,
   },
-  container2: {
+    
+  container2: { //all buttons are inside this smaller container
     flex: 1,
-    // alignItems: 'center',
+    // alignItems: 'center', //shortens length of button to center
     // justifyContent: 'center', //centers buttons in the container (horizontally)
     backgroundColor: 'white',
     // marginTop: 10,
     padding: 25, 
     margin: 10, //margin of the square - how big is it
     borderRadius: 20, //rounds edges
-
-
-
-    flexDirection: 'column',
-    flexWrap: 'wrap',
+    // flexDirection: 'column',
+    // flexWrap: 'wrap',
     // width: '100%',
     // height:'20%',
     // marginVertical: 10,
   },
-  background:{
-    backgroundColor: 'white',
 
+  separator: { //added this to separate each button a smidge, is added just before a new button
+    marginVertical: 10,
+    height: 1,
+    width: '80%',
+  },
+  // background:{
+  //   backgroundColor: 'white',
+  // },
+
+  buttonFlatList: {
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'pink',
+    borderRadius: 10,
+    padding: 10,
+    margin: 5,
+    flex: 1,
   },
 
 
-  modalView: {
+
+// Modals - View Outfits
+  backgroundModal: { //background behind modal
+    flex: 1,
+    justifyContent: 'center',
+    // alignItems: 'center',
+    marginTop: 22,
+    marginBottom: 55,
+    marginHorizontal: 30,
+    borderRadius: 20,
+    backgroundColor: "white",
+
+  },
+  modalBox: { //modal's box per se. not the background
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: 'pink',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -449,13 +550,13 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonOpen: {
-    backgroundColor: '#F194FF', //#F194FF
+    backgroundColor: '#F194FF', //#F194FF (pink) #f4f0ec lightish grey
   },
   buttonClose: {
     backgroundColor: '#2196F3', //#f2f3f4
   },
   textStyle: {
-    color: 'white',
+    color: 'white', //'#F194FF'
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -463,6 +564,75 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+
+
+
+
+  titleEdit: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  modalEditView: {
+    margin: 80,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonEdit:{
+    backgroundColor: 'lightblue',
+  },
+  outsideBox:{
+    flex: 1,
+    // backgroundColor: 'lightgrey',
+    // padding: 25, 
+    // margin: 10, //margin of the square - how big is it
+    // borderRadius: 20, //rounds edges
+    marginTop: 22,
+
+  },
+  containerEdit:{
+    flex: 1,
+    backgroundColor: 'lightgrey',
+    // flexDirection: 'row',
+
+    // padding: 25, 
+    // margin: 10, //margin of the square - how big is it
+    // borderRadius: 20, //rounds edges
+  },
+  buttonOpenEdit: {
+    backgroundColor: 'lightblue',
+  },
+  buttonCloseEdit: {
+    backgroundColor: '#2196F3', //#f2f3f4
+  },
+  textStyleEdit: {
+    color: 'white', //'#F194FF'
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalTextEdit: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+
+  OutfitButton: {
+    borderRadius: 10,
+    padding: 20,
+    elevation: 2,
+    backgroundColor: '#F194FF'
+},
+
 });
 
 
