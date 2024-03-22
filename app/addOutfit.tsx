@@ -6,11 +6,6 @@ import {useNavigation} from "@react-navigation/native";
 import React from 'react';
 
 export default function EditScreen() {
-    // const [clotheName, setClotheName] = useState('');
-    // const [clotheDescription, setClotheDescription] = useState('');
-    // const [clotheImageLink, setClotheImageLink] = useState('');
-    // const navigation = useNavigation();
-
 
     const [inputValue, setInputValue] = useState('');
     const navigation = useNavigation();
