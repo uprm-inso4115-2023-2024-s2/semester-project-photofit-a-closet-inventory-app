@@ -5,26 +5,35 @@ import { Text, View } from '@/components/Themed';
 
 import React, {useState} from 'react';
 import {Alert, Modal, Pressable, FlatList, TouchableOpacity } from 'react-native';
-import {Link, Tabs} from 'expo-router';
 
+import EditOutfits from '@/app/edit'
 
 /* To Do: 
-- add the "Add Outfit" *plus* symbol on upper right corner || or on the bottom of the screen whichever is better
 - add photos of "outfits" inside the button on the left side (--> *photo* <-- Outfits)
-- add an "Edit" feature
-  --see https://www.figma.com/file/ojPtY7fqcm1botgu9QryZf/PhotoFit-UI?type=design&node-id=0-1&mode=design&t=xGQxI8btmzRFtTNz-0
+- add an "Edit" feature functional: 
+    -> eliminate outfits
+    -> move outfit button (arrange outfits)
 
+- add "AddOutfit" feature:
   -"Make your Outfit" title, upper middle part
   - add a filters search bar: includes three dropdown: Color, Type, Sleeve Size (???)
   - has photos of their closet / database
   - just at the bottom, a text field to name the outfit, "Name for Outfit"
   - just under that, a cancel button and a save button
 
-  **you can make this page be a modal type of deal
+  --see https://www.figma.com/file/ojPtY7fqcm1botgu9QryZf/PhotoFit-UI?type=design&node-id=0-1&mode=design&t=xGQxI8btmzRFtTNz-0
 
-  Just finished: - adding "Outfits" buttons 
-  Working right now: - add "Edit" button-modal page
-  What i did:
+
+  Finished: 
+  - adding "Outfits" buttons 
+  - added the "Add Outfit" *plus* symbol on upper right corner
+      -> added the cancel button and a save button
+
+  Working right now: 
+  - redo "Edit" page
+
+  What i did: 
+  Mar 1 - 11
   - added an edit button for the OutfitsEdit page on top left corner, as well as
     -> gotta change that "edit" Title (Link)
     -> save does the same as cancel
@@ -33,7 +42,66 @@ import {Link, Tabs} from 'expo-router';
   - added an addOutfit button on the top right corner
     -> gotta change that "addOutfit" Title (Link)
     -> save does the same as cancel
+
+    Mar 12, 
+    -> deleted modals
+    -> added button to add new buttons (already done->addOutfit top right corner)
+    -> changed title "/addOutfit" to "Make Your Outfit", centered it as well
+    -> changed title "/edit" to "Edit", centered it as well
+
+    
+    - add new buttons (function?)
+    - checking how to "preview" an image -> backend / database
+
+    Mar 13,
+    -> make edit page be the same page as outfits 
+      - but with options to remove or arrange outfit buttons
+      - remove the back "<-" button from the top left corner, 
+        1) either ask them it they actually want to go back
+        2) or maybe just remove it completely, just add the cancel button
+
+    -> added function to add outfit buttons whenever necessary (manually)
+
+    Mar 14-21,
+    - added UI components for Edit feature: 
+    -> added icon to eliminate outfits
+    -> added drag icon move outfit (arrange outfits)
+    -> added save button to save progress (right now it only goes back to main Outfit page)
+    - started implementation of Make Your Outfit page
+    -> added save and cancel button (right now both go back to main Outfit page)
+    -> separated each major part: started on the name of outfit section
 */
+
+
+// Add Outfit Button
+function addOutfitButton(){
+
+  return(
+    <View>
+    {/* Separator */}
+      <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
+
+    {/* Button */}
+      <View style={styles.OutfitButton}> 
+        <Pressable  
+          // onPress={() => setModalVisible(true)}
+          >
+            <Text style={styles.textStyle}>Outfit</Text>
+        </Pressable>
+      </View>
+
+
+    </View>
+
+  );
+}
+
+
+
+
+
+
+
 
 
 export default function TabTwoScreen() {
@@ -57,8 +125,20 @@ export default function TabTwoScreen() {
   // );
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [isEditScreen, setIsEditScreen] = useState(false);
+
   return (
+
     <View style={styles.container}>
+      {isEditScreen ? (
+        <EditOutfits />
+      ) : (
+
+    <View style={styles.container}>
+
+
+
+      
 
     {/* FlatList */}
       {/* <View style={styles.container2}>
@@ -72,408 +152,62 @@ export default function TabTwoScreen() {
 
       {/* inside container 1 */}
       <View style={styles.container2}> 
-      {/* Verifying how buttons and modals look inside one singular container */}
-
 
         {/* Button */}
 
         <View style={styles.OutfitButton}> 
-            <Pressable>
+            <Pressable  // onPress={() => setModalVisible(true)}
+            >
                 <Text style={styles.textStyle}>Outfit</Text>
             </Pressable>
+            
         </View>
 
-        {/* First Button */}
-        {/* <Button
-          title="Outfit"
-          // onPress={() => setModalVisible(true)}
-          color="#F194FF"
-        /> */}
-
-        {/* Close button and blue background inside Button component */}
-        {/* <Modal visible={modalVisible}>
-          <View style={{flex:1, backgroundColor: "lightblue", padding:60}}>
-            <Button title="close" color="red"/>
-          </View>
-        </Modal> */}
 
         {/* Separator */}
         <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
+        <View style={styles.OutfitButton}> 
+            <Pressable  // onPress={() => setModalVisible(true)}
+            >
+                <Text style={styles.textStyle}>Outfit</Text>
+            </Pressable>
+            
+        </View>
 
+        {/* Button */}
+        {addOutfitButton()}
 
-        {/* Modal */}
-        {/* <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.backgroundModal}>
-            <View style={styles.modalBox}>
-              <Text style={styles.modalText}>Outfit Button 1</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}>
-          <Text style={styles.textStyle}>Outfits</Text>
-        </Pressable> */}
+        {/* Button */}
+        {addOutfitButton()}
+
+        {/* Button */}
+        {addOutfitButton()}
+
+        {/* Button */}
+        {addOutfitButton()}
+
       </View>
 
 
-      {/* inside container 2 */}
-      <View style={styles.container2}>
-        {/* Seeing how two modals work together in same container */}
 
-        {/* Modal 2*/}
-        {/* <View style={styles.container2}> */}
-        {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
-        {/* <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" /> */}
-
-          {/* <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisible(!modalVisible);
-            }}>
-            <View style={styles.backgroundModal}>
-              <View style={styles.modalBox}>
-                <Text style={styles.modalText}>Outfit Button 2</Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => setModalVisible(!modalVisible)}>
-                  <Text style={styles.textStyle}>Hide Modal</Text>
-                </Pressable>
-              </View>
-            </View>
-          </Modal>
-          <Pressable
-            style={[styles.button, styles.buttonOpen]}
-            onPress={() => setModalVisible(true)}>
-            <Text style={styles.textStyle}>Outfits</Text>
-          </Pressable> */}
-          {/* </View>   */}
-
-
-
-        {/* Modal 3*/}
-        {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
-        <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
-
-          <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
-                setModalVisible(!modalVisible);
-              }}>
-              {/* <View style={styles.backgroundModal}> */}
-
-                <View style={styles.modalBox}>
-                  <Text style={styles.modalText}>Photo of Outfit *here*</Text>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.textStyle}>Go Back</Text>
-                  </Pressable>
-                </View>
-
-              {/* </View> */}
-            </Modal>
-
-            <Pressable
-              style={[styles.button, styles.buttonOpen]}
-              onPress={() => setModalVisible(true)}>
-              <Text style={styles.textStyle}>Outfits</Text>
-            </Pressable>
-
-
-        {/* Edit Modal*/}
-        {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
-        <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
-
-        
-        
-
-
-        
-        </View>  {/* container 2*/}
 
     {/* container */}</View> 
 
-    
+    )}
+    </View>
   );
 };
 
 
-  // Button Information
-  // return (
-  //   <View style={styles.container}>
-  //       <View style={styles.container2}>
-
-  //       <Button
-  //             title="Outfit"
-  //             color='orange'
-  //           />
-
-  //       </View>
-
-
-
-
-  //   {/* <View style={styles.contentView}>
-  //       <Text style={styles.subHeader}>One Container Buttons</Text>
-  //         <View style={styles.buttonsContainer}>
-  //           <Button
-  //             title={'React Native Elements'}
-  //             containerStyle={{
-  //               width: 200,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //           />
-  //           <Button
-  //             title="Basic Button"
-  //             buttonStyle={{
-  //               backgroundColor: 'rgba(78, 116, 289, 1)',
-  //               borderRadius: 3,
-  //             }}
-  //             containerStyle={{
-  //               width: 200,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //           />
-
-  //           <Button
-  //             title="Log in"
-  //             loading={false}
-  //             loadingProps={{ size: 'small', color: 'white' }}
-  //             buttonStyle={{
-  //               backgroundColor:"#8a2be2"
-  //               ,
-  //               borderRadius: 5,
-  //             }}
-  //             titleStyle={{ fontWeight: 'bold', fontSize: 23 }}
-  //             containerStyle={{
-  //               marginHorizontal: 50,
-  //               height: 50,
-  //               width: 200,
-  //               marginVertical: 10,
-  //             }}
-  //             onPress={() => console.log('aye')}
-  //           />
-  //         </View>
-
-  //         <Text style={styles.subHeader}>Rounded Buttons</Text>
-  //         <View style={styles.buttonsContainer}>
-  //           <Button
-  //             title="LOG IN"
-  //             buttonStyle={{
-  //               backgroundColor: 'black',
-  //               borderWidth: 2,
-  //               borderColor: 'white',
-  //               borderRadius: 30,
-  //             }}
-  //             containerStyle={{
-  //               width: 200,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //             titleStyle={{ fontWeight: 'bold' }}
-  //           />
-  //           <Button
-  //             title="HOME"
-  //             icon={{
-  //               name: 'home',
-  //               type: 'font-awesome',
-  //               size: 15,
-  //               color: 'white',
-  //             }}
-  //             iconContainerStyle={{ marginRight: 10 }}
-  //             titleStyle={{ fontWeight: '700' }}
-  //             buttonStyle={{
-  //               backgroundColor: 'rgba(90, 154, 230, 1)',
-  //               borderColor: 'transparent',
-  //               borderWidth: 0,
-  //               borderRadius: 30,
-  //             }}
-  //             containerStyle={{
-  //               width: 200,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //           />
-  //           <Button
-  //             title="PROFILE"
-  //             icon={{
-  //               name: 'user',
-  //               type: 'font-awesome',
-  //               size: 15,
-  //               color: 'white',
-  //             }}
-  //             iconRight
-  //             iconContainerStyle={{ marginLeft: 10 }}
-  //             titleStyle={{ fontWeight: '700' }}
-  //             buttonStyle={{
-  //               backgroundColor: 'rgba(199, 43, 98, 1)',
-  //               borderColor: 'transparent',
-  //               borderWidth: 0,
-  //               borderRadius: 30,
-  //             }}
-  //             containerStyle={{
-  //               width: 200,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //           />
-  //           <Button
-  //             title={<CustomTitle />}
-  //             titleStyle={{ fontWeight: 'bold', fontSize: 18 }}
-  //             linearGradientProps={{
-  //               colors: ['#FF9800', '#F44336'],
-  //               start: [1, 0],
-  //               end: [0.2, 0],
-  //             }}
-  //             buttonStyle={{
-  //               borderWidth: 0,
-  //               borderColor: 'transparent',
-  //               borderRadius: 20,
-  //             }}
-  //             containerStyle={{
-  //               width: 200,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //             icon={{
-  //               name: 'arrow-right',
-  //               type: 'font-awesome',
-  //               size: 15,
-  //               color: 'white',
-  //             }}
-  //             iconRight
-  //             iconContainerStyle={{ marginLeft: 10, marginRight: -10 }}
-  //           />
-  //         </View>
-
-  //         <Text style={styles.subHeader}>Light Buttons</Text>
-  //         <View style={styles.buttonsContainer}>
-
-  //         </View>
-  //         <Text style={styles.subHeader}>Loading Buttons</Text>
-  //         <View style={styles.buttonsContainer}>
-  //           <Button
-  //             title="HOME"
-  //             loading
-  //             titleStyle={{ fontWeight: '700' }}
-  //             buttonStyle={{
-  //               backgroundColor: 'rgba(111, 202, 186, 1)',
-  //               borderColor: 'transparent',
-  //               borderWidth: 0,
-  //               borderRadius: 5,
-  //               paddingVertical: 5,
-  //             }}
-  //             containerStyle={{
-  //               width: 200,
-  //               height: 40,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //           />
-  //           <Button
-  //             title="SIGN UP"
-  //             loading={true}
-  //             loadingProps={{
-  //               size: 'small',
-  //               color: 'rgba(111, 202, 186, 1)',
-  //             }}
-  //             titleStyle={{ fontWeight: '700' }}
-  //             buttonStyle={{
-  //               backgroundColor: 'rgba(92, 99,216, 1)',
-  //               borderColor: 'transparent',
-  //               borderWidth: 0,
-  //               borderRadius: 5,
-  //               paddingVertical: 10,
-  //             }}
-  //             containerStyle={{
-  //               width: 200,
-  //               marginHorizontal: 50,
-  //               marginVertical: 10,
-  //             }}
-  //           />
-  //         </View>
-  //     </View> */}
-  
-
-
-
-
-
-
-  //   {/* div component ^^ */}
-  //   <View style={styles.container2}>
-  //     <Button
-  //     // onPress={onPressLearnMore}
-  //     title="Outfit"
-  //     // color="#f2f3f4" //whiteish grey
-  //     color="#8a2be2"
-  //     accessibilityLabel="Learn more about this purple button"
-  //   />
-  //   </View>
-
-
-  //   <View style={styles.container2}>
-  //     <Button
-  //     // onPress={onPressLearnMore}
-  //     title="Outfit"
-  //     // color="#f2f3f4" //whiteish grey
-  //     color="orange"
-  //     accessibilityLabel="Learn more about this purple button"
-  //   />
-  //   </View>
-
-  //   <View style={styles.container2}>
-  //     <Button
-  //     // onPress={onPressLearnMore}
-  //     title="Outfit"
-  //     // color="#f2f3f4" //whiteish grey
-  //     color="teal"
-  //     accessibilityLabel="Learn more about this purple button"
-  //   />
-  //   </View>
-
-  //   <View style={styles.container2}> 
-  //     <Button title="Outfit"/>                                 
-  //     {/* <Text>Outfits</Text> */}
-  //   </View>
-
-
-
-  //   </View>
-  // );
-// }
 
 // Styles
 const styles = StyleSheet.create({
   container: { //all components are in this parent container
     flex: 1,
+    // backgroundColor: 'black', //ffff
+
     // alignItems: 'center',
     // justifyContent: 'center',
-    // backgroundColor: 'black', //ffff
-    // marginTop: 22,
-
-
     // flexDirection: 'column',
     // flexWrap: 'wrap',
     // width: '100%',
@@ -482,13 +216,14 @@ const styles = StyleSheet.create({
     
   container2: { //all buttons are inside this smaller container
     flex: 1,
-    // alignItems: 'center', //shortens length of button to center
-    // justifyContent: 'center', //centers buttons in the container (horizontally)
     backgroundColor: 'white',
-    // marginTop: 10,
     padding: 25, 
     margin: 10, //margin of the square - how big is it
     borderRadius: 20, //rounds edges
+
+    // alignItems: 'center', //shortens length of button to center
+    // justifyContent: 'center', //centers buttons in the container (horizontally)
+    // marginTop: 10,
     // flexDirection: 'column',
     // flexWrap: 'wrap',
     // width: '100%',
@@ -501,6 +236,7 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+
   // background:{
   //   backgroundColor: 'white',
   // },
@@ -555,11 +291,11 @@ const styles = StyleSheet.create({
   buttonClose: {
     backgroundColor: '#2196F3', //#f2f3f4
   },
-  textStyle: {
-    color: 'white', //'#F194FF'
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
+  // textStyle: {
+  //   color: 'white', //'#F194FF'
+  //   fontWeight: 'bold',
+  //   textAlign: 'center',
+  // },
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
@@ -626,13 +362,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+
+
+
   OutfitButton: {
     borderRadius: 10,
     padding: 20,
     elevation: 2,
-    backgroundColor: '#F194FF'
-},
+    backgroundColor: '#F194FF' // '#C100E0' //'#f8f4f4'
+  },
+  textStyle: {
+    color: 'white', //'#c404f0' //'#F194FF'
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
 
+  
 });
 
 
@@ -724,3 +469,67 @@ const styles = StyleSheet.create({
 
 
 // });
+
+
+
+
+
+
+
+// History
+// First Button
+        // {/* First Button */}
+        // {/* <Button
+        //   title="Outfit"
+        //   // onPress={() => setModalVisible(true)}
+        //   color="#F194FF"
+        // /> */}
+
+        // {/* Close button and blue background inside Button component */}
+        // {/* <Modal visible={modalVisible}>
+        //   <View style={{flex:1, backgroundColor: "lightblue", padding:60}}>
+        //     <Button title="close" color="red"/>
+        //   </View>
+        // </Modal> */}
+
+// Container 2
+      // {/* inside container 2 */}
+      // <View style={styles.container2}>
+
+      //   {/* Modal 3*/}
+      //   {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
+      //   <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
+
+      //     <Modal
+      //         animationType="slide"
+      //         transparent={true}
+      //         visible={modalVisible}
+      //         onRequestClose={() => {
+      //           Alert.alert('Modal has been closed.');
+      //           setModalVisible(!modalVisible);
+      //         }}>
+      //         <View style={styles.backgroundModal}>
+
+      //           <View style={styles.modalBox}>
+      //             <Text style={styles.modalText}>Photo of Outfit *here*</Text>
+      //             <Pressable
+      //               style={[styles.button, styles.buttonClose]}
+      //               onPress={() => setModalVisible(!modalVisible)}>
+      //               <Text style={styles.textStyle}>Go Back</Text>
+      //             </Pressable>
+      //           </View>
+
+      //         </View>
+      //       </Modal>
+
+      //       <Pressable
+      //         style={[styles.button, styles.buttonOpen]}
+      //         onPress={() => setModalVisible(true)}>
+      //         <Text style={styles.textStyle}>Outfits</Text>
+      //       </Pressable>
+
+
+      //   {/* <View style={styles.background}> <Text> {"\n"} </Text> </View> */}
+      //   <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
+        
+      //   </View>  {/* container 2*/}
