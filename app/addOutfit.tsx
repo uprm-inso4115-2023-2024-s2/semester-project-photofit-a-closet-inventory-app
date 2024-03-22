@@ -1,7 +1,6 @@
 import {Button, Pressable, Text, StyleSheet, Alert, TextInput} from 'react-native';
 import {View} from '@/components/Themed';
 import {useState} from "react";
-import {insertClothe} from "@/utils/DatabaseUtils"
 import {useNavigation} from "@react-navigation/native";
 import React from 'react';
 

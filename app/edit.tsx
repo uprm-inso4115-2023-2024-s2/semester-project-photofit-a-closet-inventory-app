@@ -1,6 +1,5 @@
 import {Button, Pressable, Text, StyleSheet, Alert, TextInput} from 'react-native';
 import {View} from '@/components/Themed';
-import {insertClothe} from "@/utils/DatabaseUtils"
 import {useNavigation} from "@react-navigation/native";
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons from Expo vector icons
 
