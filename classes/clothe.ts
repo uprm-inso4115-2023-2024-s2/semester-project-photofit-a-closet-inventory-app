@@ -89,6 +89,9 @@ export default function DefaultClothe(): Clothe {
 
 export namespace Clothe {
     export enum Type {
-        Unknown
+        Unknown,
+        Shirt,
+        Pants,
+        Shoes
     }
 }
