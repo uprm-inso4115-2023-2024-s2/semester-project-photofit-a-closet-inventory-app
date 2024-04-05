@@ -7,32 +7,45 @@ import DefaultClothe from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
 import Filter from '@/components/Filter';
 import { withTheme } from 'react-native-elements';
+import { Clothe } from '@/classes/clothe';
 
 export default function AddClotheScreen() {
     const [clothe] = useState(DefaultClothe());
     const navigation = useNavigation();
     const [selectedLanguage, setSelectedLanguage] = useState();
-    const [selectedType, setSelectedType] = useState("Shirt"); // Default value
-    const [selectedColor, setSelectedColor] = useState("Black"); // Default value
-    const [selectedSize, setSelectedSize] = useState("None"); // Default value
-
+    const [selectedName, setSelectedName] = useState("Clothe Item");
+    const [selectedDescription, setSelectedDescription] = useState("");
+    const [selectedLink, setSelectedLink] = useState(clothe.link);
+    const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
+    const [selectedColor, setSelectedColor] = useState(""); // Default value
+    const [selectedSize, setSelectedSize] = useState(-1); // Default value
+    
     
     const handleCancel = () => {
         navigation.goBack();
-      };
-
-    // Adds clothe to DB and changes screen back to the previous one
+    };
+    
     async function addClothe() {
+        // Update the properties of the clothe object directly with the selected values
+        clothe.name = selectedName;
+        clothe.description = selectedDescription;
+        clothe.link = selectedLink;
+        clothe.type = selectedType;
+        clothe.color = selectedColor;
+        clothe.sleeveSize = selectedSize;
+        
+        
+        // Add the updated clothe object to the database
         const success = await DatabaseController.addClothe(clothe);
-
+        
+        console.log("SELECTED TYPE: " + selectedType)
         if (success) {
-            console.log("Successfully added clothe!")
+            console.log("Successfully added clothe of name " + clothe.name + " of type " + clothe.type + " of color " + clothe.color + " of sleeve size " + clothe.sleeveSize)
         } else {
             console.log("Failed to add clothe!")
         }
-
+    
         navigation.goBack();
-
     }
 
     return (
@@ -42,42 +55,55 @@ export default function AddClotheScreen() {
                 {/*The URL here should be the URI from the photo capture feature*/}
                 <View style={styles.greyBottom}/>
                 <TextInput style={styles.input} placeholder="Item Name"
-                       onChangeText={(text) => clothe.name = text}/>            
+                    onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
+                    />       
             </View>
 
             <View style={styles.filterSquare}>
-                <Text style={styles.filterText}>Filters</Text>
+                <Text style={styles.filterText}>Tags</Text>
                 <View style={styles.pickerBox}>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
-                        selectedValue={selectedType}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setSelectedColor(itemValue)
-                        }>
-                        <Picker.Item label="Shirt" value="Shirt" />
-                        <Picker.Item label="Pants" value="Pants" />
-                        <Picker.Item label="Shoes" value="Shoes" />
-                        
+                        selectedValue={selectedType} 
+                        onValueChange={(itemValue: Clothe.Type) => 
+                            setSelectedType(itemValue) // Update the selectedType state 
+                    }>
+                        <Picker.Item label="Type" value={Clothe.Type.Unknown} />
+                        <Picker.Item label="Shirt" value={Clothe.Type.Shirt} />
+                        <Picker.Item label="Pants" value={Clothe.Type.Pants} />
+                        <Picker.Item label="Shoes" value={Clothe.Type.Shoes} />
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedColor}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setSelectedType(itemValue)
+                        onValueChange={(itemValue) => 
+                            setSelectedColor(itemValue)
                         }>
-                        <Picker.Item label="Blue" value="Blue" />
-                        <Picker.Item label="Red" value="Red" />
+                        <Picker.Item label="Color" value="Unknown" />
+                        <Picker.Item label="Black" value="Black" />
                         <Picker.Item label="White" value="White" />
+                        <Picker.Item label="Gray" value="Gray" />
+                        <Picker.Item label="Navy" value="Navy" />
+                        <Picker.Item label="Blue" value="Blue" />
+                        <Picker.Item label="Green" value="Green" />
+                        <Picker.Item label="Red" value="Red" />
+                        <Picker.Item label="Yellow" value="Yellow" />
+                        <Picker.Item label="Orange" value="Orange" />
+                        <Picker.Item label="Red" value="Red" />
+                        <Picker.Item label="Pink" value="Pink" />
+                        <Picker.Item label="Purple" value="Purple" />
+                        <Picker.Item label="Brown" value="Brown" />
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedSize}
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={(itemValue, itemIndex) => 
                             setSelectedSize(itemValue)
                         }>
-                        <Picker.Item label="None" value="None" />
-                        <Picker.Item label="Short" value="Short" />
-                        <Picker.Item label="Large" value="Large" />
+                        <Picker.Item label="Sleeve Size" value={-1} />                            
+                        <Picker.Item label="None" value={0} />
+                        <Picker.Item label="Short" value={1} />
+                        <Picker.Item label="Large" value={2} />
                     </Picker>
                  
 
@@ -107,7 +133,6 @@ const defaultButton = {
 }
 
 const styles = StyleSheet.create({
-    
     container: {
         flex: 1,
         alignItems: 'center',
