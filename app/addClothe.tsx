@@ -40,7 +40,7 @@ export default function AddClotheScreen() {
         
         console.log("SELECTED TYPE: " + selectedType)
         if (success) {
-            console.log("Successfully added clothe of name " + clothe.name + " of type " + clothe.type + " of color " + clothe.color + " of sleeve size " + clothe.sleeveSize)
+            console.log("Successfully added clothe of name " + clothe.name + " of type " + clothe.type + " of color " + clothe.color + " of sleeve size " + clothe.sleeveSize + " with link " + clothe.link)
         } else {
             console.log("Failed to add clothe!")
         }
@@ -51,10 +51,10 @@ export default function AddClotheScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.photoContainer}>
-                <Image style={styles.image} source={require('../assets/images/White Shirt.webp')} /> 
-                {/*The URL here should be the URI from the photo capture feature*/}
+                <Image style={styles.image} source={{ uri: selectedLink }} /> 
+                {/*The URL here should be the URI from the photo capture feature. Simply make the selectedLink variable be the URI and that should make the class get that data*/}
                 <View style={styles.greyBottom}/>
-                <TextInput style={styles.input} placeholder="Item Name"
+                <TextInput style={styles.input} placeholder="Type Item Name Here"
                     onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
                     />       
             </View>
