@@ -172,17 +172,14 @@ const styles = StyleSheet.create({
     filterSquare: {
         
         backgroundColor: "#D9D9D9",
-        // justifyContent: "center",
         alignItems:"center",
         borderRadius: 15,
         ...Platform.select({
             ios: {
-                // iOS specific styles
                 height: "20%",
                 width: "77%",
             },
             android: {
-                // Android specific styles
                 height: "15%",
                 width: "80%",
             },
@@ -202,13 +199,10 @@ const styles = StyleSheet.create({
         
         ...Platform.select({
             ios: {
-                // iOS specific styles
                 width: "33%",
                 bottom: 55,
-                
             },
             android: {
-                // Android specific styles
                 width: "40%",
                 height: "25%",
                 bottom: 0,
@@ -218,15 +212,8 @@ const styles = StyleSheet.create({
     pick: {
         fontSize: 15,
         ...Platform.select({
-            ios: {
-                // iOS specific styles
-                fontSize: 15,
-                
-            },
-            android: {
-                // Android specific styles
-                fontSize: 0,
-            },
+            ios: {fontSize: 15},
+            android: {fontSize: 0,},
         }),
         
     },
@@ -238,27 +225,18 @@ const styles = StyleSheet.create({
         ...defaultButton,
         width: "25%",
         marginLeft: "5%",
-        backgroundColor: "#12E000",
+        ...Platform.select({
+            ios: {backgroundColor: "#12E000"},
+            android: {},
+        }),
     },
     cancelButton: {
         ...defaultButton,
         width: "25%",
         marginRight: "5%",
-        backgroundColor: "red",
+        ...Platform.select({
+            ios: {backgroundColor: "red"},    
+            android: {},
+        }),
     },
 });
-
-
-{/* <TextInput style={styles.input} placeholder="Clothe name"
-                       onChangeText={(text) => clothe.name = text}/>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
-
-            <TextInput style={styles.input} placeholder="Clothe description"
-                       onChangeText={(text) => clothe.description = text}/>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
-
-            <TextInput style={styles.input} placeholder="Clothe image link"
-                       onChangeText={(text) => clothe.link = text}/>
-            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>
-
-*/}
