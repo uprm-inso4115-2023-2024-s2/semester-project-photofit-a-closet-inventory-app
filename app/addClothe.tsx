@@ -1,4 +1,4 @@
-import {Button, StyleSheet, TextInput, Image, Text} from 'react-native';
+import {Button, StyleSheet, TextInput, Image, Text, Platform} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {View} from '@/components/Themed';
 import {useState} from "react";
@@ -170,27 +170,65 @@ const styles = StyleSheet.create({
         paddingLeft: "5%",
     },
     filterSquare: {
-        height: "20%",
-        width: "77%",
+        
         backgroundColor: "#D9D9D9",
         // justifyContent: "center",
         alignItems:"center",
         borderRadius: 15,
+        ...Platform.select({
+            ios: {
+                // iOS specific styles
+                height: "20%",
+                width: "77%",
+            },
+            android: {
+                // Android specific styles
+                height: "15%",
+                width: "80%",
+            },
+        }),
     },
     filterText: {
         paddingTop: 10,
     },
     pickerBox: {
         flexDirection: "row",
-        height: 0
+        height: "45%",
+        backgroundColor: 'rgba(52, 52, 52, 0)',     
     },
     picker: {
-        width: "33%",
+        
         borderColor: 'black',
-        bottom: 60
+        
+        ...Platform.select({
+            ios: {
+                // iOS specific styles
+                width: "33%",
+                bottom: 55,
+                
+            },
+            android: {
+                // Android specific styles
+                width: "40%",
+                height: "25%",
+                bottom: 0,
+            },
+        }),
     },
     pick: {
         fontSize: 15,
+        ...Platform.select({
+            ios: {
+                // iOS specific styles
+                fontSize: 15,
+                
+            },
+            android: {
+                // Android specific styles
+                fontSize: 0,
+            },
+        }),
+        
     },
     buttonContainer: {
         bottom: "-10%",
