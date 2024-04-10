@@ -10,7 +10,6 @@ import { Clothe } from '@/classes/clothe';
 export default function AddClotheScreen() {
     const [clothe] = useState(DefaultClothe());
     const navigation = useNavigation();
-    const [selectedLanguage, setSelectedLanguage] = useState();
     const [selectedName, setSelectedName] = useState("Clothe Item");
     const [selectedDescription, setSelectedDescription] = useState("");
     const [selectedLink, setSelectedLink] = useState(clothe.link);
