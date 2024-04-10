@@ -18,7 +18,7 @@ export default function AddClotheScreen() {
     const [selectedSize, setSelectedSize] = useState(-1); // Default value
     
     
-    const handleCancel = () => {
+    async function handleCancel() {
         navigation.goBack();
     };
     
