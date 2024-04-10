@@ -5,7 +5,6 @@ import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import DefaultClothe from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
-import { withTheme } from 'react-native-elements';
 import { Clothe } from '@/classes/clothe';
 
 export default function AddClotheScreen() {
