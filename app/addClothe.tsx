@@ -17,7 +17,7 @@ export default function AddClotheScreen() {
     const [selectedDescription, setSelectedDescription] = useState("");
     const [selectedLink, setSelectedLink] = useState(clothe.link);
     const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
-    const [selectedColor, setSelectedColor] = useState(""); // Default value
+    const [selectedColor, setSelectedColor] = useState("Unknown"); // Default value
     const [selectedSize, setSelectedSize] = useState(-1); // Default value
     
     
@@ -100,7 +100,7 @@ export default function AddClotheScreen() {
                         onValueChange={(itemValue, itemIndex) => 
                             setSelectedSize(itemValue)
                         }>
-                        <Picker.Item label="Sleeve Size" value={-1} />                            
+                        <Picker.Item label="Sleeve Size" value={0} />                            
                         <Picker.Item label="None" value={0} />
                         <Picker.Item label="Short" value={1} />
                         <Picker.Item label="Large" value={2} />
