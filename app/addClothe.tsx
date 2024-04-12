@@ -98,9 +98,9 @@ export default function AddClotheScreen() {
                             setSelectedSize(itemValue)
                         }>
                         <Picker.Item label="Unknown" value={0} />                            
-                        <Picker.Item label="None" value={0} />
-                        <Picker.Item label="Short" value={1} />
-                        <Picker.Item label="Large" value={2} />
+                        <Picker.Item label="None" value={1} />
+                        <Picker.Item label="Short" value={2} />
+                        <Picker.Item label="Large" value={3} />
                     </Picker>
                  
 
