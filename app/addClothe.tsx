@@ -46,27 +46,28 @@ export default function AddClotheScreen() {
     
         navigation.goBack();
     }
-
-    // Gets URI's from PhotoCapture prop
-    function handlePhoto(uri : string) {
-        clothe.link = uri;
-    }
  
     
 
     return (
         <View style={showCamera ? styles.cameraContainer : styles.container}>
             {showCamera ? (
-                <PhotoCapture setShowCamera={setShowCamera} onPhotoTaken={handlePhoto} onGalleryPhotoSelected={handlePhoto} />
+                <PhotoCapture setShowCamera={setShowCamera} onPhotoTaken={setSelectedLink} onGalleryPhotoSelected={setSelectedLink} />
             ) : (
                 <>
                 <View style={styles.photoContainer}>
                     <Image style={styles.image} source={{ uri: selectedLink }} /> 
-                    {/*The URL here should be the URI from the photo capture feature. Simply make the selectedLink variable be the URI and that should make the class get that data*/}
                     <View style={styles.greyBottom}/>
+                    
                     <TextInput style={styles.input} placeholder="Type Item Name Here"
                         onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
-                        />       
+                        />
+
+                {/*This is a TEST BUTTON for camera. Further styling is required. */}
+                </View>
+                <View style={styles.testButton}>
+                <Button title="Test" onPress={() => setShowCamera(true)}></Button>  
+
                 </View>
 
                 <View style={styles.filterSquare}>
@@ -251,6 +252,16 @@ const styles = StyleSheet.create({
         marginRight: "5%",
         ...Platform.select({
             ios: {backgroundColor: "red"},    
+            android: {},
+        }),
+    },
+    //Test Button for Camera
+    testButton: {
+        ...defaultButton,
+        width: "100%",
+        padding: "0%",
+        ...Platform.select({
+            ios: {backgroundColor: "blue"},    
             android: {},
         }),
     },
