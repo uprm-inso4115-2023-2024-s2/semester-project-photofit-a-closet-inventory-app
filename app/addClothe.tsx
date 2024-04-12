@@ -20,7 +20,7 @@ export default function AddClotheScreen() {
     const colorKeys = Object.keys(Clothe.Color).filter(key => isNaN(Number(key)));
     const sleeveSizeKeys = Object.keys(Clothe.SleeveSize).filter(key => isNaN(Number(key)));
 
-    async function handleCancel() {
+    function handleCancel() {
         navigation.goBack();
     }
     
