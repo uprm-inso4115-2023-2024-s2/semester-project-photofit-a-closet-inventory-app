@@ -1,81 +1,104 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {View} from '@/components/Themed';
-import {ReactNode, useState} from "react";
+import {useEffect, useState} from "react";
+import {DatabaseController} from "@/classes/DatabaseController";
+import ClotheComponent from "@/components/ClotheComponent";
+import {Clothe} from "@/classes/clothe";
+import Filter from "@/components/Filter";
 
 // Closet screen
 export default function TabThreeScreen() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [components, setComponents] = useState<ReactNode[]>([]);
+    const [clothes, setClothes] = useState<Clothe[]>([]);
+    const [clotheIndex, setClotheIndex] = useState(0);
+    const [clotheTrigger, setClotheTrigger] = useState(false);
+
+    // Using useEffect in order to query database once (initial render) and whenever clotheTrigger changes,
+    // otherwise it continuously queries database which interferes with future operations
+    useEffect(() => {
+        DatabaseController.getClothes()
+            .then((dbClothes) => {
+                setClothes(dbClothes);
+            });
+    }, [clotheTrigger]);
+
+    /** Add a DatabaseController.ClotheAddedCallback implementation to DatabaseController in order to trigger
+     *  the useEffect that gets clothes from the database.
+     */
+    DatabaseController.dependencies.push(
+        new class implements DatabaseController.ClotheAddedCallback {
+            public callback() {
+                setClotheTrigger(!clotheTrigger);
+            }
+        }());
 
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % components.length);
+        setClotheIndex((prevIndex) => (prevIndex + 1) % clothes.length);
     };
 
     const handlePrevious = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? components.length - 1 : prevIndex - 1
+        setClotheIndex((prevIndex) =>
+            prevIndex === 0 ? clothes.length - 1 : prevIndex - 1
         );
     };
 
-    if (components.length === 0) {
+    if (clothes.length === 0) {
         return (
-            <View style={styles.container}>
+            <View style={{flex: 1, alignItems: "center"}}>
                 <Text>No clothes saved</Text>
             </View>
         )
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.hangerBar}/>
+        // Everything was wrapped inside a KeyboardAvoidingView inside a ScrollView (as per
+        // https://forums.expo.dev/t/problems-with-keyboardavoidview/7799) in order to avoid the UI getting messed up.
+        // The ClotheComponent still moves a little thou when the keyboard pops up
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <KeyboardAvoidingView style={styles.keyboardContainer}>
+                <Filter/>
 
-            {/* Clothe Item cycler */}
-            <View style={styles.cyclerContainer}>
-                <View style={styles.componentContainer}>{components[currentIndex]}</View>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.button} onPress={handlePrevious}>
-                        <Text style={styles.buttonText}>Previous</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={handleNext}>
-                        <Text style={styles.buttonText}>Next</Text>
-                    </TouchableOpacity>
+                {/* The clothes cycler */}
+                <View style={styles.cyclerContainer}>
+                    <ClotheComponent clothe={clothes[clotheIndex]}/>
+
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+                            <Text style={styles.buttonText}>Previous</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={handleNext}>
+                            <Text style={styles.buttonText}>Next</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </View>
+            </KeyboardAvoidingView>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    scrollContainer: {
+        flexGrow: 1,
+        justifyContent: "center",
+        backgroundColor: "white"
+    },
+    keyboardContainer: {
         flex: 1,
-        alignItems: 'center',
-    },
-    hangerBar: {
-        backgroundColor: 'black',
-        height: 15,
-        width: '100%',
-        marginTop: 10,
-    },
-    hangerImg: {
-        width: 150,
-        height: 150,
-        marginTop: -25,
+        alignItems: "center",
+        backgroundColor: "white"
     },
     cyclerContainer: {
-        flex: 1,
+        flex: 0.9,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: undefined,
     },
-    componentContainer: {
-        flex: 1,
-    },
     buttonContainer: {
+        marginTop: 10,
         flexDirection: "row",
     },
     button: {
         padding: 10,
-        margin: 10,
+        marginHorizontal: 10,
         backgroundColor: 'lightblue',
         borderRadius: 5,
     },
