@@ -22,7 +22,7 @@ export default function AddClotheScreen() {
 
     async function handleCancel() {
         navigation.goBack();
-    };
+    }
     
     async function addClothe() {
         // Update the properties of the clothe object directly with the selected values
