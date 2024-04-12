@@ -15,7 +15,7 @@ export default function AddClotheScreen() {
     const [selectedLink, setSelectedLink] = useState(clothe.link);
     const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
     const [selectedColor, setSelectedColor] = useState("Unknown"); // Default value
-    const [selectedSize, setSelectedSize] = useState(-1); // Default value
+    const [selectedSize, setSelectedSize] = useState(0); // Default value
     
     
     async function handleCancel() {
