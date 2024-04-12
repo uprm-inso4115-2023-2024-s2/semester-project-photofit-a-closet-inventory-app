@@ -57,7 +57,7 @@ export default function AddClotheScreen() {
             </View>
 
             <View style={styles.filterSquare}>
-                <Text style={styles.filterText}>Tags</Text>
+                <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
                 <View style={styles.pickerBox}>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
@@ -65,7 +65,7 @@ export default function AddClotheScreen() {
                         onValueChange={(itemValue: Clothe.Type) => 
                             setSelectedType(itemValue) // Update the selectedType state 
                     }>
-                        <Picker.Item label="Type" value={Clothe.Type.Unknown} />
+                        <Picker.Item label="Unknown" value={Clothe.Type.Unknown} />
                         <Picker.Item label="Shirt" value={Clothe.Type.Shirt} />
                         <Picker.Item label="Pants" value={Clothe.Type.Pants} />
                         <Picker.Item label="Shoes" value={Clothe.Type.Shoes} />
@@ -76,7 +76,7 @@ export default function AddClotheScreen() {
                         onValueChange={(itemValue) => 
                             setSelectedColor(itemValue)
                         }>
-                        <Picker.Item label="Color" value="Unknown" />
+                        <Picker.Item label="Unknown" value="Unknown" />
                         <Picker.Item label="Black" value="Black" />
                         <Picker.Item label="White" value="White" />
                         <Picker.Item label="Gray" value="Gray" />
@@ -97,7 +97,7 @@ export default function AddClotheScreen() {
                         onValueChange={(itemValue, itemIndex) => 
                             setSelectedSize(itemValue)
                         }>
-                        <Picker.Item label="Sleeve Size" value={0} />                            
+                        <Picker.Item label="Unknown" value={0} />                            
                         <Picker.Item label="None" value={0} />
                         <Picker.Item label="Short" value={1} />
                         <Picker.Item label="Large" value={2} />
@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         paddingLeft: "5%",
     },
+
     filterSquare: {
         
         backgroundColor: "#D9D9D9",
@@ -178,7 +179,7 @@ const styles = StyleSheet.create({
             },
             android: {
                 height: "15%",
-                width: "80%",
+                width: "90%",
             },
         }),
     },
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
                 bottom: 55,
             },
             android: {
-                width: "40%",
+                width: "35%",
                 height: "25%",
                 bottom: 0,
             },
