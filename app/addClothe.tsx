@@ -6,6 +6,7 @@ import {useNavigation} from "@react-navigation/native";
 import DefaultClothe from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
 import { Clothe } from '@/classes/clothe';
+import { color } from 'react-native-elements/dist/helpers';
 
 export default function AddClotheScreen() {
     const [clothe] = useState(DefaultClothe());
@@ -13,10 +14,13 @@ export default function AddClotheScreen() {
     const [selectedName, setSelectedName] = useState("Clothe Item");
     const [selectedLink, setSelectedLink] = useState(clothe.link);
     const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
-    const [selectedColor, setSelectedColor] = useState("Unknown"); // Default value
-    const [selectedSize, setSelectedSize] = useState(0); // Default value
+    const [selectedColor, setSelectedColor] = useState(Clothe.Color.Unknown); // Default value
+    const [selectedSize, setSelectedSize] = useState(Clothe.SleeveSize.Unknown); // Default value
     
-    
+    const typeKeys = Object.keys(Clothe.Type).filter(key => isNaN(Number(key)));
+    const colorKeys = Object.keys(Clothe.Color).filter(key => isNaN(Number(key)));
+    const sleeveSizeKeys = Object.keys(Clothe.SleeveSize).filter(key => isNaN(Number(key)));
+
     async function handleCancel() {
         navigation.goBack();
     };
@@ -57,16 +61,18 @@ export default function AddClotheScreen() {
             <View style={styles.filterSquare}>
                 <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
                 <View style={styles.pickerBox}>
-
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedType} 
                         onValueChange={(itemValue: Clothe.Type) => 
                             setSelectedType(itemValue) // Update the selectedType state 
                     }>
-                        <Picker.Item label="Unknown" value={Clothe.Type.Unknown} />
-                        <Picker.Item label="Shirt" value={Clothe.Type.Shirt} />
-                        <Picker.Item label="Pants" value={Clothe.Type.Pants} />
-                        <Picker.Item label="Shoes" value={Clothe.Type.Shoes} />
+                    {typeKeys.map((typeKey) => (
+                        <Picker.Item
+                            key={typeKey}
+                            label={typeKey}
+                            value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
+                        />
+                        ))}
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
@@ -74,20 +80,13 @@ export default function AddClotheScreen() {
                         onValueChange={(itemValue) => 
                             setSelectedColor(itemValue)
                         }>
-                        <Picker.Item label="Unknown" value="Unknown" />
-                        <Picker.Item label="Black" value="Black" />
-                        <Picker.Item label="White" value="White" />
-                        <Picker.Item label="Gray" value="Gray" />
-                        <Picker.Item label="Navy" value="Navy" />
-                        <Picker.Item label="Blue" value="Blue" />
-                        <Picker.Item label="Green" value="Green" />
-                        <Picker.Item label="Red" value="Red" />
-                        <Picker.Item label="Yellow" value="Yellow" />
-                        <Picker.Item label="Orange" value="Orange" />
-                        <Picker.Item label="Red" value="Red" />
-                        <Picker.Item label="Pink" value="Pink" />
-                        <Picker.Item label="Purple" value="Purple" />
-                        <Picker.Item label="Brown" value="Brown" />
+                        {colorKeys.map((colorKey) => (
+                            <Picker.Item
+                                key={colorKey}
+                                label={colorKey}
+                                value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
+                            />
+                        ))}
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
@@ -95,13 +94,14 @@ export default function AddClotheScreen() {
                         onValueChange={(itemValue, itemIndex) => 
                             setSelectedSize(itemValue)
                         }>
-                        <Picker.Item label="Unknown" value={0} />                            
-                        <Picker.Item label="None" value={1} />
-                        <Picker.Item label="Short" value={2} />
-                        <Picker.Item label="Large" value={3} />
+                        {sleeveSizeKeys.map((sleeveSizeKey) => (
+                            <Picker.Item
+                                key={sleeveSizeKey}
+                                label={sleeveSizeKey}
+                                value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
+                            />
+                        ))}
                     </Picker>
-                 
-
                 </View>
             </View>
 
@@ -113,9 +113,7 @@ export default function AddClotheScreen() {
                 <View style={styles.saveButton}>
                     <Button title="Save" onPress={addClothe}/>
                 </View>
-                
-            </View>
-                
+            </View>      
         </View>
     );
 }

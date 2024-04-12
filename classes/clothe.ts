@@ -2,10 +2,10 @@ export class Clothe {
     private _name: string;
     private _link: string;
     private _type: Clothe.Type;
-    private _color: string;
+    private _color: Clothe.Color;
     private _sleeveSize: number;
 
-    constructor(name: string, link: string, type: Clothe.Type, color: string, sleeveSize: number) {
+    constructor(name: string, link: string, type: Clothe.Type, color: Clothe.Color, sleeveSize: number) {
         this._name = name;
         this._link = link;
         this._type = type;
@@ -37,11 +37,11 @@ export class Clothe {
         this._type = type;
     }
 
-    get color(): string {
+    get color(): Clothe.Color {
         return this._color;
     }
 
-    set color(color: string) {
+    set color(color: Clothe.Color) {
         this._color = color;
     }
 
@@ -72,7 +72,7 @@ export default function DefaultClothe(): Clothe {
     return new Clothe("Clothe Name",
         "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035",
         Clothe.Type.Unknown,
-        "Black",
+        Clothe.Color.Unknown,
         1);
 }
 
@@ -82,5 +82,27 @@ export namespace Clothe {
         Shirt,
         Pants,
         Shoes
+    }
+    export enum Color{
+        Unknown,
+        Black,
+        White,
+        Gray,
+        Navy,
+        Blue,
+        Green,
+        Red,
+        Yellow,
+        Orange,
+        Pink,
+        Purple,
+        Brown,
+    }
+    export enum SleeveSize {
+        Unknown,
+        None,
+        Short,
+        Medium,
+        Long
     }
 }
