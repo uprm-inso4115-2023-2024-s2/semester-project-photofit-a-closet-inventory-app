@@ -1,14 +1,12 @@
 export class Clothe {
     private _name: string;
-    private _description: string;
     private _link: string;
     private _type: Clothe.Type;
     private _color: string;
     private _sleeveSize: number;
 
-    constructor(name: string, description: string, link: string, type: Clothe.Type, color: string, sleeveSize: number) {
+    constructor(name: string, link: string, type: Clothe.Type, color: string, sleeveSize: number) {
         this._name = name;
-        this._description = description;
         this._link = link;
         this._type = type;
         this._color = color;
@@ -21,14 +19,6 @@ export class Clothe {
 
     set name(name: string) {
         this._name = name;
-    }
-
-    get description(): string {
-        return this._description;
-    }
-
-    set description(description: string) {
-        this._description = description;
     }
 
     get link(): string {
@@ -74,13 +64,12 @@ export class Clothe {
 
     static deserialize(json: string): Clothe {
         const parse = JSON.parse(json);
-        return new Clothe(parse._name, parse._description, parse._link, parse._type, parse._color, parse._sleeveSize);
+        return new Clothe(parse._name, parse._link, parse._type, parse._color, parse._sleeveSize);
     }
 }
 
 export default function DefaultClothe(): Clothe {
     return new Clothe("Clothe Name",
-        "Clothe Description",
         "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035",
         Clothe.Type.Unknown,
         "Black",

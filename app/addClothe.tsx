@@ -11,7 +11,6 @@ export default function AddClotheScreen() {
     const [clothe] = useState(DefaultClothe());
     const navigation = useNavigation();
     const [selectedName, setSelectedName] = useState("Clothe Item");
-    const [selectedDescription, setSelectedDescription] = useState("");
     const [selectedLink, setSelectedLink] = useState(clothe.link);
     const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
     const [selectedColor, setSelectedColor] = useState("Unknown"); // Default value
@@ -25,7 +24,6 @@ export default function AddClotheScreen() {
     async function addClothe() {
         // Update the properties of the clothe object directly with the selected values
         clothe.name = selectedName;
-        clothe.description = selectedDescription;
         clothe.link = selectedLink;
         clothe.type = selectedType;
         clothe.color = selectedColor;
