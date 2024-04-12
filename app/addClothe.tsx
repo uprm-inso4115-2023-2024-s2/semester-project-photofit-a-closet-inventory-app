@@ -6,7 +6,6 @@ import {useNavigation} from "@react-navigation/native";
 import DefaultClothe from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
 import { Clothe } from '@/classes/clothe';
-import { color } from 'react-native-elements/dist/helpers';
 
 export default function AddClotheScreen() {
     const [clothe] = useState(DefaultClothe());
@@ -32,7 +31,6 @@ export default function AddClotheScreen() {
         clothe.type = selectedType;
         clothe.color = selectedColor;
         clothe.sleeveSize = selectedSize;
-        
         
         // Add the updated clothe object to the database
         const success = await DatabaseController.addClothe(clothe);
