@@ -5,17 +5,22 @@ import {useNavigation} from "@react-navigation/native";
 import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function photoCapture() {
+//Interface of the Photo Capture Component's Props 
+interface PhotoCaptureProps {
+  setShowCamera: (show: boolean) => void; 
+  onPhotoTaken: (uri: string) => void; //photo is taken
+  onGalleryPhotoSelected: (uri: string) => void; //photo is selected from the gallery
+}
+
+const PhotoCapture: React.FC<PhotoCaptureProps> = ({setShowCamera, onPhotoTaken, onGalleryPhotoSelected }) => {
   const cameraRef = useRef<Camera>(null);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [isCameraReady, setIsCameraReady] = useState(false);
-  const navigation = useNavigation();
-  const [image, setImage] = useState(String);
 
   if (!permission) {
     // Camera permissions are still loading
-    return <View />;
+    return <View style={styles.container}><Text>Loading...</Text></View>;
   }
 
   if (!permission.granted) {
@@ -43,10 +48,12 @@ export default function photoCapture() {
         const photo = await cameraRef.current.takePictureAsync();
         console.log("Success: Picture Taken");
         console.log("Photo URI:", photo.uri);
-        navigation.goBack();
+        onPhotoTaken(photo.uri);
+        setShowCamera(false);
 
       } catch (error) {
         console.log("Error taking picture :(", error)
+        setShowCamera(false);
       }
     }
   }
@@ -66,12 +73,12 @@ export default function photoCapture() {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      console.log(result.assets[0].uri)
+      onGalleryPhotoSelected(result.assets[0].uri)
+      setShowCamera(false);
     }
     
   };
-
-  
 
   return (
     <View style={styles.container}>
@@ -93,6 +100,7 @@ export default function photoCapture() {
     </View>
   );
 }
+export default PhotoCapture;
 
 const styles = StyleSheet.create({
   container: {
