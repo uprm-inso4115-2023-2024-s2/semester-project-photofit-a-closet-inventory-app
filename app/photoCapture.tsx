@@ -1,7 +1,6 @@
 import { Camera, CameraType } from 'expo-camera';
 import { useState, useRef } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import {useNavigation} from "@react-navigation/native";
 import {MaterialCommunityIcons, AntDesign} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -83,8 +82,10 @@ const PhotoCapture: React.FC<PhotoCaptureProps> = ({setShowCamera, onPhotoTaken,
   return (
     <View style={styles.container}>
       <Camera ref={cameraRef} style={styles.camera} type={type} onCameraReady={() => setIsCameraReady(true)}>
+        <TouchableOpacity onPress={() => setShowCamera(false)}>
+          <MaterialCommunityIcons name="keyboard-backspace" size={40} color="white" />
+        </TouchableOpacity>
         <View style={styles.buttonContainer}>
-
           <TouchableOpacity style={styles.button} onPress={pickImage}>
             <AntDesign name="picture" size={40} color="white" />
           </TouchableOpacity>
@@ -114,10 +115,10 @@ const styles = StyleSheet.create({
     flex: 0,
     flexDirection: 'row',
     backgroundColor: 'transparent',
-    position: 'absolute', // Position absolutely within the parent View
-    bottom: 20, // Adjust based on your needs
-    width: '100%', // Ensure it spans the entire width
-    justifyContent: 'space-between', // This spreads out the child elements
+    position: 'absolute',
+    bottom: 20, 
+    width: '100%', 
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
   },
   button: {

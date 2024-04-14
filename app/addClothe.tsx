@@ -1,4 +1,4 @@
-import {Button, StyleSheet, TextInput, Image, Text, Platform} from 'react-native';
+import {Button,TouchableOpacity, StyleSheet, TextInput, Image, Text, Platform} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {View} from '@/components/Themed';
 import {useState} from "react";
@@ -7,6 +7,8 @@ import DefaultClothe from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
 import PhotoCapture from "@/app/photoCapture"
 import { Clothe } from '@/classes/clothe';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+
 
 export default function AddClotheScreen() {
     const [showCamera, setShowCamera] = useState(false);
@@ -56,19 +58,19 @@ export default function AddClotheScreen() {
             ) : (
                 <>
                 <View style={styles.photoContainer}>
+                    <TouchableOpacity style={styles.cameraButton}>
+                    <MaterialCommunityIcons name="camera" color="grey" onPress={() => setShowCamera(true)} size={40} />
+                    </TouchableOpacity>
+
                     <Image style={styles.image} source={{ uri: selectedLink }} /> 
+
                     <View style={styles.greyBottom}/>
                     
                     <TextInput style={styles.input} placeholder="Type Item Name Here"
                         onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
                         />
-
-                {/*This is a TEST BUTTON for camera. Further styling is required. */}
                 </View>
-                <View style={styles.testButton}>
-                <Button title="Test" onPress={() => setShowCamera(true)}></Button>  
-
-                </View>
+                
 
                 <View style={styles.filterSquare}>
                     <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
@@ -255,14 +257,15 @@ const styles = StyleSheet.create({
             android: {},
         }),
     },
-    //Test Button for Camera
-    testButton: {
+    //Button for Camera
+    cameraButton: {
         ...defaultButton,
-        width: "100%",
+        position: "absolute",
+        left: "100%",
+        bottom: "90%",
+        width: "15%",
+        height: "15%",
         padding: "0%",
-        ...Platform.select({
-            ios: {backgroundColor: "blue"},    
-            android: {},
-        }),
+        },
     },
-});
+);
