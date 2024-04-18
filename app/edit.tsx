@@ -1,4 +1,4 @@
-import {Button, Pressable, Text, StyleSheet, Alert, TextInput} from 'react-native';
+import {Button, Pressable, Text, StyleSheet, Alert, TextInput, ScrollView} from 'react-native';
 import {View} from '@/components/Themed';
 import {useNavigation} from "@react-navigation/native";
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons from Expo vector icons
@@ -9,6 +9,11 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import Draggable from '@react-navigation/native';
 // import { PanResponder } from 'react-native';
 // import SortableList from '@react-navigation/native';
+
+import { Clothe } from '@/classes/clothe';
+import {Picker} from '@react-native-picker/picker';
+
+
 
 
 /*
@@ -117,11 +122,127 @@ export default function EditOutfits() {
     }, [navigation]);
 
 
+
+
+
+    const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
+    const [selectedColor, setSelectedColor] = useState(Clothe.Color.Unknown); // Default value
+    const [selectedSize, setSelectedSize] = useState(Clothe.SleeveSize.Unknown); // Default value
+    
+    const typeKeys = Object.keys(Clothe.Type).filter(key => isNaN(Number(key)));
+    const colorKeys = Object.keys(Clothe.Color).filter(key => isNaN(Number(key)));
+    const sleeveSizeKeys = Object.keys(Clothe.SleeveSize).filter(key => isNaN(Number(key)));
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
-        <View style={styles.container}>
 
-            <View style={styles.container2}>
 
+        <ScrollView>
+        <View style={styles.bigcontainer}> {/* bigger container */}
+
+            <View style={styles.smallercontainer}> {/* smaller container with both filter box + outfits buttons and save button */}
+
+        {/* Search & Filter box*/}
+
+        <View style={styles.searchAndFilter}>
+
+        {/* // Search Bar */}
+        <View style={styles.searchContainer}>
+        <Text style={styles.searchText}>Search</Text>
+
+        </View>
+
+
+        {/* Filter boxes */}
+
+        <View style={styles.pickerBox}>
+
+            <View style={styles.filterContainer}>  
+              <Text style={styles.filterText}>Type</Text>
+                  <Picker style={styles.picker} itemStyle={styles.pick}
+                      selectedValue={selectedType} 
+                      onValueChange={(itemValue: Clothe.Type) => 
+                          setSelectedType(itemValue) // Update the selectedType state 
+                  }>
+                  {typeKeys.map((typeKey) => (
+                      <Picker.Item
+                          key={typeKey}
+                          label={typeKey}
+                          value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
+                      />
+                      ))}
+                  </Picker>
+            </View>
+
+
+
+            <View style={styles.filterContainer}>  
+                <Text style={styles.filterText}>Color</Text>
+                    <Picker style={styles.picker} itemStyle={styles.pick}
+                        selectedValue={selectedColor} 
+                        onValueChange={(itemValue) => 
+                            setSelectedColor(itemValue)
+                        }>
+                        {colorKeys.map((colorKey) => (
+                            <Picker.Item
+                                key={colorKey}
+                                label={colorKey}
+                                value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
+                            />
+                        ))}
+                    </Picker>
+            </View>
+
+
+
+            <View style={styles.filterContainer}>  
+                <Text style={styles.filterText}>Sleeve Size</Text>
+                    <Picker style={styles.picker} itemStyle={styles.pick}
+                        selectedValue={selectedSize}
+                        onValueChange={(itemValue, itemIndex) => 
+                            setSelectedSize(itemValue)
+                        }>
+                        {sleeveSizeKeys.map((sleeveSizeKey) => (
+                            <Picker.Item
+                                key={sleeveSizeKey}
+                                label={sleeveSizeKey}
+                                value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
+                            />
+                        ))}
+                    </Picker>
+              </View>
+
+            </View> {/* filterbox end*/}
+        
+        </View> {/* searchAndFilter end*/}
+
+
+
+
+
+
+
+
+
+
+
+        <View style={styles.outfitsButtonContainer}> {/* container with outfits buttons & save button */}
+        
+        
+        {/* First Button without separator */}
             <View style={{paddingBottom:5}}>
 
         {/* Outfit Buttons */}
@@ -135,7 +256,8 @@ export default function EditOutfits() {
             flexDirection: 'row', 
             alignItems: 'center', //'flex-start', 
             justifyContent:'space-between',
-            backgroundColor: '#F0F0F0' 
+            backgroundColor: '#F0F0F0', 
+            // marginHorizontal:10
             // '#F194FF'
             }}>
 
@@ -189,6 +311,11 @@ export default function EditOutfits() {
         {/* Button
         {addOutfitButton()}        */}
  
+
+
+
+
+        {/* Save & Cancel Button */}
         <View style={styles.buttonContainer}>
 
 
@@ -212,14 +339,148 @@ export default function EditOutfits() {
                 </View>
 
 
-        </View> {/* Button Container */}
-        </View> {/* container 2*/}
-
-        </View> // container
+        </View> {/* Save Button Container */}
+        </View> {/* smaller container with Outfits Buttons & Save Button*/}
+        </View> {/* smaller container with Filter Box + Outfit Buttons and Save Button*/}
+        </View> {/* bigger container */}
+        
+        
+        </ScrollView>
     );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({    
+    bigcontainer: { //all components are in this parent container
+        flex: 1,
+        backgroundColor: 'black', //ffff
+
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // flexDirection: 'column',
+        // flexWrap: 'wrap',
+        // width: '100%',
+        // marginVertical: 20,
+        },
+        
+    smallercontainer: { //all components are inside this smaller container
+        // flex: 1,
+        backgroundColor: 'pink',
+        padding: 10, 
+        margin: 5, //margin of the square - how big is it
+        borderRadius: 20, //rounds edges
+        // marginHorizontal: 10
+
+        // alignItems: 'center', //shortens length of button to center
+        // justifyContent: 'center', //centers buttons in the container (horizontally)
+        // marginTop: 10,
+        // flexDirection: 'column',
+        // flexWrap: 'wrap',
+        // width: '100%',
+        // height:'20%',
+        // marginVertical: 10,
+        },
+
+
+
+    // Search components styles
+
+    searchContainer:{  //search bar is inside this container
+        // flex: 1,
+        backgroundColor: '#D9D9D9',
+        padding: 5, 
+        margin: 10, //margin of the square - how big is it
+        borderRadius: 10, //rounds edges
+        // marginTop: 1,
+        marginVertical: 1,
+    },
+
+    searchText:{  //styling for "Search" text
+    fontWeight:'bold', color:'#9f9f9f', backgroundColor:'#D9D9D9'
+    },
+
+    searchAndFilter:{  //search and filters are inside this container
+        backgroundColor: "#F0F0F0",
+        // alignItems: 'center',
+        alignContent: 'space-between',
+        justifyContent: 'space-evenly',
+        borderRadius: 20,
+        margin:10,
+        padding: 10,
+        marginTop:1,
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0.9,
+        height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4, 
+        // ...Platform.select({
+        //     ios: {
+        //         height: "20%",
+        //         width: "77%",
+        //     },
+        //     android: {
+        //         height: "15%",
+        //         width: "90%",
+        //     },
+        // }),
+    },
+
+    filterContainer:{  //filterbox and text label are inside this container
+    alignItems: 'center',
+    flexDirection: 'column',
+    backgroundColor: '#F0F0F0'
+    
+    },
+
+    filterText: { //styling for *text* on top of filter dropdowns
+    // paddingTop: 10,
+    paddingHorizontal: 10,
+    color:"black", 
+    fontWeight:'bold'
+    },
+
+    pickerBox: { //container where pickers are located
+        flexDirection: "row",
+        justifyContent: 'space-evenly',
+        height: "45%",
+        backgroundColor: 'rgba(52, 52, 52, 0)',     
+    },
+    picker: { // picker outside design
+        borderColor: 'black',
+        borderRadius: 10,
+        // ...Platform.select({
+        //     ios: {
+        //         width: "33%",
+        //         bottom: 55,
+        //     },
+        //     android: {
+        //         width: "35%",
+        //         height: "25%",
+        //         bottom: 0,
+        //     },
+        // }),
+    },
+    pick: { // picker design once an item is picked??? Honestly no idea
+        fontSize: 15,
+        // ...Platform.select({
+        //     ios: {fontSize: 15},
+        //     android: {fontSize: 0,},
+        // }),
+        
+    },
+
+
+
+
+
+
+
+
+
+
+
+
 
     draggableContainer: {
         width: '80%',
@@ -243,23 +504,25 @@ const styles = StyleSheet.create({
 
 
 
-
-
-
-
-    container: {
+    // Outfit Buttons component styles
+    outfitsButtonContainer:{ // all outfits buttons AND save button are inside this container
+        flex: 1,
+        backgroundColor: 'lightblue',
+        padding: 10, 
+        margin: 5, //margin of the square - how big is it
+        borderRadius: 20, //rounds edges
+    },
+    buttonContainer:{
         flex: 1,
         // alignItems: 'center',
         // justifyContent: 'center',
-        // backgroundColor: 'black', //ffff
-    },
-    container2: { //all buttons are inside this smaller container
-        flex: 1,
-        backgroundColor: 'white',
-        padding: 25, 
+        flexDirection: 'row',
+        // flexWrap: 'wrap',
+        // backgroundColor: 'black',
         margin: 10, //margin of the square - how big is it
-        borderRadius: 20, //rounds edges
-
+        justifyContent:'flex-end',
+        marginHorizontal:10,
+    
     },
 
     separator: { //added this to separate each button a smidge, is added just before a new button
@@ -272,26 +535,15 @@ const styles = StyleSheet.create({
         height: 10,
         width: '3%',
     },
-    buttonContainer:{
-        flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        flexDirection: 'row',
-        // flexWrap: 'wrap',
-        // backgroundColor: 'black',
-        margin: 10, //margin of the square - how big is it
-        justifyContent:'flex-end'
-    
-    },
 
     OutfitButton: {
         borderRadius: 15,
-        padding: 20,
+        padding: 17,
         elevation: 2,
-        backgroundColor: '#F0F0F0', //'#F194FF', //'#f8f4f4'
+        backgroundColor: 'red', //'#F0F0F0', //'#F194FF', //'#f8f4f4'
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
+          width: 0.9,
           height: 2,
         },
         shadowOpacity: 0.25,
@@ -303,7 +555,7 @@ const styles = StyleSheet.create({
         color: '#C100E0', //'white', //'#c404f0' //'#F194FF'
         fontWeight: 'bold',
         textAlign: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
       },
 
 

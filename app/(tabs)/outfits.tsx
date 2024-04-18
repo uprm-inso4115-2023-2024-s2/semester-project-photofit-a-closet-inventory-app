@@ -4,11 +4,14 @@ import { Text, View } from '@/components/Themed';
 import React, {useState} from 'react';
 import {Alert, Modal, Pressable, FlatList, TouchableOpacity } from 'react-native';
 
+import { Clothe } from '@/classes/clothe';
+import {useNavigation} from "@react-navigation/native";
+import {Picker} from '@react-native-picker/picker';
+
 import EditOutfits from '@/app/edit'
 
 /* To Do: 
 - add photos of "outfits" inside the button
-- add filter box on top of page
 
 - add a widget or function to add buttons automatically on page (after creating outfit in "Make Your Outfit" page)
 - fully design edit page: (in figma and for implementation)
@@ -26,6 +29,14 @@ import EditOutfits from '@/app/edit'
   -- github Issue #128 for New Outfits UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/128
   and Issue #119 for "Make Your Outfit" UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/119
 
+
+  Done: - add filter box on top of page
+    Added filter boxes and search (if needed) in all of outfit pages
+    - Spaced "Type", "Color", and "Sleeve Size" evenly with their respective pickerboxes
+    - Picker boxes are rounded
+    - added containers for each major component of each Outfits page, EditOutfitPage page, and Make Your Outfit page
+
+  
 */
 
 
@@ -77,17 +88,118 @@ export default function TabTwoScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditScreen, setIsEditScreen] = useState(false);
 
+
+
+  const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
+  const [selectedColor, setSelectedColor] = useState(Clothe.Color.Unknown); // Default value
+  const [selectedSize, setSelectedSize] = useState(Clothe.SleeveSize.Unknown); // Default value
+  
+  const typeKeys = Object.keys(Clothe.Type).filter(key => isNaN(Number(key)));
+  const colorKeys = Object.keys(Clothe.Color).filter(key => isNaN(Number(key)));
+  const sleeveSizeKeys = Object.keys(Clothe.SleeveSize).filter(key => isNaN(Number(key)));
+
+
+  const navigation = useNavigation();
+
+  const handleCancel = () => {
+    // Navigate back to the previous screen or any desired screen
+    navigation.goBack();
+};
+
+
+
+
+
+
   return (
 
     <ScrollView>
 
 
-    <View style={styles.container}>
+    <View style={styles.bigContainer}>{/* Bigger Container */}
       {isEditScreen ? (
         <EditOutfits />
       ) : (
 
-    <View style={styles.container}>
+
+    <View style={styles.smallerContainer}> {/* All components are inside this smaller container */}
+
+
+        {/* Search & Filter box*/}
+        <View style={styles.searchAndFilter}>
+
+        {/* // Search Bar */}
+        <View style={styles.searchContainer}>
+          <Text style={styles.searchText}>Search</Text>
+        </View>
+
+        {/* Filter boxes */}
+        <View style={styles.pickerBox}>
+
+            <View style={styles.filterContainer}>  
+              <Text style={styles.filterText}>Type</Text>
+                  <Picker style={styles.picker} itemStyle={styles.pick}
+                      selectedValue={selectedType} 
+                      onValueChange={(itemValue: Clothe.Type) => 
+                          setSelectedType(itemValue) // Update the selectedType state 
+                  }>
+                  {typeKeys.map((typeKey) => (
+                      <Picker.Item
+                          key={typeKey}
+                          label={typeKey}
+                          value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
+                      />
+                      ))}
+                  </Picker>
+            </View>
+
+
+
+            <View style={styles.filterContainer}>  
+                <Text style={styles.filterText}>Color</Text>
+                    <Picker style={styles.picker} itemStyle={styles.pick}
+                        selectedValue={selectedColor} 
+                        onValueChange={(itemValue) => 
+                            setSelectedColor(itemValue)
+                        }>
+                        {colorKeys.map((colorKey) => (
+                            <Picker.Item
+                                key={colorKey}
+                                label={colorKey}
+                                value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
+                            />
+                        ))}
+                    </Picker>
+            </View>
+
+
+
+            <View style={styles.filterContainer}>  
+                <Text style={styles.filterText}>Sleeve Size</Text>
+                    <Picker style={styles.picker} itemStyle={styles.pick}
+                        selectedValue={selectedSize}
+                        onValueChange={(itemValue, itemIndex) => 
+                            setSelectedSize(itemValue)
+                        }>
+                        {sleeveSizeKeys.map((sleeveSizeKey) => (
+                            <Picker.Item
+                                key={sleeveSizeKey}
+                                label={sleeveSizeKey}
+                                value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
+                            />
+                        ))}
+                    </Picker>
+              </View>
+
+            </View> {/* filterbox end*/}
+        
+        </View> {/* searchAndFilter end*/}
+
+
+
+
+
+
 
     {/* FlatList */}
       {/* <View style={styles.container2}>
@@ -99,9 +211,13 @@ export default function TabTwoScreen() {
       />
       </View> */}
 
-      {/* inside container of buttons */}
-      <View style={styles.container2}> 
 
+      {/* Outfit Buttons */}
+      <View style={styles.outfitsButtonContainer}> 
+      {/* All Outfit Button are inside this container */}
+
+
+      {/* First Button without separator */}
       <View style={{paddingBottom:5}}>
 
         {/* Button */}
@@ -114,6 +230,8 @@ export default function TabTwoScreen() {
         </View>
         </View>
 
+
+        {/* All other buttons */}
 
         {/* Button */}
         {addOutfitButton()}
@@ -133,11 +251,11 @@ export default function TabTwoScreen() {
 
 
 
-    {/* container */}</View> 
+   
+    </View> //{/* smaller container */}
 
-    )}
-    </View>    
-    
+    )} {/* if isEditScreen true finishing ")}" */}
+    </View>    {/* bigger container */}
     
     </ScrollView>
 
@@ -148,9 +266,9 @@ export default function TabTwoScreen() {
 
 // Styles
 const styles = StyleSheet.create({
-  container: { //all components are in this parent container
+  bigContainer: { //all components are in this parent container
     flex: 1,
-    // backgroundColor: 'black', //ffff
+    backgroundColor: 'black', //ffff
 
     // alignItems: 'center',
     // justifyContent: 'center',
@@ -160,11 +278,11 @@ const styles = StyleSheet.create({
     // marginVertical: 20,
   },
     
-  container2: { //all buttons are inside this smaller container
+  smallerContainer: { //all buttons are inside this smaller container
     flex: 1,
-    backgroundColor: 'white',
-    padding: 25, 
-    margin: 10, //margin of the square - how big is it
+    backgroundColor: 'pink',
+    padding: 10, 
+    margin: 5, //margin of the square - how big is it
     borderRadius: 20, //rounds edges
 
     // alignItems: 'center', //shortens length of button to center
@@ -175,6 +293,113 @@ const styles = StyleSheet.create({
     // width: '100%',
     // height:'20%',
     // marginVertical: 10,
+  },
+
+  searchContainer:{  //search bar is inside this container
+    // flex: 1,
+    backgroundColor: '#D9D9D9',
+    padding: 5, 
+    margin: 10, //margin of the square - how big is it
+    borderRadius: 10, //rounds edges
+    // marginTop: 1,
+    marginVertical: 1,
+  },
+
+  searchText:{  //styling for "Search" text
+  fontWeight:'bold', color:'#9f9f9f', backgroundColor:'#D9D9D9'
+  },
+
+  searchAndFilter:{  //search and filters are inside this container
+    backgroundColor: "#F0F0F0",
+    // alignItems: 'center',
+    alignContent: 'space-between',
+    justifyContent: 'space-evenly',
+    borderRadius: 20,
+    margin:10,
+    padding: 10,
+    marginTop:1,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0.9,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4, 
+    // ...Platform.select({
+    //     ios: {
+    //         height: "20%",
+    //         width: "77%",
+    //     },
+    //     android: {
+    //         height: "15%",
+    //         width: "90%",
+    //     },
+    // }),
+},
+
+filterContainer:{  //filterbox and text label are inside this container
+  alignItems: 'center',
+  flexDirection: 'column',
+  backgroundColor: '#F0F0F0'
+  
+},
+
+filterText: { //styling for *text* on top of filter dropdowns
+  // paddingTop: 10,
+  paddingHorizontal: 10,
+  color:"black", 
+  fontWeight:'bold'
+},
+
+pickerBox: { //container where pickers are located
+    flexDirection: "row",
+    justifyContent: 'space-evenly',
+    height: "45%",
+    backgroundColor: 'rgba(52, 52, 52, 0)',     
+},
+picker: { // picker outside design
+    borderColor: 'black',
+    borderRadius: 10,
+    // ...Platform.select({
+    //     ios: {
+    //         width: "33%",
+    //         bottom: 55,
+    //     },
+    //     android: {
+    //         width: "35%",
+    //         height: "25%",
+    //         bottom: 0,
+    //     },
+    // }),
+},
+pick: { // picker design once an item is picked??? Honestly no idea
+    fontSize: 15,
+    // ...Platform.select({
+    //     ios: {fontSize: 15},
+    //     android: {fontSize: 0,},
+    // }),
+    
+},
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Outfit Buttons component styles
+  outfitsButtonContainer:{ // all outfits buttons are inside this container
+    flex: 1,
+    backgroundColor: 'lightblue',
+    padding: 10, 
+    margin: 5, //margin of the square - how big is it
+    borderRadius: 20, //rounds edges
   },
 
   separator: { //added this to separate each button a smidge, is added just before a new button
@@ -195,7 +420,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,    
-    backgroundColor: '#F0F0F0' //'#F194FF' // '#C100E0' //'#f8f4f4'
+    backgroundColor: 'red' ,//'#F0F0F0' //'#F194FF' // '#C100E0' //'#f8f4f4'
   },
   textStyle: {
     color: '#C100E0',
