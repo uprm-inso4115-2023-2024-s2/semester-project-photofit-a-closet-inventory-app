@@ -7,7 +7,14 @@ import {Alert, Modal, Pressable, FlatList, TouchableOpacity } from 'react-native
 import EditOutfits from '@/app/edit'
 
 /* To Do: 
-- add photos of "outfits" inside the button on the left side (--> *photo* <-- Outfits)
+- add photos of "outfits" inside the button
+- add filter box on top of page
+
+- add a widget or function to add buttons automatically on page (after creating outfit in "Make Your Outfit" page)
+- fully design edit page: (in figma and for implementation)
+    -> include delete icon/feature
+    -> include move icon/feature
+    -> maybe include a feature to be able to change clothing article in same
 - add functionality in Edit Outfit Page: 
     -> eliminate outfits - delete feature
     -> move outfit button - arrange outfits feature
@@ -16,7 +23,8 @@ import EditOutfits from '@/app/edit'
   - has photos of their closet / database
 
   --see https://www.figma.com/file/ojPtY7fqcm1botgu9QryZf/PhotoFit-UI?type=design&node-id=0-1&mode=design&t=xGQxI8btmzRFtTNz-0
-
+  -- github Issue #128 for New Outfits UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/128
+  and Issue #119 for "Make Your Outfit" UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/119
 
 */
 
@@ -70,6 +78,9 @@ export default function TabTwoScreen() {
   const [isEditScreen, setIsEditScreen] = useState(false);
 
   return (
+
+    <ScrollView>
+
 
     <View style={styles.container}>
       {isEditScreen ? (
@@ -125,7 +136,11 @@ export default function TabTwoScreen() {
     {/* container */}</View> 
 
     )}
-    </View>
+    </View>    
+    
+    
+    </ScrollView>
+
   );
 };
 
