@@ -29,12 +29,7 @@ export default function Filter() {
                         }}>
                     {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
                     {["None"]
-                        .concat(
-                            Object.keys(Clothe.Type)
-                                .filter((item) => {
-                                    return isNaN(Number(item));
-                                })
-                        )
+                        .concat(removeNumbersFromEnum(Clothe.Type))
                         .map((value, index, array) => {
                             return (
                                 <Picker.Item label={value.trim()} value={index}/>
@@ -51,14 +46,9 @@ export default function Filter() {
                             dbFilter.color = itemIndex === 0 ? undefined : itemIndex - 1;
                             DatabaseController.applyFilter(dbFilter);
                         }}>
-                    {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
+                    {/* Added `None` as an option so that users can disable the filter for Clothe.Color */}
                     {["None"]
-                        .concat(
-                            Object.keys(Clothe.Color)
-                                .filter((item) => {
-                                    return isNaN(Number(item));
-                                })
-                        )
+                        .concat(removeNumbersFromEnum(Clothe.Color))
                         .map((value, index, array) => {
                             return (
                                 <Picker.Item label={value.trim()} value={index}/>
@@ -75,14 +65,9 @@ export default function Filter() {
                             dbFilter.sleeveSize = itemIndex === 0 ? undefined : itemIndex - 1;
                             DatabaseController.applyFilter(dbFilter);
                         }}>
-                    {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
+                    {/* Added `None` as an option so that users can disable the filter for Clothe.SleeveSize */}
                     {["None"]
-                        .concat(
-                            Object.keys(Clothe.SleeveSize)
-                                .filter((item) => {
-                                    return isNaN(Number(item));
-                                })
-                        )
+                        .concat(removeNumbersFromEnum(Clothe.SleeveSize))
                         .map((value, index, array) => {
                             return (
                                 <Picker.Item label={value.trim()} value={index}/>

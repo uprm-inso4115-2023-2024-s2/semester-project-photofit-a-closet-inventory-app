@@ -15,15 +15,11 @@ export default function AddClotheScreen() {
     const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
     const [selectedColor, setSelectedColor] = useState(Clothe.Color.Unknown); // Default value
     const [selectedSize, setSelectedSize] = useState(Clothe.SleeveSize.Unknown); // Default value
-    
-    const typeKeys = Object.keys(Clothe.Type).filter(key => isNaN(Number(key)));
-    const colorKeys = Object.keys(Clothe.Color).filter(key => isNaN(Number(key)));
-    const sleeveSizeKeys = Object.keys(Clothe.SleeveSize).filter(key => isNaN(Number(key)));
 
     function handleCancel() {
         navigation.goBack();
     }
-    
+
     async function addClothe() {
         // Update the properties of the clothe object directly with the selected values
         clothe.name = selectedName;
@@ -31,74 +27,77 @@ export default function AddClotheScreen() {
         clothe.type = selectedType;
         clothe.color = selectedColor;
         clothe.sleeveSize = selectedSize;
-        
+
         // Add the updated clothe object to the database
         const success = await DatabaseController.addClothe(clothe);
-        
+
         console.log("SELECTED TYPE: " + selectedType)
         if (success) {
             console.log("Successfully added clothe of name " + clothe.name + " of type " + clothe.type + " of color " + clothe.color + " of sleeve size " + clothe.sleeveSize + " with link " + clothe.link)
         } else {
             console.log("Failed to add clothe!")
         }
-    
+
         navigation.goBack();
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.photoContainer}>
-                <Image style={styles.image} source={{ uri: selectedLink }} /> 
+                <Image style={styles.image} source={{ uri: selectedLink }} />
                 {/*The URL here should be the URI from the photo capture feature. Simply make the selectedLink variable be the URI and that should make the class get that data*/}
                 <View style={styles.greyBottom}/>
                 <TextInput style={styles.input} placeholder="Type Item Name Here"
                     onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
-                    />       
+                    />
             </View>
 
             <View style={styles.filterSquare}>
                 <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
                 <View style={styles.pickerBox}>
                     <Picker style={styles.picker} itemStyle={styles.pick}
-                        selectedValue={selectedType} 
-                        onValueChange={(itemValue: Clothe.Type) => 
-                            setSelectedType(itemValue) // Update the selectedType state 
+                        selectedValue={selectedType}
+                        onValueChange={(itemValue: Clothe.Type) =>
+                            setSelectedType(itemValue) // Update the selectedType state
                     }>
-                    {typeKeys.map((typeKey) => (
-                        <Picker.Item
-                            key={typeKey}
-                            label={typeKey}
-                            value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
-                        />
-                        ))}
+                        {removeNumbersFromEnum(Clothe.Type)
+                            .map((typeKey) => (
+                                <Picker.Item
+                                    key={typeKey}
+                                    label={typeKey}
+                                    value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
+                                />
+                            ))}
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedColor}
-                        onValueChange={(itemValue) => 
+                        onValueChange={(itemValue) =>
                             setSelectedColor(itemValue)
-                        }>
-                        {colorKeys.map((colorKey) => (
-                            <Picker.Item
-                                key={colorKey}
-                                label={colorKey}
-                                value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
-                            />
-                        ))}
+                    }>
+                        {removeNumbersFromEnum(Clothe.Color)
+                            .map((colorKey) => (
+                                <Picker.Item
+                                    key={colorKey}
+                                    label={colorKey}
+                                    value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
+                                />
+                            ))}
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedSize}
-                        onValueChange={(itemValue, itemIndex) => 
+                        onValueChange={(itemValue, itemIndex) =>
                             setSelectedSize(itemValue)
-                        }>
-                        {sleeveSizeKeys.map((sleeveSizeKey) => (
-                            <Picker.Item
-                                key={sleeveSizeKey}
-                                label={sleeveSizeKey}
-                                value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
-                            />
-                        ))}
+                    }>
+                        {removeNumbersFromEnum(Clothe.SleeveSize)
+                            .map((sleeveSizeKey) => (
+                                <Picker.Item
+                                    key={sleeveSizeKey}
+                                    label={sleeveSizeKey}
+                                    value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
+                                />
+                            ))}
                     </Picker>
                 </View>
             </View>
@@ -111,7 +110,7 @@ export default function AddClotheScreen() {
                 <View style={styles.saveButton}>
                     <Button title="Save" onPress={addClothe}/>
                 </View>
-            </View>      
+            </View>
         </View>
     );
 }
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         borderRadius: 20,
-        resizeMode: "cover", 
+        resizeMode: "cover",
       },
     greyBottom: {
         backgroundColor: "#D9D9D9",
@@ -162,7 +161,6 @@ const styles = StyleSheet.create({
     },
 
     filterSquare: {
-        
         backgroundColor: "#D9D9D9",
         alignItems:"center",
         borderRadius: 15,
@@ -183,12 +181,10 @@ const styles = StyleSheet.create({
     pickerBox: {
         flexDirection: "row",
         height: "45%",
-        backgroundColor: 'rgba(52, 52, 52, 0)',     
+        backgroundColor: 'rgba(52, 52, 52, 0)',
     },
     picker: {
-        
         borderColor: 'black',
-        
         ...Platform.select({
             ios: {
                 width: "33%",
@@ -202,12 +198,10 @@ const styles = StyleSheet.create({
         }),
     },
     pick: {
-        fontSize: 15,
         ...Platform.select({
             ios: {fontSize: 15},
             android: {fontSize: 0,},
         }),
-        
     },
     buttonContainer: {
         bottom: "-10%",
@@ -227,7 +221,7 @@ const styles = StyleSheet.create({
         width: "25%",
         marginRight: "5%",
         ...Platform.select({
-            ios: {backgroundColor: "red"},    
+            ios: {backgroundColor: "red"},
             android: {},
         }),
     },
