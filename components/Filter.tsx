@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View} from "react-native";
+import {Platform, StyleSheet, Text, View} from "react-native";
 import {Picker} from "@react-native-picker/picker";
 import {Clothe} from "@/classes/clothe";
 import {useState} from "react";
@@ -12,8 +12,8 @@ export default function Filter() {
             <Text style={styles.text}>Filters</Text>
 
             <View style={styles.filterContainer}>
-                <TextInput style={styles.input}/>
                 <Picker style={styles.picker}
+                        itemStyle={styles.pickerItem}
                         selectedValue={selectedClotheType}
                         onValueChange={(itemValue, itemIndex) => {
                             selectClotheType(itemIndex);
@@ -33,7 +33,50 @@ export default function Filter() {
                         })
                     }
                 </Picker>
-                <TextInput style={styles.input}/>
+
+                <Picker style={styles.picker}
+                        itemStyle={styles.pickerItem}
+                        selectedValue={selectedClotheType}
+                        onValueChange={(itemValue, itemIndex) => {
+                            selectClotheType(itemIndex);
+                        }}>
+                    {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
+                    {["None"]
+                        .concat(
+                            Object.keys(Clothe.Type)
+                                .filter((item) => {
+                                    return isNaN(Number(item));
+                                })
+                        )
+                        .map((value, index, array) => {
+                            return (
+                                <Picker.Item label={value.trim()} value={index}/>
+                            );
+                        })
+                    }
+                </Picker>
+
+                <Picker style={styles.picker}
+                        itemStyle={styles.pickerItem}
+                        selectedValue={selectedClotheType}
+                        onValueChange={(itemValue, itemIndex) => {
+                            selectClotheType(itemIndex);
+                        }}>
+                    {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
+                    {["None"]
+                        .concat(
+                            Object.keys(Clothe.Type)
+                                .filter((item) => {
+                                    return isNaN(Number(item));
+                                })
+                        )
+                        .map((value, index, array) => {
+                            return (
+                                <Picker.Item label={value.trim()} value={index}/>
+                            );
+                        })
+                    }
+                </Picker>
             </View>
         </View>
     );
@@ -58,19 +101,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingHorizontal: 10,
     },
-    input: {
-        height: 20,
-        borderWidth: 1,
-        flex: 1,
-    },
     picker: {
         flex: 1,
-        transform: [
-            // {
-            //     scaleX: .8,
-            // },
-            {scaleY: 0.5},
-            {translateY: -30}
-        ],
+    },
+    pickerItem: {
+        ...Platform.select({
+            ios: {fontSize: 15},
+            android: {fontSize: 0},
+        }),
     },
 });
