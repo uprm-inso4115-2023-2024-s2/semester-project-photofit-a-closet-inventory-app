@@ -150,10 +150,17 @@ export default function EditOutfits() {
     return (
 
 
-        <ScrollView>
+        
         <View style={styles.bigcontainer}> {/* bigger container */}
 
+
             <View style={styles.smallercontainer}> {/* smaller container with both filter box + outfits buttons and save button */}
+
+
+            <View style={styles.fixedContainer}> 
+      {/* Search & Filter container is inside this Fixed container */}
+
+
 
         {/* Search & Filter box*/}
 
@@ -231,23 +238,25 @@ export default function EditOutfits() {
 
 
 
+        </View> {/* Fixed Container view */}
 
 
 
 
 
 
-
+                        
 
         <View style={styles.outfitsButtonContainer}> {/* container with outfits buttons & save button */}
-        
-        
+        <ScrollView>
+
+
         {/* First Button without separator */}
             <View style={{paddingBottom:5}}>
 
         {/* Outfit Buttons */}
         
-              {/* First Button */}
+        {/* First Button */}
             <View style={styles.OutfitButton}>
           <Pressable  
             // onPress={() => setModalVisible(true)}
@@ -339,13 +348,21 @@ export default function EditOutfits() {
                 </View>
 
 
-        </View> {/* Save Button Container */}
-        </View> {/* smaller container with Outfits Buttons & Save Button*/}
-        </View> {/* smaller container with Filter Box + Outfit Buttons and Save Button*/}
-        </View> {/* bigger container */}
-        
+        </View> {/* Save Button Container */}        
         
         </ScrollView>
+
+        </View> {/* smaller container with Outfits Buttons & Save Button*/}
+        
+        
+
+        </View> {/* smaller container with Filter Box + Outfit Buttons and Save Button*/}
+
+
+
+        </View> //{/* bigger container */}
+        
+        
     );
 }
 
@@ -363,7 +380,7 @@ const styles = StyleSheet.create({
         },
         
     smallercontainer: { //all components are inside this smaller container
-        // flex: 1,
+        flex: 1,
         backgroundColor: 'pink',
         padding: 10, 
         margin: 5, //margin of the square - how big is it
@@ -383,6 +400,16 @@ const styles = StyleSheet.create({
 
 
     // Search components styles
+
+    fixedContainer: {
+        position: 'relative',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom:10,
+        backgroundColor: 'lightblue',
+        zIndex: 1, // Ensure it appears above other content
+    },
 
     searchContainer:{  //search bar is inside this container
         // flex: 1,

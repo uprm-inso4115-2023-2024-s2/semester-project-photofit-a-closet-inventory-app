@@ -117,26 +117,42 @@ export default function EditScreen() {
 
 
 
-
-
         {/* Outfit cards - Preview */}
         <View style={styles.outfitsContainer}>
             <ScrollView>
                 <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+                <Text>HIIIIII</Text>
+
             </ScrollView>
-        </View>
-
-
-
-
-
+        
         {/* Name of Outfit & Save */}
+
 
         <View style={styles.nameOfOutfitAndButtonsOutsideContainer}>
 
-            <Text style={{alignItems:'center',backgroundColor: '#FFFFFF',
-}}
-            >Name of Outfit</Text>
+            <Text style={styles.nameOfOutfitText}>Name of Outfit</Text>
 
         <View style={styles.saveAndCancelButtonContainer}>
 
@@ -156,8 +172,10 @@ export default function EditScreen() {
                     </Pressable>
                 </View>
 
-        {/* buttonContainer */} </View> 
+         </View> {/* Save & Cancel Button container end */}
          </View> {/* smaller container with Name of Outfit, Save and Cancel Buttons*/}
+
+        </View> {/* preview outfits container end */}
 
         </View> {/* smaller container with Filter Box + Outfit Clothe Preview + Save & Cancel Button */}
 
@@ -165,10 +183,7 @@ export default function EditScreen() {
 
 
         </View> // bigger container
-                // </View> {/* Save Button Container */}
-                // </View> {/* smaller container with Outfits Buttons & Save Button*/}
-                // </View> {/* smaller container with Filter Box + Outfit Buttons and Save Button*/}
-                // </View> {/* bigger container */}
+
         
     );
 }
@@ -183,25 +198,13 @@ const styles = StyleSheet.create({
 
     },
     smallerContainer:{ //smaller containers
-        // flex: 1,
-        // // backgroundColor: '#F0F0F0',
-        // backgroundColor: 'pink',
-        // padding: 25, 
-        // margin: 10, //margin of the square - how big is it
-        // borderRadius: 20, //rounds edges
-        // paddingHorizontal:10,
-        // paddingVertical: 10,
-        // justifyContent:'flex-end',
-        // // alignContent:'flex-end',
-        // flexDirection: 'column',
-        // // minHeight: '10%', 
-        // // maxWidth: '80%'
 
         flex: 1,
         backgroundColor: 'pink',
         padding: 10, 
         margin: 5, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
+        marginBottom:1
     },
 
     filtersOutsideContainer: { //Filter Title and filters are inside this container
@@ -230,11 +233,13 @@ const styles = StyleSheet.create({
         borderRadius: 20, //rounds edges
         paddingHorizontal:10,
         paddingVertical: 10,
-        justifyContent:'flex-end',
+        // justifyContent:'flex-end',
         // alignContent:'flex-end',
         // flexDirection: 'column',
-        minHeight: '55%', 
+        // minHeight: '55%', 
         // maxWidth: '80%',
+        top:-10,
+        marginBottom:-10
         
     },
 
@@ -317,18 +322,40 @@ const styles = StyleSheet.create({
     },
 
     nameOfOutfitAndButtonsOutsideContainer:{
-        flex: 1,
-        backgroundColor: '#F0F0F0',
-        padding: 25, 
-        margin: 10, //margin of the square - how big is it
+        // flex: 1,
+        // padding: 25, 
+        // margin: 10, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
-        paddingHorizontal:10,
-        paddingVertical: 10,
-        justifyContent:'flex-end',
+        // paddingHorizontal:10,
+        // paddingVertical: 10,
+        // justifyContent:'flex-end',
         // alignContent:'flex-end',
-        flexDirection: 'column',
+        // flexDirection: 'column',
         // minHeight: '10%', 
         // maxWidth: '80%'
+
+
+        position: 'relative',
+        top: 0,
+        left: 0,
+        right: 0,
+        // bottom:10,
+        marginHorizontal:-19,
+        paddingTop:10,
+        backgroundColor: '#F0F0F0',
+        zIndex: 1, // Ensure it appears above other content
+        
+    },
+    nameOfOutfitText:{
+        alignItems:'center',
+        // flex: 1,
+        backgroundColor: 'white',
+        padding: 5, 
+        margin: 10, //margin of the square - how big is it
+        borderRadius: 10, //rounds edges
+        // marginTop: 1,
+        marginVertical: 1,
+        fontWeight: 'bold',
     },
 
     saveAndCancelButtonContainer:{
@@ -342,6 +369,8 @@ const styles = StyleSheet.create({
         // justifyContent: 'space-between'
         // minHeight: '50%', 
         // maxWidth: '50%'
+        marginVertical: 1,
+
     },
 
     cancelButton: {

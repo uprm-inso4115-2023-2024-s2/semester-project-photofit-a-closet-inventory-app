@@ -36,6 +36,11 @@ import EditOutfits from '@/app/edit'
     - Picker boxes are rounded
     - added containers for each major component of each Outfits page, EditOutfitPage page, and Make Your Outfit page
 
+  Done: - Dynamically Fix the position of the filters&search box
+    - Fixed it in Main Outfits page, with content scrollable under it
+    - Fixed it in Edit page, with content scrollable under it
+    - Fixed it in Make Your Outfit page, with content scrollable under it (can't be seen tho, so photos won't be visible under 'Name of Outfit' like figma just yet)
+
   
 */
 
@@ -113,7 +118,6 @@ export default function TabTwoScreen() {
 
   return (
 
-    <ScrollView>
 
 
     <View style={styles.bigContainer}>{/* Bigger Container */}
@@ -124,6 +128,8 @@ export default function TabTwoScreen() {
 
     <View style={styles.smallerContainer}> {/* All components are inside this smaller container */}
 
+      <View style={styles.fixedContainer}> 
+      {/* Search & Filter container is inside this Fixed container */}
 
         {/* Search & Filter box*/}
         <View style={styles.searchAndFilter}>
@@ -197,7 +203,7 @@ export default function TabTwoScreen() {
 
 
 
-
+      </View> {/* Fixed Container view */}
 
 
 
@@ -211,6 +217,7 @@ export default function TabTwoScreen() {
       />
       </View> */}
 
+    <ScrollView>
 
       {/* Outfit Buttons */}
       <View style={styles.outfitsButtonContainer}> 
@@ -247,6 +254,7 @@ export default function TabTwoScreen() {
 
 
       </View>
+    </ScrollView>
 
 
 
@@ -255,9 +263,8 @@ export default function TabTwoScreen() {
     </View> //{/* smaller container */}
 
     )} {/* if isEditScreen true finishing ")}" */}
-    </View>    {/* bigger container */}
+    </View>    //{/* bigger container */}
     
-    </ScrollView>
 
   );
 };
@@ -293,6 +300,16 @@ const styles = StyleSheet.create({
     // width: '100%',
     // height:'20%',
     // marginVertical: 10,
+  },
+
+  fixedContainer: {
+    position: 'relative',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom:10,
+    backgroundColor: 'lightblue',
+    zIndex: 1, // Ensure it appears above other content
   },
 
   searchContainer:{  //search bar is inside this container
