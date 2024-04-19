@@ -81,5 +81,6 @@ const styles = StyleSheet.create({
     aspectRatio: 16/9, // Ensure the image maintains aspect ratio
     backgroundColor: 'gray', // Placeholder color for images
     marginBottom: 10, 
+    borderRadius: 20,
   },
 });
