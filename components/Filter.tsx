@@ -2,10 +2,17 @@ import {Platform, StyleSheet, Text, View} from "react-native";
 import {Picker} from "@react-native-picker/picker";
 import {Clothe} from "@/classes/clothe";
 import {useState} from "react";
+import {DatabaseController} from "@/classes/DatabaseController";
 
 export default function Filter() {
     // Zero is `None`, thus no filtering should be done. Indices should be subtracted by 1 to get Clothe.Type selected.
-    const [selectedClotheType, selectClotheType] = useState(0);
+    const [getType, setType] = useState(0);
+    const [getColor, setColor] = useState(0);
+    const [getSleeveSize, setSleeveSize] = useState(0);
+
+    // Whenever the filter is supposed to be "None", then it should be set to undefined, otherwise each index
+    // corresponding with the picker should be subtracted by 1
+    const [dbFilter] = useState(new DatabaseController.Filter());
 
     return (
         <View style={styles.container}>
@@ -14,9 +21,11 @@ export default function Filter() {
             <View style={styles.filterContainer}>
                 <Picker style={styles.picker}
                         itemStyle={styles.pickerItem}
-                        selectedValue={selectedClotheType}
+                        selectedValue={getType}
                         onValueChange={(itemValue, itemIndex) => {
-                            selectClotheType(itemIndex);
+                            setType(itemIndex);
+                            dbFilter.type = itemIndex === 0 ? undefined : itemIndex - 1;
+                            DatabaseController.applyFilter(dbFilter);
                         }}>
                     {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
                     {["None"]
@@ -36,14 +45,16 @@ export default function Filter() {
 
                 <Picker style={styles.picker}
                         itemStyle={styles.pickerItem}
-                        selectedValue={selectedClotheType}
+                        selectedValue={getColor}
                         onValueChange={(itemValue, itemIndex) => {
-                            selectClotheType(itemIndex);
+                            setColor(itemIndex);
+                            dbFilter.color = itemIndex === 0 ? undefined : itemIndex - 1;
+                            DatabaseController.applyFilter(dbFilter);
                         }}>
                     {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
                     {["None"]
                         .concat(
-                            Object.keys(Clothe.Type)
+                            Object.keys(Clothe.Color)
                                 .filter((item) => {
                                     return isNaN(Number(item));
                                 })
@@ -58,14 +69,16 @@ export default function Filter() {
 
                 <Picker style={styles.picker}
                         itemStyle={styles.pickerItem}
-                        selectedValue={selectedClotheType}
+                        selectedValue={getSleeveSize}
                         onValueChange={(itemValue, itemIndex) => {
-                            selectClotheType(itemIndex);
+                            setSleeveSize(itemIndex);
+                            dbFilter.sleeveSize = itemIndex === 0 ? undefined : itemIndex - 1;
+                            DatabaseController.applyFilter(dbFilter);
                         }}>
                     {/* Added `None` as an option so that users can disable the filter for Clothe.Type */}
                     {["None"]
                         .concat(
-                            Object.keys(Clothe.Type)
+                            Object.keys(Clothe.SleeveSize)
                                 .filter((item) => {
                                     return isNaN(Number(item));
                                 })
