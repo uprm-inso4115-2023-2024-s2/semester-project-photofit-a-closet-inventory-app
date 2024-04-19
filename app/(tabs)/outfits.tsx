@@ -43,6 +43,8 @@ import EditOutfits from '@/app/edit'
     - Fixed it in Edit page, with content scrollable under it
     - Fixed it in Make Your Outfit page, with content scrollable under it (can't be seen tho, so photos won't be visible under 'Name of Outfit' like figma just yet)
 
+  - Changed colors back to PhotoFit palette
+  - Added an in place editor for "Name of Outfit" save box
   
 */
 
@@ -60,7 +62,7 @@ function addOutfitButton(){
         <Pressable  
           // onPress={() => setModalVisible(true)}
           >
-            <Text style={styles.textStyle}>Outfit</Text>
+            <Text style={styles.OutfitTButtonTextStyle}>Outfit</Text>
         </Pressable>
       </View>
 
@@ -255,7 +257,7 @@ export default function TabTwoScreen() {
         <View style={styles.OutfitButton}> 
             <Pressable  // onPress={() => setModalVisible(true)}
             >
-                <Text style={styles.textStyle}>Outfit</Text>
+                <Text style={styles.OutfitTButtonTextStyle}>Outfit</Text>
             </Pressable>
             
         </View>
@@ -299,7 +301,7 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   bigContainer: { //all components are in this parent container
     flex: 1,
-    backgroundColor: 'black', //ffff
+    // backgroundColor: 'black', //ffff
 
     // alignItems: 'center',
     // justifyContent: 'center',
@@ -311,7 +313,7 @@ const styles = StyleSheet.create({
     
   smallerContainer: { //all buttons are inside this smaller container
     flex: 1,
-    backgroundColor: 'pink',
+    // backgroundColor: 'pink',
     padding: 10, 
     margin: 5, //margin of the square - how big is it
     borderRadius: 20, //rounds edges
@@ -332,7 +334,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom:10,
-    backgroundColor: 'lightblue',
+    // backgroundColor: 'lightblue',
     zIndex: 1, // Ensure it appears above other content
   },
 
@@ -437,7 +439,7 @@ pick: { // picker design once an item is picked??? Honestly no idea
   // Outfit Buttons component styles
   outfitsButtonContainer:{ // all outfits buttons are inside this container
     flex: 1,
-    backgroundColor: 'lightblue',
+    // backgroundColor: 'lightblue',
     padding: 10, 
     margin: 5, //margin of the square - how big is it
     borderRadius: 20, //rounds edges
@@ -461,12 +463,12 @@ pick: { // picker design once an item is picked??? Honestly no idea
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,    
-    backgroundColor: 'red' ,//'#F0F0F0' //'#F194FF' // '#C100E0' //'#f8f4f4'
+    backgroundColor: '#F0F0F0' //'#F194FF' // '#C100E0' //'#f8f4f4'
   },
-  textStyle: {
+  OutfitTButtonTextStyle: {
     color: '#C100E0',
     fontWeight: 'bold',
-    textAlign: 'center',
+    // textAlign: 'center',
   },
 
   

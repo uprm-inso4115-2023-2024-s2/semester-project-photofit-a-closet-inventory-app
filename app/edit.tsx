@@ -68,7 +68,7 @@ function addOutfitButton(){
                     onPress={() => console.log('pressed')}
                 /> */}
 
-                <Text style={styles.textStyle}>Outfit</Text>
+                <Text style={styles.OutfitButtonTextStyle}>Outfit</Text>
 
                 {/* trashcan icon */}
                 <Icon
@@ -294,7 +294,7 @@ export default function EditOutfits() {
                     onPress={() => console.log('pressed')}
                 /> */}
 
-                <Text style={styles.textStyle}>Outfit</Text>
+                <Text style={styles.OutfitButtonTextStyle}>Outfit</Text>
 
                 {/* trashcan icon */}
                 <Icon
@@ -377,7 +377,7 @@ export default function EditOutfits() {
 const styles = StyleSheet.create({    
     bigcontainer: { //all components are in this parent container
         flex: 1,
-        backgroundColor: 'black', //ffff
+        // backgroundColor: 'black', //ffff
 
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
         
     smallercontainer: { //all components are inside this smaller container
         flex: 1,
-        backgroundColor: 'pink',
+        // backgroundColor: 'pink',
         padding: 10, 
         margin: 5, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom:10,
-        backgroundColor: 'lightblue',
+        // backgroundColor: 'lightblue',
         zIndex: 1, // Ensure it appears above other content
     },
 
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
     // Outfit Buttons component styles
     outfitsButtonContainer:{ // all outfits buttons AND save button are inside this container
         flex: 1,
-        backgroundColor: 'lightblue',
+        // backgroundColor: 'lightblue',
         padding: 10, 
         margin: 5, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
@@ -575,7 +575,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 17,
         elevation: 2,
-        backgroundColor: 'red', //'#F0F0F0', //'#F194FF', //'#f8f4f4'
+        backgroundColor: '#F0F0F0', //'#F194FF', //'#f8f4f4'
         shadowColor: '#000',
         shadowOffset: {
           width: 0.9,
@@ -586,7 +586,7 @@ const styles = StyleSheet.create({
         // maxHeight:60, 
       },
 
-      textStyle: {
+    OutfitButtonTextStyle: {
         color: '#C100E0', //'white', //'#c404f0' //'#F194FF'
         fontWeight: 'bold',
         textAlign: 'center',

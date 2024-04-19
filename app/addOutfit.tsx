@@ -6,6 +6,25 @@ import React from 'react';
 
 import { Clothe } from '@/classes/clothe';
 import {Picker} from '@react-native-picker/picker';
+import {SafeAreaView} from 'react-native';
+
+
+function nameOfOutfitPlaceholder(){
+    const [number, onChangeNumber] = React.useState('');
+  
+    return(
+      <SafeAreaView>
+        <TextInput
+        style={styles.nameOfOutfitText}
+          onChangeText={onChangeNumber}
+          value={number}
+          placeholder="Name of Outfit"
+          // keyboardType="numeric"
+          placeholderTextColor="black"
+        />
+      </SafeAreaView>
+    );
+  }
 
 
 export default function EditScreen() {
@@ -152,7 +171,8 @@ export default function EditScreen() {
 
         <View style={styles.nameOfOutfitAndButtonsOutsideContainer}>
 
-            <Text style={styles.nameOfOutfitText}>Name of Outfit</Text>
+            {/* <Text style={styles.nameOfOutfitText}>Name of Outfit</Text> */}
+            {nameOfOutfitPlaceholder()}
 
         <View style={styles.saveAndCancelButtonContainer}>
 
@@ -191,7 +211,7 @@ export default function EditScreen() {
 const styles = StyleSheet.create({
     bigContainer: { //all smaller containers are inside this big container
         flex: 1,
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
         
         // alignItems: 'center',
         // justifyContent: 'center',
@@ -200,7 +220,7 @@ const styles = StyleSheet.create({
     smallerContainer:{ //smaller containers
 
         flex: 1,
-        backgroundColor: 'pink',
+        // backgroundColor: 'pink',
         padding: 10, 
         margin: 5, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
@@ -333,7 +353,13 @@ const styles = StyleSheet.create({
         // flexDirection: 'column',
         // minHeight: '10%', 
         // maxWidth: '80%'
-
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0.9,
+        height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4, 
 
         position: 'relative',
         top: 0,
@@ -370,6 +396,7 @@ const styles = StyleSheet.create({
         // minHeight: '50%', 
         // maxWidth: '50%'
         marginVertical: 1,
+        borderRadius: 20, //rounds edges
 
     },
 
