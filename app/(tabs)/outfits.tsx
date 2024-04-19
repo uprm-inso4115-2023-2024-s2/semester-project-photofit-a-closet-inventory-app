@@ -12,9 +12,11 @@ import {Picker} from '@react-native-picker/picker';
 import EditOutfits from '@/app/edit'
 
 /* To Do: 
-- add photos of "outfits" inside the button
 
-- add a widget or function to add buttons automatically on page (after creating outfit in "Make Your Outfit" page)
+Main Outfits Page:
+- add photos of "outfits" inside the button --> access database and get id of outfits desired
+
+Edit Page:
 - fully design edit page: (in figma and for implementation)
     -> include delete icon/feature
     -> include move icon/feature
@@ -22,11 +24,15 @@ import EditOutfits from '@/app/edit'
 - add functionality in Edit Outfit Page: 
     -> eliminate outfits - delete feature
     -> move outfit button - arrange outfits feature
-- continue implementing AddOutfit / Make your Outfit feature:
-  - add a filters search bar: includes three dropdown: Color, Type, Sleeve Size, etc
-  - has photos of their closet / database
 
+Make Your Outfit Page:
+- continue implementing AddOutfit feature:
+  - preview photos of their closet --> connect to database to preview each clothe item
+
+UI Design:
   --see https://www.figma.com/file/ojPtY7fqcm1botgu9QryZf/PhotoFit-UI?type=design&node-id=0-1&mode=design&t=xGQxI8btmzRFtTNz-0
+
+GitHub Issues: 
   -- github Issue #128 for New Outfits UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/128
   and Issue #119 for "Make Your Outfit" UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/119
 
@@ -59,9 +65,7 @@ function addOutfitButton(){
 
     {/* Button */}
       <View style={styles.OutfitButton}> 
-        <Pressable  
-          // onPress={() => setModalVisible(true)}
-          >
+        <Pressable>
             <Text style={styles.OutfitTButtonTextStyle}>Outfit</Text>
         </Pressable>
       </View>
@@ -96,23 +100,6 @@ function searchPlaceHolder(){
 
 export default function TabTwoScreen() {
 
-  // FlatList Components
-  // const outfits = [
-  // { id: 1, name: 'Outfit 1' },
-  // { id: 2, name: 'Outfit 2' },
-  // { id: 3, name: 'Outfit 3' },
-  // // Add more outfits as needed
-  // ];
-  // interface Outfit {
-  //   id: number;
-  //   name: string;
-  // }
-  
-  // const renderItem = ({item }: { item: Outfit }) => (
-  //     <TouchableOpacity style={styles.buttonFlatList}>
-  //       <Text>{item.name}</Text>
-  //     </TouchableOpacity>
-  // );
 
   const [modalVisible, setModalVisible] = useState(false);
   const [isEditScreen, setIsEditScreen] = useState(false);
@@ -134,8 +121,6 @@ export default function TabTwoScreen() {
     // Navigate back to the previous screen or any desired screen
     navigation.goBack();
 };
-
-
 
 
 
