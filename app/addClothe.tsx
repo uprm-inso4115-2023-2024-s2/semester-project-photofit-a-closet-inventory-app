@@ -5,7 +5,8 @@ import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import DefaultClothe from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
-import { Clothe } from '@/classes/clothe';
+import {Clothe} from '@/classes/clothe';
+import {removeNumbersFromEnum} from "@/utils/EnumUtils";
 
 export default function AddClotheScreen() {
     const [clothe] = useState(DefaultClothe());
@@ -44,22 +45,22 @@ export default function AddClotheScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.photoContainer}>
-                <Image style={styles.image} source={{ uri: selectedLink }} />
+                <Image style={styles.image} source={{uri: selectedLink}}/>
                 {/*The URL here should be the URI from the photo capture feature. Simply make the selectedLink variable be the URI and that should make the class get that data*/}
                 <View style={styles.greyBottom}/>
                 <TextInput style={styles.input} placeholder="Type Item Name Here"
-                    onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
-                    />
+                           onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
+                />
             </View>
 
             <View style={styles.filterSquare}>
                 <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
                 <View style={styles.pickerBox}>
                     <Picker style={styles.picker} itemStyle={styles.pick}
-                        selectedValue={selectedType}
-                        onValueChange={(itemValue: Clothe.Type) =>
-                            setSelectedType(itemValue) // Update the selectedType state
-                    }>
+                            selectedValue={selectedType}
+                            onValueChange={(itemValue: Clothe.Type) =>
+                                setSelectedType(itemValue) // Update the selectedType state
+                            }>
                         {removeNumbersFromEnum(Clothe.Type)
                             .map((typeKey) => (
                                 <Picker.Item
@@ -71,10 +72,10 @@ export default function AddClotheScreen() {
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
-                        selectedValue={selectedColor}
-                        onValueChange={(itemValue) =>
-                            setSelectedColor(itemValue)
-                    }>
+                            selectedValue={selectedColor}
+                            onValueChange={(itemValue) =>
+                                setSelectedColor(itemValue)
+                            }>
                         {removeNumbersFromEnum(Clothe.Color)
                             .map((colorKey) => (
                                 <Picker.Item
@@ -86,10 +87,10 @@ export default function AddClotheScreen() {
                     </Picker>
 
                     <Picker style={styles.picker} itemStyle={styles.pick}
-                        selectedValue={selectedSize}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setSelectedSize(itemValue)
-                    }>
+                            selectedValue={selectedSize}
+                            onValueChange={(itemValue, itemIndex) =>
+                                setSelectedSize(itemValue)
+                            }>
                         {removeNumbersFromEnum(Clothe.SleeveSize)
                             .map((sleeveSizeKey) => (
                                 <Picker.Item
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
         height: "100%",
         borderRadius: 20,
         resizeMode: "cover",
-      },
+    },
     greyBottom: {
         backgroundColor: "#D9D9D9",
         position: 'absolute',
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
-      },
+    },
     input: {
         height: "12%",
         width: '70%',
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
 
     filterSquare: {
         backgroundColor: "#D9D9D9",
-        alignItems:"center",
+        alignItems: "center",
         borderRadius: 15,
         ...Platform.select({
             ios: {

@@ -3,6 +3,7 @@ import {Picker} from "@react-native-picker/picker";
 import {Clothe} from "@/classes/clothe";
 import {useState} from "react";
 import {DatabaseController} from "@/classes/DatabaseController";
+import {removeNumbersFromEnum} from "@/utils/EnumUtils";
 
 export default function Filter() {
     // Zero is `None`, thus no filtering should be done. Indices should be subtracted by 1 to get Clothe.Type selected.
