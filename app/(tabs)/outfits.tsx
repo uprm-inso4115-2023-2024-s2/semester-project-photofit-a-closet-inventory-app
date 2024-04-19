@@ -3,6 +3,7 @@ import { Text, View } from '@/components/Themed';
 
 import React, {useState} from 'react';
 import {Alert, Modal, Pressable, FlatList, TouchableOpacity } from 'react-native';
+import {SafeAreaView, TextInput} from 'react-native';
 
 import { Clothe } from '@/classes/clothe';
 import {useNavigation} from "@react-navigation/native";
@@ -35,6 +36,7 @@ import EditOutfits from '@/app/edit'
     - Spaced "Type", "Color", and "Sleeve Size" evenly with their respective pickerboxes
     - Picker boxes are rounded
     - added containers for each major component of each Outfits page, EditOutfitPage page, and Make Your Outfit page
+    - added in place editor for search bar
 
   Done: - Dynamically Fix the position of the filters&search box
     - Fixed it in Main Outfits page, with content scrollable under it
@@ -68,6 +70,26 @@ function addOutfitButton(){
   );
 }
 
+function searchPlaceHolder(){
+  const [number, onChangeNumber] = React.useState('');
+
+  return(
+    <SafeAreaView>
+      <TextInput
+      style={{
+        paddingHorizontal: 5,
+        color:"black", 
+        // fontWeight:'bold'
+      }}
+        onChangeText={onChangeNumber}
+        value={number}
+        placeholder="Search"
+        // keyboardType="numeric"
+        placeholderTextColor="#9f9f9f"
+      />
+    </SafeAreaView>
+  );
+}
 
 
 export default function TabTwoScreen() {
@@ -136,7 +158,9 @@ export default function TabTwoScreen() {
 
         {/* // Search Bar */}
         <View style={styles.searchContainer}>
-          <Text style={styles.searchText}>Search</Text>
+          {/* <Text style={styles.searchText}>Search</Text> */}
+          {searchPlaceHolder()}
+
         </View>
 
         {/* Filter boxes */}

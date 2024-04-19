@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { Clothe } from '@/classes/clothe';
 import {Picker} from '@react-native-picker/picker';
+import {SafeAreaView} from 'react-native';
 
 
 
@@ -90,6 +91,27 @@ function addOutfitButton(){
     );
   }
 
+
+function searchPlaceHolder(){
+const [number, onChangeNumber] = React.useState('');
+
+return(
+    <SafeAreaView>
+    <TextInput
+    style={{
+        paddingHorizontal: 5,
+        color:"black", 
+        // fontWeight:'bold'
+    }}
+        onChangeText={onChangeNumber}
+        value={number}
+        placeholder="Search"
+        // keyboardType="numeric"
+        placeholderTextColor="#9f9f9f"
+    />
+    </SafeAreaView>
+);
+}
   
 export default function EditOutfits() {
 
@@ -133,24 +155,9 @@ export default function EditOutfits() {
     const colorKeys = Object.keys(Clothe.Color).filter(key => isNaN(Number(key)));
     const sleeveSizeKeys = Object.keys(Clothe.SleeveSize).filter(key => isNaN(Number(key)));
   
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
     return (
 
-
-        
         <View style={styles.bigcontainer}> {/* bigger container */}
 
 
@@ -168,7 +175,8 @@ export default function EditOutfits() {
 
         {/* // Search Bar */}
         <View style={styles.searchContainer}>
-        <Text style={styles.searchText}>Search</Text>
+        {/* <Text style={styles.searchText}>Search</Text> */}
+        {searchPlaceHolder()}
 
         </View>
 
