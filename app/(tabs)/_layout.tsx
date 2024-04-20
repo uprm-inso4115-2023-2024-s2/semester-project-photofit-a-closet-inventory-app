@@ -92,7 +92,7 @@ export default function TabLayout() {
             />
 
             <Tabs.Screen
-                name="three"
+                name="closet"
                 options={{
                     title: 'Closet',
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name="hanger" size={24} color={color}/>,
