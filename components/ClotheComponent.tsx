@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text, View} from './Themed';
 import {Clothe} from "@/classes/clothe";
 
@@ -16,7 +16,9 @@ export default function ClotheComponent({clothe}: { clothe: Clothe }) {
 
                 <View style={styles.clotheBottomText}>
                     <Text style={styles.name}>{clothe.name}</Text>
-                    <Text style={styles.description}>{clothe.description}</Text>
+                    <TouchableOpacity style={styles.editButton} >
+                        <Text style={styles.editButtonText}>Edit</Text>
+                    </TouchableOpacity>
                 </View>
 
             </View>
@@ -33,24 +35,38 @@ const styles = StyleSheet.create({
         marginTop: -10,
         width: 300,
         height: 400,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "black",
+        borderRadius: 20,
+        
     },
     clothePicture: {
         width: '100%',
         height: '80%',
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
     },
     clotheBottomText: {
         height: '20%',
-        justifyContent: 'center',
+        backgroundColor: "#D9D9D9",
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Align items horizontally
+        alignItems: 'center', // Center items vertically
     },
     name: {
-        fontSize: 20,
+        padding: 15,
+        fontSize: 17,
         marginLeft: 5,
+        fontWeight: "bold",
     },
-    description: {
-        fontSize: 15,
-        marginLeft: 10,
-    }
+    editButton: {
+        backgroundColor: '#C100E0',
+        padding: 10,
+        borderRadius: 5,
+        margin: 15
+    },
+    editButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    },
 });

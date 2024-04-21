@@ -43,8 +43,10 @@ export default function TabThreeScreen() {
 
     if (clothes.length === 0) {
         return (
-            <View style={{flex: 1, alignItems: "center"}}>
-                <Text>No clothes saved</Text>
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: "10%" }}>
+                <Text style={{ fontSize: 20, textAlign: "center" , fontWeight: "500" }}>
+                    No clothes saved at the moment. Press the "+" button on the right corner to start adding items to your closet!
+                </Text>
             </View>
         )
     }
@@ -95,15 +97,21 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginTop: 10,
         flexDirection: "row",
+        height: "7%",
+        justifyContent: "space-between",
+        width: "80%",
     },
     button: {
-        padding: 10,
-        marginHorizontal: 10,
-        backgroundColor: 'lightblue',
-        borderRadius: 5,
+        backgroundColor: '#C100E0',
+        width: "45%",
+        height: "100%",
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",  
     },
     buttonText: {
-        fontSize: 16,
-        fontWeight: "bold",
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 15,
     },
 });
