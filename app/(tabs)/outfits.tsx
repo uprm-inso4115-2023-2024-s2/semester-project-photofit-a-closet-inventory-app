@@ -1,6 +1,5 @@
-import { ScrollView, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, StyleSheet, View} from 'react-native';
 import React from 'react';
-import OutfitComponent from "@/components/outfitWidget"; // Import the OutfitComponent
 
 export default function TabTwoScreen() {
   return (
@@ -11,18 +10,8 @@ export default function TabTwoScreen() {
           {/* Render the outfitComponents inside ScrollView */}
           {/* Include the OutfitComponent with the outfit prop, it's commented because the outfit constant is not implemented. */}
           {/* <OutfitComponent outfit={outfit} /> */}
-
-          {/* <OutfitComponent />
-          <OutfitComponent />
-          <OutfitComponent />
-          <OutfitComponent />
-          <OutfitComponent />
-          <OutfitComponent />
-          <OutfitComponent />
-          <OutfitComponent />
-          <OutfitComponent /> */}
          
-          {/* Add more outfitComponents as needed */}
+          {/* Add more outfitComponents as needed, import with  import OutfitComponent from "@/components/outfitWidget"; */}
         </View>
       </ScrollView>
     </View>
