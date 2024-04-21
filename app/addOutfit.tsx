@@ -1,4 +1,4 @@
-import {Button, Pressable, Text, StyleSheet, Alert, TextInput, ScrollView} from 'react-native';
+import {Button, Pressable, Text, StyleSheet, Alert, TextInput, ScrollView, Platform} from 'react-native';
 import {View} from '@/components/Themed';
 import {useState} from "react";
 import {useNavigation} from "@react-navigation/native";
@@ -64,22 +64,30 @@ export default function EditScreen() {
 
 
         {/* Filter Box */}
-        <View style={styles.filtersOutsideContainer}>
+        <View style={styles.fixedContainer}>
             
             {/* add "Filters" title */}
             <View style={styles.filterTitle}>  
                 <Text style={styles.filterTitleText}>Filters</Text>
             </View>
 
+            <View style={styles.filterTextContainer}>              
+              <Text style={styles.filterText}>Type</Text>
+              <Text style={styles.filterText}>Color</Text>
+              <Text style={styles.filterText}>Sleeve Size</Text>
+
+            </View>
+
             {/* add filter dropdowns */}
             <View style={styles.pickerBox}>
 
-                <View style={styles.filterContainer}>  
-                <Text style={styles.filterText}>Type</Text>
+                {/* <View style={styles.filterContainer}>   */}
+                {/* <Text style={styles.filterText}>Type</Text> */}
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedType} 
                         onValueChange={(itemValue: Clothe.Type) => 
-                            setSelectedType(itemValue) // Update the selectedType state 
+                            setSelectedType(itemValue) 
+                            // Update the selectedType state 
                     }>
                     {typeKeys.map((typeKey) => (
                         <Picker.Item
@@ -89,12 +97,12 @@ export default function EditScreen() {
                         />
                         ))}
                     </Picker>
-                </View>
+                {/* </View> */}
 
 
 
-                <View style={styles.filterContainer}>  
-                    <Text style={styles.filterText}>Color</Text>
+                {/* <View style={styles.filterContainer}>   */}
+                    {/* <Text style={styles.filterText}>Color</Text> */}
                         <Picker style={styles.picker} itemStyle={styles.pick}
                             selectedValue={selectedColor} 
                             onValueChange={(itemValue) => 
@@ -108,12 +116,12 @@ export default function EditScreen() {
                                 />
                             ))}
                         </Picker>
-                </View>
+                {/* </View> */}
 
 
 
-                <View style={styles.filterContainer}>  
-                    <Text style={styles.filterText}>Sleeve Size</Text>
+                {/* <View style={styles.filterContainer}>   */}
+                    {/* <Text style={styles.filterText}>Sleeve Size</Text> */}
                         <Picker style={styles.picker} itemStyle={styles.pick}
                             selectedValue={selectedSize}
                             onValueChange={(itemValue, itemIndex) => 
@@ -127,11 +135,13 @@ export default function EditScreen() {
                                 />
                             ))}
                         </Picker>
-                </View>
+                {/* </View> */}
 
-                </View> {/* filterbox with dropdowns end*/}
+                </View> 
+                {/* filterbox with dropdowns end*/}
 
-        </View> {/* Outside Filter Container ends */}
+        </View> 
+        {/* Outside Filter Container ends */}
 
 
 
@@ -163,13 +173,17 @@ export default function EditScreen() {
                 <Text>HIIIIII</Text>
                 <Text>HIIIIII</Text>
                 <Text>HIIIIII</Text>
+                <Text>Last HIIIIII</Text>
 
             </ScrollView>
-        
+        </View> 
+        {/* preview outfits container end */}   
+
+
+
         {/* Name of Outfit & Save */}
-
-
-        <View style={styles.nameOfOutfitAndButtonsOutsideContainer}>
+        {/* <View style={styles.nameOfOutfitAndButtonsOutsideContainer}> */}
+        <View style={[styles.nameOfOutfitAndButtonsOutsideContainer, Platform.OS === 'ios' ? styles.iosBottom : styles.androidBottom]}>
 
             {/* <Text style={styles.nameOfOutfitText}>Name of Outfit</Text> */}
             {nameOfOutfitPlaceholder()}
@@ -192,17 +206,21 @@ export default function EditScreen() {
                     </Pressable>
                 </View>
 
-         </View> {/* Save & Cancel Button container end */}
-         </View> {/* smaller container with Name of Outfit, Save and Cancel Buttons*/}
-
-        </View> {/* preview outfits container end */}
-
-        </View> {/* smaller container with Filter Box + Outfit Clothe Preview + Save & Cancel Button */}
+         </View> 
+         {/* Save & Cancel Button container end */}
+         </View> 
+         {/* smaller container with Name of Outfit, Save and Cancel Buttons*/}
 
 
 
+        </View> 
+        {/* smaller container with Filter Box + Outfit Clothe Preview + Save & Cancel Button */}
 
-        </View> // bigger container
+
+
+
+        </View> 
+        // bigger container
 
         
     );
@@ -227,15 +245,21 @@ const styles = StyleSheet.create({
         marginBottom:1
     },
 
-    filtersOutsideContainer: { //Filter Title and filters are inside this container
+    fixedContainer: { //Filter Title and filters are inside this fixed container
         backgroundColor: "#F0F0F0",
         // alignItems: 'center',
         alignContent: 'space-between',
         justifyContent: 'space-evenly',
-        borderRadius: 20,
+        borderRadius: 20, //rounds edges
         margin:10,
         padding: 10,
         marginTop:1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1, // Ensure it appears above other content
+
         shadowColor: '#000',
         shadowOffset: {
         width: 0.9,
@@ -243,23 +267,32 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4, 
+        elevation:2, 
     },
     
     outfitsContainer:{ //container that previews the outfits
         flex: 1,
-        backgroundColor: 'white',
-        padding: 25, 
+        // backgroundColor: 'pink',
         margin: 10, //margin of the square - how big is it
-        borderRadius: 20, //rounds edges
+        // borderRadius: 20, //rounds edges
         paddingHorizontal:10,
-        paddingVertical: 10,
-        // justifyContent:'flex-end',
-        // alignContent:'flex-end',
-        // flexDirection: 'column',
-        // minHeight: '55%', 
-        // maxWidth: '80%',
-        top:-10,
-        marginBottom:-10
+        paddingVertical: 5,
+        
+        maxHeight: 350,
+        marginTop: 75,
+        marginBottom: 120,
+
+        ...Platform.select({
+            // ios: {
+            //     height: "20%",
+            //     width: "95%",
+            // },
+            android: {
+                // height: "120%",
+                width: "94%",
+                top:'7%'
+            },
+        }),
         
     },
 
@@ -278,7 +311,25 @@ const styles = StyleSheet.create({
       filterTitleText:{
         fontWeight:'bold'
       },
-
+      filterTextContainer:{
+        flexDirection:'row', 
+        justifyContent:'space-evenly', 
+        backgroundColor: "#F0F0F0", 
+        left:5,
+        ...Platform.select({
+          ios: {
+              width: "33%",
+              bottom: 55,
+          },
+          android: {
+              width: "100%",
+              height: "25%",
+              top: 7,
+              left: 0,
+          },
+        }),
+      
+      },
       filterText: { //styling for *text* on top of filter dropdowns
         // paddingTop: 10,
         paddingHorizontal: 10,
@@ -291,43 +342,41 @@ const styles = StyleSheet.create({
           justifyContent: 'space-evenly',
           height: "45%",
           backgroundColor: 'rgba(52, 52, 52, 0)',     
-      },
+          ...Platform.select({
+            ios: {
+                width: "33%",
+                bottom: 55,
+            },
+            android: {
+                width: "100%",
+                height: "55%",
+                bottom: 0,
+            },
+        }), 
+        },
       picker: { // picker outside design
           borderColor: 'black',
           borderRadius: 10,
-          // ...Platform.select({
-          //     ios: {
-          //         width: "33%",
-          //         bottom: 55,
-          //     },
-          //     android: {
-          //         width: "35%",
-          //         height: "25%",
-          //         bottom: 0,
-          //     },
-          // }),
+          ...Platform.select({
+            ios: {
+                width: "33%",
+                bottom: 55,
+            },
+            android: {
+                width: "40%",
+                height: "55%",
+                bottom: 0,
+            },
+        }),
       },
       pick: { // picker design once an item is picked??? Honestly no idea
           fontSize: 15,
-          // ...Platform.select({
-          //     ios: {fontSize: 15},
-          //     android: {fontSize: 0,},
-          // }),
+          ...Platform.select({
+              ios: {fontSize: 15},
+              android: {fontSize: 0,},
+          }),
           
       },
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -345,7 +394,6 @@ const styles = StyleSheet.create({
         // flex: 1,
         // padding: 25, 
         // margin: 10, //margin of the square - how big is it
-        borderRadius: 20, //rounds edges
         // paddingHorizontal:10,
         // paddingVertical: 10,
         // justifyContent:'flex-end',
@@ -353,6 +401,18 @@ const styles = StyleSheet.create({
         // flexDirection: 'column',
         // minHeight: '10%', 
         // maxWidth: '80%'
+
+
+        position: 'absolute',
+        // top: 0,
+        bottom:10,
+        left: 10,
+        right: 0,
+        borderRadius: 20, //rounds edges
+        paddingTop:10,
+        backgroundColor: '#F0F0F0',
+        zIndex: 1, // Ensure it appears above other content
+        
         shadowColor: '#000',
         shadowOffset: {
         width: 0.9,
@@ -360,18 +420,28 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4, 
+        elevation:2,
 
-        position: 'relative',
-        top: 0,
-        left: 0,
-        right: 0,
-        // bottom:10,
-        marginHorizontal:-19,
-        paddingTop:10,
-        backgroundColor: '#F0F0F0',
-        zIndex: 1, // Ensure it appears above other content
-        
+        ...Platform.select({
+            // ios: {
+            //     height: "20%",
+            //     width: "95%",
+            // },
+            android: {
+                height: "20%",
+                width: "100%",
+            },
+        }),
     },
+
+    iosBottom: {
+        paddingBottom: 30, // Adjust as needed for iOS bottom safe area
+      },
+      androidBottom: {
+        marginBottom: 20, // Adjust as needed for Android bottom navigation bar height
+      },
+
+
     nameOfOutfitText:{
         alignItems:'center',
         // flex: 1,

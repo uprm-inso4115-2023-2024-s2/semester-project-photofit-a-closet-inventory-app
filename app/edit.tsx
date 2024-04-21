@@ -1,4 +1,4 @@
-import {Button, Pressable, Text, StyleSheet, Alert, TextInput, ScrollView} from 'react-native';
+import {Button, Pressable, Text, StyleSheet, Alert, TextInput, ScrollView, Platform, KeyboardAvoidingView} from 'react-native';
 import {View} from '@/components/Themed';
 import {useNavigation} from "@react-navigation/native";
 import { MaterialIcons } from '@expo/vector-icons'; // Import icons from Expo vector icons
@@ -158,105 +158,107 @@ export default function EditOutfits() {
 
     return (
 
-        <View style={styles.bigcontainer}> {/* bigger container */}
-
-
-            <View style={styles.smallercontainer}> {/* smaller container with both filter box + outfits buttons and save button */}
-
-
-            <View style={styles.fixedContainer}> 
-      {/* Search & Filter container is inside this Fixed container */}
-
-
-
-        {/* Search & Filter box*/}
-
-        <View style={styles.searchAndFilter}>
-
-        {/* // Search Bar */}
-        <View style={styles.searchContainer}>
-        {/* <Text style={styles.searchText}>Search</Text> */}
-        {searchPlaceHolder()}
-
-        </View>
-
-
-        {/* Filter boxes */}
-
-        <View style={styles.pickerBox}>
-
-            <View style={styles.filterContainer}>  
-              <Text style={styles.filterText}>Type</Text>
-                  <Picker style={styles.picker} itemStyle={styles.pick}
-                      selectedValue={selectedType} 
-                      onValueChange={(itemValue: Clothe.Type) => 
-                          setSelectedType(itemValue) // Update the selectedType state 
-                  }>
-                  {typeKeys.map((typeKey) => (
-                      <Picker.Item
-                          key={typeKey}
-                          label={typeKey}
-                          value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
-                      />
-                      ))}
-                  </Picker>
-            </View>
-
-
-
-            <View style={styles.filterContainer}>  
-                <Text style={styles.filterText}>Color</Text>
-                    <Picker style={styles.picker} itemStyle={styles.pick}
-                        selectedValue={selectedColor} 
-                        onValueChange={(itemValue) => 
-                            setSelectedColor(itemValue)
-                        }>
-                        {colorKeys.map((colorKey) => (
-                            <Picker.Item
-                                key={colorKey}
-                                label={colorKey}
-                                value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
-                            />
-                        ))}
-                    </Picker>
-            </View>
-
-
-
-            <View style={styles.filterContainer}>  
-                <Text style={styles.filterText}>Sleeve Size</Text>
-                    <Picker style={styles.picker} itemStyle={styles.pick}
-                        selectedValue={selectedSize}
-                        onValueChange={(itemValue, itemIndex) => 
-                            setSelectedSize(itemValue)
-                        }>
-                        {sleeveSizeKeys.map((sleeveSizeKey) => (
-                            <Picker.Item
-                                key={sleeveSizeKey}
-                                label={sleeveSizeKey}
-                                value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
-                            />
-                        ))}
-                    </Picker>
-              </View>
-
-            </View> {/* filterbox end*/}
+        <View style={styles.bigcontainer}> 
+        {/* bigger container */}
         
-        </View> {/* searchAndFilter end*/}
+
+        <View style={styles.fixedContainer}> 
+        {/* Search & Filter container is inside this Fixed container */}
+
+            {/* Search & Filter box*/}
+            <View style={styles.searchAndFilter}>
+
+            {/* Search Bar */}
+            <View style={styles.searchContainer}>
+                {/* <Text style={styles.searchText}>Search</Text> */}
+                {searchPlaceHolder()}
+
+            </View>
+                <View style={styles.filterTextContainer}>              
+                    <Text style={styles.filterText}>Type</Text>
+                    <Text style={styles.filterText}>Color</Text>
+                    <Text style={styles.filterText}>Sleeve Size</Text>
+
+                </View>
+            {/* Filter boxes */}
+            <View style={styles.pickerBox}>
+
+                {/* <View style={styles.filterContainer}>   */}
+
+                        <Picker style={styles.picker} itemStyle={styles.pick}
+                            selectedValue={selectedType} 
+                            onValueChange={(itemValue: Clothe.Type) => 
+                                setSelectedType(itemValue) // Update the selectedType state 
+                        }>
+                        {typeKeys.map((typeKey) => (
+                            <Picker.Item
+                                key={typeKey}
+                                label={typeKey}
+                                value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
+                            />
+                            ))}
+                        </Picker>
+                {/* </View> */}
 
 
 
-        </View> {/* Fixed Container view */}
+                {/* <View style={styles.filterContainer}>   */}
+                    {/* <Text style={styles.filterText}>Color</Text> */}
+                        <Picker style={styles.picker} itemStyle={styles.pick}
+                            selectedValue={selectedColor} 
+                            onValueChange={(itemValue) => 
+                                setSelectedColor(itemValue)
+                            }>
+                            {colorKeys.map((colorKey) => (
+                                <Picker.Item
+                                    key={colorKey}
+                                    label={colorKey}
+                                    value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
+                                />
+                            ))}
+                        </Picker>
+                {/* </View> */}
+
+
+
+                {/* <View style={styles.filterContainer}>   */}
+                    {/* <Text style={styles.filterText}>Sleeve Size</Text> */}
+                        <Picker style={styles.picker} itemStyle={styles.pick}
+                            selectedValue={selectedSize}
+                            onValueChange={(itemValue, itemIndex) => 
+                                setSelectedSize(itemValue)
+                            }>
+                            {sleeveSizeKeys.map((sleeveSizeKey) => (
+                                <Picker.Item
+                                    key={sleeveSizeKey}
+                                    label={sleeveSizeKey}
+                                    value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
+                                />
+                            ))}
+                        </Picker>
+                    {/* </View> */}
+
+                </View> 
+                {/* filterbox end*/}
+            
+            </View> 
+            {/* searchAndFilter end*/}
+
+
+            </View> 
+            {/* Fixed Container view */}
 
 
 
 
 
+            <View style={styles.smallercontainer}> 
+            {/* smaller container with both filter box + outfits buttons and save button */}
 
-                        
-
-        <View style={styles.outfitsButtonContainer}> {/* container with outfits buttons & save button */}
         <ScrollView>
+
+        <View style={styles.outfitsButtonContainer}> 
+        {/* container with outfits buttons & save button */}
 
 
         {/* First Button without separator */}
@@ -325,8 +327,8 @@ export default function EditOutfits() {
         {/* Button */}
         {addOutfitButton()}
 
-        {/* Button
-        {addOutfitButton()}        */}
+        {/* Button */}
+        {addOutfitButton()}       
  
 
 
@@ -356,19 +358,23 @@ export default function EditOutfits() {
                 </View>
 
 
-        </View> {/* Save Button Container */}        
-        
-        </ScrollView>
-
-        </View> {/* smaller container with Outfits Buttons & Save Button*/}
-        
+        </View> 
+        {/* Save Button Container */}        
         
 
-        </View> {/* smaller container with Filter Box + Outfit Buttons and Save Button*/}
+        </View> 
+        {/* smaller container with Outfits Buttons & Save Button*/}
+        
+                </ScrollView>
+
+
+        </View> 
+        {/* smaller container with Filter Box + Outfit Buttons and Save Button*/}
 
 
 
-        </View> //{/* bigger container */}
+        </View> 
+        //{/* bigger container */}
         
         
     );
@@ -393,30 +399,43 @@ const styles = StyleSheet.create({
         padding: 10, 
         margin: 5, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
-        // marginHorizontal: 10
-
-        // alignItems: 'center', //shortens length of button to center
-        // justifyContent: 'center', //centers buttons in the container (horizontally)
-        // marginTop: 10,
-        // flexDirection: 'column',
-        // flexWrap: 'wrap',
-        // width: '100%',
-        // height:'20%',
-        // marginVertical: 10,
-        },
+        top:100,
+        marginBottom:110,
+        zIndex: 1, // Ensure it appears above other content
+        ...Platform.select({
+          ios: {
+              width: "95%",
+              top:120
+          },
+          android: {
+              width: "95%",
+              top:120,
+          },
+      }),
+    },
 
 
 
     // Search components styles
-
     fixedContainer: {
-        position: 'relative',
+        position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        bottom:10,
+        // bottom:10, //Nope, covers the whole page
         // backgroundColor: 'lightblue',
-        zIndex: 1, // Ensure it appears above other content
+        // zIndex: 1, // Ensure it appears above other content
+        ...Platform.select({
+          ios: {
+              height: "20%",
+              width: "95%",
+          },
+          android: {
+              height: "27%",
+              width: "100%",
+              // top:5
+          },
+      }),
     },
 
     searchContainer:{  //search bar is inside this container
@@ -441,24 +460,26 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         margin:10,
         padding: 10,
-        marginTop:1,
+        // marginTop:1,
+        elevation: 2, 
         shadowColor: '#000',
         shadowOffset: {
-        width: 0.9,
-        height: 3,
+          width: 0.9,
+          height: 3,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4, 
-        // ...Platform.select({
-        //     ios: {
-        //         height: "20%",
-        //         width: "77%",
-        //     },
-        //     android: {
-        //         height: "15%",
-        //         width: "90%",
-        //     },
-        // }),
+        ...Platform.select({
+            ios: {
+                height: "20%",
+                width: "77%",
+            },
+            android: {
+                height: "60%",
+                width: "95%",
+                // top:5
+            },
+        }),
     },
 
     filterContainer:{  //filterbox and text label are inside this container
@@ -467,6 +488,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#F0F0F0'
     
     },
+
+    filterTextContainer:{
+        flexDirection:'row', 
+        justifyContent:'space-evenly', 
+        backgroundColor: "#F0F0F0", 
+        left:5,
+        ...Platform.select({
+          ios: {
+              width: "33%",
+              bottom: 55,
+          },
+          android: {
+              width: "100%",
+              height: "25%",
+              top: 7,
+              left: 0,
+          },
+        }),
+      
+      },
 
     filterText: { //styling for *text* on top of filter dropdowns
     // paddingTop: 10,
@@ -478,30 +519,43 @@ const styles = StyleSheet.create({
     pickerBox: { //container where pickers are located
         flexDirection: "row",
         justifyContent: 'space-evenly',
+        // flex:1,
         height: "45%",
-        backgroundColor: 'rgba(52, 52, 52, 0)',     
+        backgroundColor:  'rgba(52, 52, 52, 0)', //'lightblue',
+        ...Platform.select({
+          ios: {
+              width: "33%",
+              bottom: 55,
+          },
+          android: {
+              width: "100%",
+              height: "55%",
+              bottom: 0,
+          },
+      }),     
     },
     picker: { // picker outside design
         borderColor: 'black',
         borderRadius: 10,
-        // ...Platform.select({
-        //     ios: {
-        //         width: "33%",
-        //         bottom: 55,
-        //     },
-        //     android: {
-        //         width: "35%",
-        //         height: "25%",
-        //         bottom: 0,
-        //     },
-        // }),
+
+        ...Platform.select({
+            ios: {
+                width: "33%",
+                bottom: 55,
+            },
+            android: {
+                width: "40%",
+                height: "55%",
+                bottom: 0,
+            },
+        }),
     },
     pick: { // picker design once an item is picked??? Honestly no idea
         fontSize: 15,
-        // ...Platform.select({
-        //     ios: {fontSize: 15},
-        //     android: {fontSize: 0,},
-        // }),
+        ...Platform.select({
+            ios: {fontSize: 15},
+            android: {fontSize: 0,},
+        }),
         
     },
 
@@ -546,19 +600,24 @@ const styles = StyleSheet.create({
         padding: 10, 
         margin: 5, //margin of the square - how big is it
         borderRadius: 20, //rounds edges
+        // marginBottom:120,
+        // top:100,
+        // zIndex: 1, // Ensure it appears above other content
+        // maxHeight:480,
+        // paddingBottom: 100,
+        ...Platform.select({
+          ios: {
+              height: "50%",
+              width: "95%",
+          },
+          android: {
+              height: "70%",
+              width: "95%",
+              
+          },
+      }),
     },
-    buttonContainer:{
-        flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        flexDirection: 'row',
-        // flexWrap: 'wrap',
-        // backgroundColor: 'black',
-        margin: 10, //margin of the square - how big is it
-        justifyContent:'flex-end',
-        marginHorizontal:10,
-    
-    },
+
 
     separator: { //added this to separate each button a smidge, is added just before a new button
         marginVertical: 10,
@@ -593,7 +652,19 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
       },
 
-
+    // Cancel & Save Buttons
+    buttonContainer:{
+        flex: 1,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        flexDirection: 'row',
+        // flexWrap: 'wrap',
+        // backgroundColor: 'black',
+        margin: 10, //margin of the square - how big is it
+        justifyContent:'flex-end',
+        marginHorizontal:10,
+    
+    },
     cancelButton: {
         borderRadius: 10,
         padding: 10,

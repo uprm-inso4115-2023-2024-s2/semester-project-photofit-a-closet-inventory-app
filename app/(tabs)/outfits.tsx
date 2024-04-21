@@ -1,4 +1,4 @@
-import { Button, ScrollView, StyleSheet } from 'react-native';
+import { Button, ScrollView, StyleSheet, Platform, Dimensions} from 'react-native';
 import { Text, View } from '@/components/Themed';
 
 import React, {useState} from 'react';
@@ -10,6 +10,7 @@ import {useNavigation} from "@react-navigation/native";
 import {Picker} from '@react-native-picker/picker';
 
 import EditOutfits from '@/app/edit'
+import { BottomSheet } from 'react-native-elements';
 
 /* To Do: 
 
@@ -51,6 +52,26 @@ GitHub Issues:
 
   - Changed colors back to PhotoFit palette
   - Added an in place editor for "Name of Outfit" save box
+  
+  Done: Figure out why it didn't render in android expo. It was because of the comments 
+  i made just after a <View> component, react took them like text and wanted them to be 
+  commented (Honestly I don't know). The fix was to put the comments under or over the 
+  <View> component, like this:
+
+  <View> //some code here </View>
+  {* some comment here *} <-- like this
+  
+  ** Fixed it for Main Outfits page, Edit Page, and Make Your Outfit page **
+  
+
+  Done: Fix styling of Outfits pages in Android devices
+  - Fixed Main Outfits Page
+  - Fixed Edit page
+  - Fixed Make Your Outfit page
+  Question: Instead on "Unknown" variable in the enum of clothe.ts, can it be the title of filter it 
+  belongs to? Ej. Type would be [Type] instead of 
+                                                      Type
+                                                    [Unknown]
   
 */
 
@@ -100,12 +121,6 @@ function searchPlaceHolder(){
 
 export default function TabTwoScreen() {
 
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [isEditScreen, setIsEditScreen] = useState(false);
-
-
-
   const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
   const [selectedColor, setSelectedColor] = useState(Clothe.Color.Unknown); // Default value
   const [selectedSize, setSelectedSize] = useState(Clothe.SleeveSize.Unknown); // Default value
@@ -120,41 +135,40 @@ export default function TabTwoScreen() {
   const handleCancel = () => {
     // Navigate back to the previous screen or any desired screen
     navigation.goBack();
-};
+  };
 
-
-
+  const screenWidth = Dimensions.get('window').width;
+  const pickerWidth = screenWidth / 3; // Assuming you have 3 Pickers
 
   return (
 
+    <View style={styles.bigContainer}>
+    {/* Bigger Container */}
 
 
-    <View style={styles.bigContainer}>{/* Bigger Container */}
-      {isEditScreen ? (
-        <EditOutfits />
-      ) : (
-
-
-    <View style={styles.smallerContainer}> {/* All components are inside this smaller container */}
-
-      <View style={styles.fixedContainer}> 
+    <View style={styles.fixedContainer}> 
       {/* Search & Filter container is inside this Fixed container */}
 
         {/* Search & Filter box*/}
         <View style={styles.searchAndFilter}>
 
-        {/* // Search Bar */}
+        {/* Search Bar */}
         <View style={styles.searchContainer}>
           {/* <Text style={styles.searchText}>Search</Text> */}
           {searchPlaceHolder()}
 
         </View>
+            <View style={styles.filterTextContainer}>              
+              <Text style={styles.filterText}>Type</Text>
+              <Text style={styles.filterText}>Color</Text>
+              <Text style={styles.filterText}>Sleeve Size</Text>
 
+            </View>
         {/* Filter boxes */}
         <View style={styles.pickerBox}>
 
-            <View style={styles.filterContainer}>  
-              <Text style={styles.filterText}>Type</Text>
+            {/* <View style={styles.filterContainer}>   */}
+
                   <Picker style={styles.picker} itemStyle={styles.pick}
                       selectedValue={selectedType} 
                       onValueChange={(itemValue: Clothe.Type) => 
@@ -168,12 +182,12 @@ export default function TabTwoScreen() {
                       />
                       ))}
                   </Picker>
-            </View>
+            {/* </View> */}
 
 
 
-            <View style={styles.filterContainer}>  
-                <Text style={styles.filterText}>Color</Text>
+            {/* <View style={styles.filterContainer}>   */}
+                {/* <Text style={styles.filterText}>Color</Text> */}
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedColor} 
                         onValueChange={(itemValue) => 
@@ -187,12 +201,12 @@ export default function TabTwoScreen() {
                             />
                         ))}
                     </Picker>
-            </View>
+            {/* </View> */}
 
 
 
-            <View style={styles.filterContainer}>  
-                <Text style={styles.filterText}>Sleeve Size</Text>
+            {/* <View style={styles.filterContainer}>   */}
+                {/* <Text style={styles.filterText}>Sleeve Size</Text> */}
                     <Picker style={styles.picker} itemStyle={styles.pick}
                         selectedValue={selectedSize}
                         onValueChange={(itemValue, itemIndex) => 
@@ -206,29 +220,31 @@ export default function TabTwoScreen() {
                             />
                         ))}
                     </Picker>
-              </View>
+              {/* </View> */}
 
-            </View> {/* filterbox end*/}
+            </View> 
+            {/* filterbox end*/}
         
-        </View> {/* searchAndFilter end*/}
+        </View> 
+        {/* searchAndFilter end*/}
 
 
 
-      </View> {/* Fixed Container view */}
+      </View> 
+      {/* Fixed Container view */}
 
 
 
-    {/* FlatList */}
-      {/* <View style={styles.container2}>
-      <FlatList
-        data={outfits}
-        renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
-        numColumns={2} // Adjust the number of columns as needed
-      />
-      </View> */}
 
-    <ScrollView>
+
+    <View style={styles.smallerContainer}> 
+    {/* All components are inside this smaller container */}
+
+
+
+
+
+      <ScrollView>
 
       {/* Outfit Buttons */}
       <View style={styles.outfitsButtonContainer}> 
@@ -240,9 +256,10 @@ export default function TabTwoScreen() {
 
         {/* Button */}
         <View style={styles.OutfitButton}> 
-            <Pressable  // onPress={() => setModalVisible(true)}
+            <Pressable  
+            // onPress={() => setModalVisible(true)}
             >
-                <Text style={styles.OutfitTButtonTextStyle}>Outfit</Text>
+                <Text style={styles.OutfitTButtonTextStyle}>OutfitButton1</Text>
             </Pressable>
             
         </View>
@@ -263,22 +280,30 @@ export default function TabTwoScreen() {
         {/* Button */}
         {addOutfitButton()}
 
+        {/* Button */}
+        {addOutfitButton()}
+
+        {/* Button */}
+        {addOutfitButton()}
+
+        {/* Button */}
+        {addOutfitButton()}
+
 
       </View>
-    </ScrollView>
+
+      </ScrollView>
 
 
+    </View> 
+    {/* smaller container */}
 
 
-   
-    </View> //{/* smaller container */}
-
-    )} {/* if isEditScreen true finishing ")}" */}
-    </View>    //{/* bigger container */}
-    
+    </View> 
+    //{/* bigger container */}
 
   );
-};
+}
 
 
 
@@ -288,12 +313,6 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: 'black', //ffff
 
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // flexDirection: 'column',
-    // flexWrap: 'wrap',
-    // width: '100%',
-    // marginVertical: 20,
   },
     
   smallerContainer: { //all buttons are inside this smaller container
@@ -302,25 +321,41 @@ const styles = StyleSheet.create({
     padding: 10, 
     margin: 5, //margin of the square - how big is it
     borderRadius: 20, //rounds edges
+    top:100,
+    marginBottom:100,
+    zIndex: 1, // Ensure it appears above other content
+    ...Platform.select({
+      ios: {
+          width: "95%",
+          top:120
+      },
+      android: {
+          width: "95%",
+          top:120,
+      },
+  }),
 
-    // alignItems: 'center', //shortens length of button to center
-    // justifyContent: 'center', //centers buttons in the container (horizontally)
-    // marginTop: 10,
-    // flexDirection: 'column',
-    // flexWrap: 'wrap',
-    // width: '100%',
-    // height:'20%',
-    // marginVertical: 10,
   },
 
   fixedContainer: {
-    position: 'relative',
+    position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom:10,
+    // bottom:10, //Nope, covers the whole page
     // backgroundColor: 'lightblue',
-    zIndex: 1, // Ensure it appears above other content
+    // zIndex: 1, // Ensure it appears above other content
+    ...Platform.select({
+      ios: {
+          height: "20%",
+          width: "95%",
+      },
+      android: {
+          height: "25%",
+          width: "100%",
+          // top:5
+      },
+  }),
   },
 
   searchContainer:{  //search bar is inside this container
@@ -345,7 +380,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin:10,
     padding: 10,
-    marginTop:1,
+    marginTop:10,
+    elevation:2,
+
     shadowColor: '#000',
     shadowOffset: {
       width: 0.9,
@@ -353,23 +390,46 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4, 
-    // ...Platform.select({
-    //     ios: {
-    //         height: "20%",
-    //         width: "77%",
-    //     },
-    //     android: {
-    //         height: "15%",
-    //         width: "90%",
-    //     },
-    // }),
+    ...Platform.select({
+        ios: {
+            height: "20%",
+            width: "77%",
+        },
+        android: {
+            height: "70%",
+            width: "95%",
+            // top:5
+        },
+    }),
 },
 
 filterContainer:{  //filterbox and text label are inside this container
-  alignItems: 'center',
-  flexDirection: 'column',
-  backgroundColor: '#F0F0F0'
+  // alignItems: 'center',
+  flexDirection: 'row',
+  backgroundColor: '#F0F0F0',
+  flex:1,
+  // paddingHorizontal:12
   
+},
+
+filterTextContainer:{
+  flexDirection:'row', 
+  justifyContent:'space-evenly', 
+  backgroundColor: "#F0F0F0", 
+  left:5,
+  ...Platform.select({
+    ios: {
+        width: "33%",
+        bottom: 55,
+    },
+    android: {
+        width: "100%",
+        height: "25%",
+        top: 7,
+        left: 0,
+    },
+  }),
+
 },
 
 filterText: { //styling for *text* on top of filter dropdowns
@@ -382,30 +442,48 @@ filterText: { //styling for *text* on top of filter dropdowns
 pickerBox: { //container where pickers are located
     flexDirection: "row",
     justifyContent: 'space-evenly',
+    // flex:1,
     height: "45%",
-    backgroundColor: 'rgba(52, 52, 52, 0)',     
+    backgroundColor:  'rgba(52, 52, 52, 0)', //'lightblue',
+    ...Platform.select({
+      ios: {
+          width: "33%",
+          bottom: 55,
+      },
+      android: {
+          width: "100%",
+          height: "55%",
+          bottom: 0,
+      },
+  }), 
+    
+
+
+
 },
 picker: { // picker outside design
     borderColor: 'black',
     borderRadius: 10,
-    // ...Platform.select({
-    //     ios: {
-    //         width: "33%",
-    //         bottom: 55,
-    //     },
-    //     android: {
-    //         width: "35%",
-    //         height: "25%",
-    //         bottom: 0,
-    //     },
-    // }),
+    // width: pickerWidth, 
+
+    ...Platform.select({
+        ios: {
+            width: "33%",
+            bottom: 55,
+        },
+        android: {
+            width: "40%",
+            height: "55%",
+            bottom: 0,
+        },
+    }),
 },
-pick: { // picker design once an item is picked??? Honestly no idea
+pick: { 
     fontSize: 15,
-    // ...Platform.select({
-    //     ios: {fontSize: 15},
-    //     android: {fontSize: 0,},
-    // }),
+    ...Platform.select({
+        ios: {fontSize: 15},
+        android: {fontSize: 0,},
+    }),
     
 },
 
@@ -428,6 +506,23 @@ pick: { // picker design once an item is picked??? Honestly no idea
     padding: 10, 
     margin: 5, //margin of the square - how big is it
     borderRadius: 20, //rounds edges
+    // marginBottom:120,
+    // top:100,
+    // zIndex: 1, // Ensure it appears above other content
+    // maxHeight:480,
+    // paddingBottom: 100,
+    ...Platform.select({
+      ios: {
+          height: "50%",
+          width: "95%",
+      },
+      android: {
+          height: "70%",
+          width: "95%",
+          
+      },
+  }),
+
   },
 
   separator: { //added this to separate each button a smidge, is added just before a new button
@@ -440,7 +535,7 @@ pick: { // picker design once an item is picked??? Honestly no idea
   OutfitButton: {
     borderRadius: 15,
     padding: 20,
-    // elevation: 2,
+    elevation: 2,
     shadowColor: '#000',
     shadowOffset: {
       width: 0.9,
