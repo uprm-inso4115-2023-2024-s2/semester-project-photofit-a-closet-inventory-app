@@ -59,19 +59,25 @@ export default function TabThreeScreen() {
             <KeyboardAvoidingView style={styles.keyboardContainer}>
                 <Filter/>
 
-                {/* The clothes cycler */}
-                <View style={styles.cyclerContainer}>
-                    <ClotheComponent clothe={clothes[clotheIndex]}/>
+                {/* Render the clothes cycler if there are clothe items saved in the database */}
+                {clothes.length > 0 &&
+                    <View style={styles.cyclerContainer}>
+                        <ClotheComponent clothe={clothes[clotheIndex]}/>
 
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={handlePrevious}>
-                            <Text style={styles.buttonText}>Previous</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={handleNext}>
-                            <Text style={styles.buttonText}>Next</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+                                <Text style={styles.buttonText}>Previous</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={handleNext}>
+                                <Text style={styles.buttonText}>Next</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                }
+
+                {clothes.length === 0 &&
+                    <Text>No Clothes Found!</Text>
+                }
             </KeyboardAvoidingView>
         </ScrollView>
     );
