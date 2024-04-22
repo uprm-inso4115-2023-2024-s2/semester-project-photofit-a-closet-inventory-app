@@ -56,13 +56,6 @@ function RootLayoutNav() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-       <SearchBar
-          placeholder="Search..."
-          onChangeText={handleSearch}
-          onCancel={() => console.log('Search cancelled')}
-          onClear={() => console.log('Search cleared')}
-          platform="default" 
-        />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
