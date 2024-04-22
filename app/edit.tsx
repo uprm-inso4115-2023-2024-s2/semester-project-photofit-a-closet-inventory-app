@@ -19,19 +19,15 @@ import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
     - mover esta in progress
 */
 
-
-  
 export default function EditOutfits() {
 
     const navigation = useNavigation();
-
     const deleteOutfitButton = () => {
 
     }
     const arrangeOutfitButton = () => {
         
     }
-
     // Update the title dynamically to "Edit"
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -44,63 +40,53 @@ export default function EditOutfits() {
     return (
 
         <View style={styles.bigcontainer}> 
-        {/* bigger container */}
         
-        <View style={styles.fixedContainer}> 
-        {/* Search & Filter container is inside this Fixed container */}
+            <View style={styles.fixedContainer}> 
 
-            {/* Search & Filter box*/}
-            <View style={styles.searchAndFilter}>
+                {/* Search & Filter box*/}
+                <View style={styles.searchAndFilter}>
 
-                {/* Search Bar */}
-                <View style={styles.searchContainer}>
-                    {searchPlaceHolder()}
-                </View>
+                    {/* Search Bar */}
+                    <View style={styles.searchContainer}>
+                        {searchPlaceHolder()}
+                    </View>
 
-                {/* Filter Titles and Boxes */}
-                {outfitFilterBoxes()}
-            
-            </View> 
-            {/* searchAndFilter end*/}
-
-
-        </View> 
-        {/* Fixed Container view */}
-
-        {/* smaller container with outfits buttons and save button */}
-        <View style={styles.smallercontainer}> 
-            <ScrollView>
-                <View style={styles.outfitsButtonContainer}> 
-
-                    {/* Outfit Buttons */}
-                    {addEditOutfitButton()}
-                    {addEditOutfitButton()}
-                    {addEditOutfitButton()}
-                    {addEditOutfitButton()}
-                    {addEditOutfitButton()}       
-                    {addEditOutfitButton()}
-                    {addEditOutfitButton()}  
-
+                    {/* Filter Titles and Boxes */}
+                    {outfitFilterBoxes()}
+                
                 </View> 
-                {/* Container with Outfits Buttons*/}
-            </ScrollView>
-
-
-            {/* Save & Cancel Button Container */}
-            <View style={styles.buttonContainer}>
-            {/* <View style={{alignItems:'center'}}> */}
-                {CancelButton()}
-                {SaveButton()}
-
 
             </View> 
-            {/* Save Button Container */} 
+
+
+            {/* Outfits Buttons and Save Button Container */}
+            <View style={styles.smallercontainer}> 
+                <ScrollView>
+                    <View style={styles.outfitsButtonContainer}> 
+
+                        {/* Outfit Buttons */}
+                        {addEditOutfitButton()}
+                        {addEditOutfitButton()}
+                        {addEditOutfitButton()}
+                        {addEditOutfitButton()}
+                        {addEditOutfitButton()}       
+                        {addEditOutfitButton()}
+                        {addEditOutfitButton()}  
+
+                    </View> 
+                    {/* Container with Outfits Buttons*/}
+                </ScrollView>
+
+
+                {/* Save & Cancel Button Container */}
+                <View style={styles.buttonContainer}>
+                    {CancelButton()}
+                    {SaveButton()}
+                </View> 
+
+            </View> 
 
         </View> 
-        {/* Container with Outfit Buttons and Save Button*/}
-
-        </View> 
-        //{/* bigger container */}   
     );
 }
 
@@ -194,7 +180,7 @@ const styles = StyleSheet.create({
         }),
     },
     // Outfit Buttons Container
-    outfitsButtonContainer:{ // all outfits buttons AND save button are inside this container
+    outfitsButtonContainer:{ // outfits buttons AND save button are inside this container
         flex: 1,
         // backgroundColor: 'lightblue',
         padding: 10, 

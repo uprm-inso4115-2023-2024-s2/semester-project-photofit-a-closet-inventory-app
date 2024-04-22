@@ -41,9 +41,6 @@ export default function EditScreen() {
                     {outfitFilterBoxes()}
 
                 </View> 
-                {/* Outside Filter Container ends */}
-
-
 
 
                 {/* Outfit cards - Preview */}
@@ -78,13 +75,10 @@ export default function EditScreen() {
 
                     </ScrollView>
                 </View> 
-                {/* preview outfits container end */}   
-
 
 
                 {/* Name of Outfit & Save */}
                 <View style={styles.nameOfOutfitContainer}>
-                    
                     {nameOfOutfitPlaceholder()}
 
                     <View style={styles.saveAndCancelButtonContainer}>
@@ -94,17 +88,10 @@ export default function EditScreen() {
                     </View> 
                 
                 </View> 
-                {/* smaller container with Name of Outfit, Save and Cancel Buttons*/}
-
-
 
             </View> 
-            {/* smaller container with Filter Box + Outfit Clothe Preview + Save & Cancel Button */}
 
         </View> 
-        // bigger container
-
-        
     );
 }
 
