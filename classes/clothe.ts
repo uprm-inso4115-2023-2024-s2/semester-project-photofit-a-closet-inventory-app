@@ -69,7 +69,7 @@ export class Clothe {
 }
 
 export default function DefaultClothe(): Clothe {
-    return new Clothe("Clothe Name",
+    return new Clothe("",
         "https://content.instructables.com/FNN/H072/IDUQWTXF/FNNH072IDUQWTXF.jpg?auto=webp&frame=1&width=907&height=1024&fit=bounds&md=ca68a21d8b66a10d4f65d275a1393035",
         Clothe.Type.Unknown,
         Clothe.Color.Unknown,
