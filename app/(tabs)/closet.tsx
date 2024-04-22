@@ -7,8 +7,8 @@ import {Clothe} from "@/classes/clothe";
 import Filter from "@/components/Filter";
 
 // Closet screen
-export default function TabThreeScreen() {
-    const [clothes, setClothes] = useState<Clothe[]>([]);
+export default function Closet() {
+    const [clothes, setClothes] = useState<Map<number, Clothe>>(new Map<number, Clothe>());
     const [clotheIndex, setClotheIndex] = useState(0);
     const [clotheTrigger, setClotheTrigger] = useState(false);
 
@@ -32,12 +32,12 @@ export default function TabThreeScreen() {
         }());
 
     const handleNext = () => {
-        setClotheIndex((prevIndex) => (prevIndex + 1) % clothes.length);
+        setClotheIndex((prevIndex) => (prevIndex + 1) % clothes.size);
     };
 
     const handlePrevious = () => {
         setClotheIndex((prevIndex) =>
-            prevIndex === 0 ? clothes.length - 1 : prevIndex - 1
+            prevIndex === 0 ? clothes.size - 1 : prevIndex - 1
         );
     };
 
@@ -50,9 +50,12 @@ export default function TabThreeScreen() {
                 <Filter/>
 
                 {/* Render the clothes cycler if there are clothe items saved in the database */}
-                {clothes.length > 0 &&
+                {clothes.size > 0 &&
                     <View style={styles.cyclerContainer}>
-                        <ClotheComponent clothe={clothes[clotheIndex]}/>
+                        {/* I get the array of values/Clothes and use the index to keep track of which clothe is
+                        displayed, then we can use the array of keys/ids to get the id of the clothe using the same
+                        index */}
+                        <ClotheComponent id={[...clothes.keys()][clotheIndex]} clothe={[...clothes.values()][clotheIndex]}/>
 
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.button} onPress={handlePrevious}>
@@ -65,7 +68,7 @@ export default function TabThreeScreen() {
                     </View>
                 }
 
-                {clothes.length === 0 &&
+                {clothes.size === 0 &&
                     <Text>No Clothes Found!</Text>
                 }
             </KeyboardAvoidingView>

@@ -1,27 +1,31 @@
-import {Button, StyleSheet, TextInput, Image, Text, Platform} from 'react-native';
+import {Button, Image, Platform, StyleSheet, Text, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {View} from '@/components/Themed';
 import {useState} from "react";
-import {useNavigation} from "@react-navigation/native";
-import DefaultClothe from "@/classes/clothe";
+import {useNavigation, useRoute} from "@react-navigation/native";
+import DefaultClothe, {Clothe} from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
-import {Clothe} from '@/classes/clothe';
 import {removeNumbersFromEnum} from "@/utils/EnumUtils";
 
 export default function AddClotheScreen() {
-    const [clothe] = useState(DefaultClothe());
     const navigation = useNavigation();
-    const [selectedName, setSelectedName] = useState("Clothe Item");
+    const route = useRoute();
+
+    const isNewClothe = route.params["clothe"] === undefined;
+    const clotheId: number = isNewClothe ? undefined : route.params["id"];
+
+    const [clothe] = useState(isNewClothe ? DefaultClothe() : Clothe.deserialize(route.params["clothe"]));
+    const [selectedName, setSelectedName] = useState(clothe.name);
     const [selectedLink, setSelectedLink] = useState(clothe.link);
-    const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
-    const [selectedColor, setSelectedColor] = useState(Clothe.Color.Unknown); // Default value
-    const [selectedSize, setSelectedSize] = useState(Clothe.SleeveSize.Unknown); // Default value
+    const [selectedType, setSelectedType] = useState(clothe.type);
+    const [selectedColor, setSelectedColor] = useState(clothe.color);
+    const [selectedSize, setSelectedSize] = useState(clothe.sleeveSize);
 
     function handleCancel() {
         navigation.goBack();
     }
 
-    async function addClothe() {
+    async function save() {
         // Update the properties of the clothe object directly with the selected values
         clothe.name = selectedName;
         clothe.link = selectedLink;
@@ -29,14 +33,13 @@ export default function AddClotheScreen() {
         clothe.color = selectedColor;
         clothe.sleeveSize = selectedSize;
 
-        // Add the updated clothe object to the database
-        const success = await DatabaseController.addClothe(clothe);
+        const success = isNewClothe ? await DatabaseController.addClothe(clothe) : await DatabaseController.editClothe(clotheId, clothe);
 
         console.log("SELECTED TYPE: " + selectedType)
         if (success) {
-            console.log("Successfully added clothe of name " + clothe.name + " of type " + clothe.type + " of color " + clothe.color + " of sleeve size " + clothe.sleeveSize + " with link " + clothe.link)
+            console.log("Successfully saved clothe of name " + clothe.name)
         } else {
-            console.log("Failed to add clothe!")
+            console.log("Failed to save clothe!")
         }
 
         navigation.goBack();
@@ -50,6 +53,7 @@ export default function AddClotheScreen() {
                 <View style={styles.greyBottom}/>
                 <TextInput style={styles.input} placeholder="Type Item Name Here"
                            onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
+                           value={selectedName}
                 />
             </View>
 
@@ -109,13 +113,12 @@ export default function AddClotheScreen() {
                 </View>
 
                 <View style={styles.saveButton}>
-                    <Button title="Save" onPress={addClothe}/>
+                    <Button title="Save" onPress={save}/>
                 </View>
             </View>
         </View>
     );
 }
-
 
 const defaultButton = {
     paddingTop: 5,
