@@ -46,7 +46,7 @@ export class DatabaseController {
      * @return The cached clothes with the current filters applied.
      */
     private static filteredClothes(): Map<number, Clothe> {
-        const result = new Map<number, Clothe>;
+        const result = new Map<number, Clothe>();
 
         for (const [id, clothe] of this.clothes) {
             let shouldFilter = true;
@@ -63,10 +63,11 @@ export class DatabaseController {
                 shouldFilter = shouldFilter && clothe.sleeveSize === this.filter.sleeveSize;
             }
 
-            if (!shouldFilter) {
+            if (shouldFilter) {
                 result.set(id, clothe);
             }
         }
+
         return result;
     }
 
@@ -75,7 +76,7 @@ export class DatabaseController {
      * If there is a filter present, then it is applied.
      */
     public static async getClothes(): Promise<Map<number, Clothe>> {
-        if (Object.entries(this.clothes).length !== 0) return this.filteredClothes();
+        if (this.clothes.size > 0) return this.filteredClothes();
 
         const db = await this.getDatabase();
         await db.transactionAsync(async tx => {

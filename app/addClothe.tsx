@@ -1,4 +1,4 @@
-import {Button, Image, Platform, StyleSheet, Text, TextInput} from 'react-native';
+import {Button, Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {View} from '@/components/Themed';
 import {useState} from "react";
@@ -6,6 +6,8 @@ import {useNavigation, useRoute} from "@react-navigation/native";
 import DefaultClothe, {Clothe} from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
 import {removeNumbersFromEnum} from "@/utils/EnumUtils";
+import PhotoCapture from "@/app/photoCapture"
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 export default function AddClotheScreen() {
     const navigation = useNavigation();
@@ -21,9 +23,7 @@ export default function AddClotheScreen() {
     const [selectedColor, setSelectedColor] = useState(clothe.color);
     const [selectedSize, setSelectedSize] = useState(clothe.sleeveSize);
 
-    function handleCancel() {
-        navigation.goBack();
-    }
+    const [showCamera, setShowCamera] = useState(false);
 
     async function save() {
         // Update the properties of the clothe object directly with the selected values
@@ -35,7 +35,6 @@ export default function AddClotheScreen() {
 
         const success = isNewClothe ? await DatabaseController.addClothe(clothe) : await DatabaseController.editClothe(clotheId, clothe);
 
-        console.log("SELECTED TYPE: " + selectedType)
         if (success) {
             console.log("Successfully saved clothe of name " + clothe.name)
         } else {
@@ -46,76 +45,91 @@ export default function AddClotheScreen() {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.photoContainer}>
-                <Image style={styles.image} source={{uri: selectedLink}}/>
-                {/*The URL here should be the URI from the photo capture feature. Simply make the selectedLink variable be the URI and that should make the class get that data*/}
-                <View style={styles.greyBottom}/>
-                <TextInput style={styles.input} placeholder="Type Item Name Here"
-                           onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
-                           value={selectedName}
-                />
-            </View>
+        <View style={showCamera ? styles.cameraContainer : styles.container}>
+            {showCamera ? (
+                <PhotoCapture setShowCamera={setShowCamera} onPhotoTaken={setSelectedLink}
+                              onGalleryPhotoSelected={setSelectedLink}/>
+            ) : (
+                <>
+                    <View style={styles.photoContainer}>
+                        <TouchableOpacity style={styles.cameraButton}>
+                            <MaterialCommunityIcons name="camera" color="grey" onPress={() => setShowCamera(true)}
+                                                    size={40}/>
+                        </TouchableOpacity>
 
-            <View style={styles.filterSquare}>
-                <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
-                <View style={styles.pickerBox}>
-                    <Picker style={styles.picker} itemStyle={styles.pick}
-                            selectedValue={selectedType}
-                            onValueChange={(itemValue: Clothe.Type) =>
-                                setSelectedType(itemValue) // Update the selectedType state
-                            }>
-                        {removeNumbersFromEnum(Clothe.Type)
-                            .map((typeKey) => (
-                                <Picker.Item
-                                    key={typeKey}
-                                    label={typeKey}
-                                    value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
-                                />
-                            ))}
-                    </Picker>
+                        <Image style={styles.image} source={{uri: selectedLink}}/>
 
-                    <Picker style={styles.picker} itemStyle={styles.pick}
-                            selectedValue={selectedColor}
-                            onValueChange={(itemValue) =>
-                                setSelectedColor(itemValue)
-                            }>
-                        {removeNumbersFromEnum(Clothe.Color)
-                            .map((colorKey) => (
-                                <Picker.Item
-                                    key={colorKey}
-                                    label={colorKey}
-                                    value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
-                                />
-                            ))}
-                    </Picker>
+                        {/* The URL here should be the URI from the photo capture feature. Simply make the selectedLink
+                        variable be the URI and that should make the class get that data */}
+                        <View style={styles.greyBottom}/>
 
-                    <Picker style={styles.picker} itemStyle={styles.pick}
-                            selectedValue={selectedSize}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedSize(itemValue)
-                            }>
-                        {removeNumbersFromEnum(Clothe.SleeveSize)
-                            .map((sleeveSizeKey) => (
-                                <Picker.Item
-                                    key={sleeveSizeKey}
-                                    label={sleeveSizeKey}
-                                    value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
-                                />
-                            ))}
-                    </Picker>
-                </View>
-            </View>
+                        <TextInput style={styles.input} placeholder="Type Item Name Here"
+                                   onChangeText={(text) => setSelectedName(text)}
+                                   value={selectedName}
+                        />
+                    </View>
 
-            <View style={styles.buttonContainer}>
-                <View style={styles.cancelButton}>
-                    <Button title="Cancel" onPress={handleCancel}/>
-                </View>
+                    <View style={styles.filterSquare}>
+                        <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
+                        <View style={styles.pickerBox}>
+                            <Picker style={styles.picker} itemStyle={styles.pick}
+                                    selectedValue={selectedType}
+                                    onValueChange={(itemValue: Clothe.Type) =>
+                                        setSelectedType(itemValue) // Update the selectedType state
+                                    }>
+                                {removeNumbersFromEnum(Clothe.Type)
+                                    .map((typeKey) => (
+                                        <Picker.Item
+                                            key={typeKey}
+                                            label={typeKey}
+                                            value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
+                                        />
+                                    ))}
+                            </Picker>
 
-                <View style={styles.saveButton}>
-                    <Button title="Save" onPress={save}/>
-                </View>
-            </View>
+                            <Picker style={styles.picker} itemStyle={styles.pick}
+                                    selectedValue={selectedColor}
+                                    onValueChange={(itemValue) =>
+                                        setSelectedColor(itemValue)
+                                    }>
+                                {removeNumbersFromEnum(Clothe.Color)
+                                    .map((colorKey) => (
+                                        <Picker.Item
+                                            key={colorKey}
+                                            label={colorKey}
+                                            value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
+                                        />
+                                    ))}
+                            </Picker>
+
+                            <Picker style={styles.picker} itemStyle={styles.pick}
+                                    selectedValue={selectedSize}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        setSelectedSize(itemValue)
+                                    }>
+                                {removeNumbersFromEnum(Clothe.SleeveSize)
+                                    .map((sleeveSizeKey) => (
+                                        <Picker.Item
+                                            key={sleeveSizeKey}
+                                            label={sleeveSizeKey}
+                                            value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
+                                        />
+                                    ))}
+                            </Picker>
+                        </View>
+                    </View>
+
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.cancelButton}>
+                            <Button title="Cancel" onPress={navigation.goBack}/>
+                        </View>
+
+                        <View style={styles.saveButton}>
+                            <Button title="Save" onPress={save}/>
+                        </View>
+                    </View>
+                </>
+            )}
         </View>
     );
 }
@@ -163,6 +177,11 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         paddingLeft: "5%",
     },
+    cameraContainer: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
 
     filterSquare: {
         backgroundColor: "#D9D9D9",
@@ -179,6 +198,7 @@ const styles = StyleSheet.create({
             },
         }),
     },
+
     filterText: {
         paddingTop: 10,
     },
@@ -228,5 +248,14 @@ const styles = StyleSheet.create({
             ios: {backgroundColor: "red"},
             android: {},
         }),
+    },
+    cameraButton: {
+        ...defaultButton,
+        position: "absolute",
+        left: "100%",
+        bottom: "90%",
+        width: "15%",
+        height: "15%",
+        padding: "0%",
     },
 });
