@@ -1,30 +1,31 @@
-import {Button,TouchableOpacity, StyleSheet, TextInput, Image, Text, Platform} from 'react-native';
+import {Button, Image, Platform, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {View} from '@/components/Themed';
 import {useState} from "react";
-import {useNavigation} from "@react-navigation/native";
-import DefaultClothe from "@/classes/clothe";
+import {useNavigation, useRoute} from "@react-navigation/native";
+import DefaultClothe, {Clothe} from "@/classes/clothe";
 import {DatabaseController} from "@/classes/DatabaseController";
-import PhotoCapture from "@/app/photoCapture"
-import { Clothe } from '@/classes/clothe';
-import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {removeNumbersFromEnum} from "@/utils/EnumUtils";
+import PhotoCapture from "@/app/photoCapture"
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
 export default function AddClotheScreen() {
-    const [showCamera, setShowCamera] = useState(false);
-    const [clothe] = useState(DefaultClothe());
     const navigation = useNavigation();
-    const [selectedName, setSelectedName] = useState("Clothe Item");
+    const route = useRoute();
+
+    const isNewClothe = route.params["clothe"] === undefined;
+    const clotheId: number = isNewClothe ? undefined : route.params["id"];
+
+    const [clothe] = useState(isNewClothe ? DefaultClothe() : Clothe.deserialize(route.params["clothe"]));
+    const [selectedName, setSelectedName] = useState(clothe.name);
     const [selectedLink, setSelectedLink] = useState(clothe.link);
-    const [selectedType, setSelectedType] = useState(Clothe.Type.Unknown);
-    const [selectedColor, setSelectedColor] = useState(Clothe.Color.Unknown); // Default value
-    const [selectedSize, setSelectedSize] = useState(Clothe.SleeveSize.Unknown); // Default value
+    const [selectedType, setSelectedType] = useState(clothe.type);
+    const [selectedColor, setSelectedColor] = useState(clothe.color);
+    const [selectedSize, setSelectedSize] = useState(clothe.sleeveSize);
 
-    function handleCancel() {
-        navigation.goBack();
-    }
+    const [showCamera, setShowCamera] = useState(false);
 
-    async function addClothe() {
+    async function save() {
         // Update the properties of the clothe object directly with the selected values
         clothe.name = selectedName;
         clothe.link = selectedLink;
@@ -32,108 +33,106 @@ export default function AddClotheScreen() {
         clothe.color = selectedColor;
         clothe.sleeveSize = selectedSize;
 
-        // Add the updated clothe object to the database
-        const success = await DatabaseController.addClothe(clothe);
+        const success = isNewClothe ? await DatabaseController.addClothe(clothe) : await DatabaseController.editClothe(clotheId, clothe);
 
-        console.log("SELECTED TYPE: " + selectedType)
         if (success) {
-            console.log("Successfully added clothe of name " + clothe.name + " of type " + clothe.type + " of color " + clothe.color + " of sleeve size " + clothe.sleeveSize + " with link " + clothe.link)
+            console.log("Successfully saved clothe of name " + clothe.name)
         } else {
-            console.log("Failed to add clothe!")
+            console.log("Failed to save clothe!")
         }
 
         navigation.goBack();
     }
- 
-    
 
     return (
         <View style={showCamera ? styles.cameraContainer : styles.container}>
             {showCamera ? (
-                <PhotoCapture setShowCamera={setShowCamera} onPhotoTaken={setSelectedLink} onGalleryPhotoSelected={setSelectedLink} />
+                <PhotoCapture setShowCamera={setShowCamera} onPhotoTaken={setSelectedLink}
+                              onGalleryPhotoSelected={setSelectedLink}/>
             ) : (
                 <>
-                <View style={styles.photoContainer}>
-                    <TouchableOpacity style={styles.cameraButton}>
-                    <MaterialCommunityIcons name="camera" color="grey" onPress={() => setShowCamera(true)} size={40} />
-                    </TouchableOpacity>
+                    <View style={styles.photoContainer}>
+                        <TouchableOpacity style={styles.cameraButton}>
+                            <MaterialCommunityIcons name="camera" color="grey" onPress={() => setShowCamera(true)}
+                                                    size={40}/>
+                        </TouchableOpacity>
 
-                    <Image style={styles.image} source={{ uri: selectedLink }} /> 
+                        <Image style={styles.image} source={{uri: selectedLink}}/>
 
-                    <View style={styles.greyBottom}/>
-                    
-                    <TextInput style={styles.input} placeholder="Type Item Name Here"
-                        onChangeText={(text) => setSelectedName(text)} // Update the selectedName state
+                        {/* The URL here should be the URI from the photo capture feature. Simply make the selectedLink
+                        variable be the URI and that should make the class get that data */}
+                        <View style={styles.greyBottom}/>
+
+                        <TextInput style={styles.input} placeholder="Type Item Name Here"
+                                   onChangeText={(text) => setSelectedName(text)}
+                                   value={selectedName}
                         />
-                </View>
-                
-
-                <View style={styles.filterSquare}>
-                    <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
-                    <View style={styles.pickerBox}>
-                        <Picker style={styles.picker} itemStyle={styles.pick}
-                            selectedValue={selectedType} 
-                            onValueChange={(itemValue: Clothe.Type) => 
-                                setSelectedType(itemValue) // Update the selectedType state 
-                        }>
-                         {removeNumbersFromEnum(Clothe.Type)
-                            .map((typeKey) => (
-                                <Picker.Item
-                                    key={typeKey}
-                                    label={typeKey}
-                                    value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
-                                />
-                            ))}
-                        </Picker>
-
-                        <Picker style={styles.picker} itemStyle={styles.pick}
-                            selectedValue={selectedColor}
-                            onValueChange={(itemValue) => 
-                                setSelectedColor(itemValue)
-                            }>
-                            {removeNumbersFromEnum(Clothe.Color)
-                            .map((colorKey) => (
-                                <Picker.Item
-                                    key={colorKey}
-                                    label={colorKey}
-                                    value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
-                                />
-                            ))}
-                       </Picker>
-                      
-                      <Picker style={styles.picker} itemStyle={styles.pick}
-                            selectedValue={selectedSize}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedSize(itemValue)
-                            }>
-                        {removeNumbersFromEnum(Clothe.SleeveSize)
-                            .map((sleeveSizeKey) => (
-                                <Picker.Item
-                                    key={sleeveSizeKey}
-                                    label={sleeveSizeKey}
-                                    value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
-                                />
-                            ))}
-                      </Picker>
-                    </View>
-                </View>
-
-                <View style={styles.buttonContainer}>
-                    <View style={styles.cancelButton}>
-                        <Button title="Cancel" onPress={handleCancel}/>
                     </View>
 
-                    <View style={styles.saveButton}>
-                        <Button title="Save" onPress={addClothe}/>
+                    <View style={styles.filterSquare}>
+                        <Text style={styles.filterText}>Type | Color | Sleeve Size</Text>
+                        <View style={styles.pickerBox}>
+                            <Picker style={styles.picker} itemStyle={styles.pick}
+                                    selectedValue={selectedType}
+                                    onValueChange={(itemValue: Clothe.Type) =>
+                                        setSelectedType(itemValue) // Update the selectedType state
+                                    }>
+                                {removeNumbersFromEnum(Clothe.Type)
+                                    .map((typeKey) => (
+                                        <Picker.Item
+                                            key={typeKey}
+                                            label={typeKey}
+                                            value={Clothe.Type[typeKey as keyof typeof Clothe.Type]}
+                                        />
+                                    ))}
+                            </Picker>
+
+                            <Picker style={styles.picker} itemStyle={styles.pick}
+                                    selectedValue={selectedColor}
+                                    onValueChange={(itemValue) =>
+                                        setSelectedColor(itemValue)
+                                    }>
+                                {removeNumbersFromEnum(Clothe.Color)
+                                    .map((colorKey) => (
+                                        <Picker.Item
+                                            key={colorKey}
+                                            label={colorKey}
+                                            value={Clothe.Color[colorKey as keyof typeof Clothe.Color]}
+                                        />
+                                    ))}
+                            </Picker>
+
+                            <Picker style={styles.picker} itemStyle={styles.pick}
+                                    selectedValue={selectedSize}
+                                    onValueChange={(itemValue, itemIndex) =>
+                                        setSelectedSize(itemValue)
+                                    }>
+                                {removeNumbersFromEnum(Clothe.SleeveSize)
+                                    .map((sleeveSizeKey) => (
+                                        <Picker.Item
+                                            key={sleeveSizeKey}
+                                            label={sleeveSizeKey}
+                                            value={Clothe.SleeveSize[sleeveSizeKey as keyof typeof Clothe.SleeveSize]}
+                                        />
+                                    ))}
+                            </Picker>
+                        </View>
                     </View>
-                </View>                     
+
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.cancelButton}>
+                            <Button title="Cancel" onPress={navigation.goBack}/>
+                        </View>
+
+                        <View style={styles.saveButton}>
+                            <Button title="Save" onPress={save}/>
+                        </View>
+                    </View>
                 </>
             )}
         </View>
     );
 }
-
-
 
 const defaultButton = {
     paddingTop: 5,
@@ -250,7 +249,6 @@ const styles = StyleSheet.create({
             android: {},
         }),
     },
-    //Button for Camera
     cameraButton: {
         ...defaultButton,
         position: "absolute",
@@ -259,6 +257,5 @@ const styles = StyleSheet.create({
         width: "15%",
         height: "15%",
         padding: "0%",
-        },
     },
-);
+});

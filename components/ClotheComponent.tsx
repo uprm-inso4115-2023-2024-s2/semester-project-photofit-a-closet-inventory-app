@@ -2,9 +2,17 @@ import React from 'react';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text, View} from './Themed';
 import {Clothe} from "@/classes/clothe";
+import {useNavigation} from "@react-navigation/native";
 
-// Clothe item with hanger bar
-export default function ClotheComponent({clothe}: { clothe: Clothe }) {
+/**
+ * Displays a Clothe object, and navigation to edit page.
+ * @param id The database ID of the Clothe object, used to edit the clothe object.
+ * @param clothe The Clothe object to display.
+ * @constructor
+ */
+export default function ClotheComponent({id, clothe}: { id: number, clothe: Clothe }) {
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             {/* Clothe container with clothe image, name and description */}
@@ -13,14 +21,14 @@ export default function ClotheComponent({clothe}: { clothe: Clothe }) {
                     style={styles.clothePicture}
                     source={{uri: clothe.link}}
                 />
-
                 <View style={styles.clotheBottomText}>
                     <Text style={styles.name}>{clothe.name}</Text>
-                    <TouchableOpacity style={styles.editButton} >
+                    <TouchableOpacity style={styles.editButton}
+                            onPress={() =>
+                                navigation.navigate("addClothe", {id: id, clothe: clothe.serialize()})}>
                         <Text style={styles.editButtonText}>Edit</Text>
                     </TouchableOpacity>
                 </View>
-
             </View>
         </View>
     );

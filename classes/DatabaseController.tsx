@@ -8,7 +8,7 @@ export class DatabaseController {
     private static database: SQLite.SQLiteDatabase | null = null;
 
     // Clothes cache, use getClothes when querying for the clothes.
-    private static clothes: Clothe[] = [];
+    private static clothes: Map<number, Clothe> = new Map<number, Clothe>();
     private static filter?: DatabaseController.Filter;
 
     public static dependencies: DatabaseController.ClotheAddedCallback[] = [];
@@ -35,7 +35,7 @@ export class DatabaseController {
         this.database = SQLite.openDatabase('closet.db');
 
         await this.database.transactionAsync(async tx => {
-            await tx.executeSqlAsync('CREATE TABLE IF NOT EXISTS clothes(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, link TEXT, clothe TEXT)', []);
+            await tx.executeSqlAsync('CREATE TABLE IF NOT EXISTS clothes(id INTEGER PRIMARY KEY AUTOINCREMENT, clothe TEXT)', []);
         }, false);
 
         return this.database;
@@ -45,40 +45,45 @@ export class DatabaseController {
      * Applies the filter to the clothes cached.
      * @return The cached clothes with the current filters applied.
      */
-    private static filteredClothes(): Clothe[] {
-        return this.clothes
-            .filter((clothe) => {
-                let shouldFilter = true;
+    private static filteredClothes(): Map<number, Clothe> {
+        const result = new Map<number, Clothe>();
 
-                if (this.filter?.type !== undefined) {
-                    shouldFilter = shouldFilter && clothe.type === this.filter.type;
-                }
+        for (const [id, clothe] of this.clothes) {
+            let shouldFilter = true;
 
-                if (this.filter?.color !== undefined) {
-                    shouldFilter = shouldFilter && clothe.color === this.filter.color;
-                }
+            if (this.filter?.type !== undefined) {
+                shouldFilter = shouldFilter && clothe.type === this.filter.type;
+            }
 
-                if (this.filter?.sleeveSize !== undefined) {
-                    shouldFilter = shouldFilter && clothe.sleeveSize === this.filter.sleeveSize;
-                }
+            if (this.filter?.color !== undefined) {
+                shouldFilter = shouldFilter && clothe.color === this.filter.color;
+            }
 
-                return shouldFilter;
-            })
+            if (this.filter?.sleeveSize !== undefined) {
+                shouldFilter = shouldFilter && clothe.sleeveSize === this.filter.sleeveSize;
+            }
+
+            if (shouldFilter) {
+                result.set(id, clothe);
+            }
+        }
+
+        return result;
     }
 
     /**
      * Gets all the clothes from the DB.
      * If there is a filter present, then it is applied.
      */
-    public static async getClothes(): Promise<Clothe[]> {
-        if (this.clothes.length !== 0) return this.filteredClothes();
+    public static async getClothes(): Promise<Map<number, Clothe>> {
+        if (this.clothes.size > 0) return this.filteredClothes();
 
         const db = await this.getDatabase();
         await db.transactionAsync(async tx => {
             const clotheRows = (await tx.executeSqlAsync('SELECT * FROM clothes')).rows;
-            this.clothes = clotheRows.map((value, index, array) => {
-                return Clothe.deserialize(value.clothe);
-            });
+            for (const rowClothe of clotheRows) {
+                this.clothes.set(rowClothe.id, Clothe.deserialize(rowClothe.clothe));
+            }
         }, true);
 
         return this.filteredClothes();
@@ -86,12 +91,13 @@ export class DatabaseController {
 
     /**
      * Inserts a clothe object into the clothes table.
-     * @param clothe The clothe object or null.
+     * @param clothe The clothe object to add to the database.
      * @return Returns true if it successfully added the Clothe object to the DB, false otherwise.
      */
     public static async addClothe(clothe: Clothe): Promise<boolean> {
         const db = await this.getDatabase();
         let success = false;
+        let clotheId = undefined;
 
         console.log(`Saving ${clothe.name} to clothes table`)
 
@@ -99,11 +105,39 @@ export class DatabaseController {
             const result = await tx.executeSqlAsync('INSERT INTO clothes (clothe) VALUES (?)',
                 [clothe.serialize()]);
             success = result.rowsAffected > 0;
+            clotheId = result.insertId;
         }, false);
 
-        // Add thy clothe to the cached clothes array
+        // Add thy clothe to the cached clothes map
+        if (success && clotheId !== undefined) {
+            this.clothes.set(clotheId, clothe);
+            this.notifyAllRegisteredCallbacksOfClothesChange();
+        }
+
+        return success;
+    }
+
+    /**
+     * Updates a clothe object in the database with a certain id.
+     * @param id The database ID of the clothe object.
+     * @param clothe The clothe object to update in the database.
+     * @return Returns true if it successfully updated the Clothe object in the DB, false otherwise.
+     */
+    public static async editClothe(id: number, clothe: Clothe): Promise<boolean> {
+        const db = await this.getDatabase();
+        let success = false;
+
+        console.log(`Updating ${clothe.name} in clothes table`)
+
+        await db.transactionAsync(async tx => {
+            const result = await tx.executeSqlAsync('UPDATE clothes SET clothe = ? WHERE id = ?',
+                [clothe.serialize(), id]);
+            success = result.rowsAffected > 0;
+        }, false);
+
+        // Update thy clothe in the cached clothes map
         if (success) {
-            this.clothes.push(clothe);
+            this.clothes.set(id, clothe);
             this.notifyAllRegisteredCallbacksOfClothesChange();
         }
 
