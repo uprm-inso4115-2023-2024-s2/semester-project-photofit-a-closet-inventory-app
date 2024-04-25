@@ -21,16 +21,12 @@ export default function ClotheComponent({id, clothe}: { id: number, clothe: Clot
                     style={styles.clothePicture}
                     source={{uri: clothe.link}}
                 />
-
-                <View style={styles.bottomText}>
-                    <View style={styles.clotheBottomText}>
-                        <Text style={styles.name}>{clothe.name}</Text>
-                    </View>
-
-                    <TouchableOpacity style={styles.editContainer}
-                                      onPress={() =>
-                                          navigation.navigate("addClothe", {id: id, clothe: clothe.serialize()})}>
-                        <Text style={styles.buttonText}>Edit</Text>
+                <View style={styles.clotheBottomText}>
+                    <Text style={styles.name}>{clothe.name}</Text>
+                    <TouchableOpacity style={styles.editButton}
+                            onPress={() =>
+                                navigation.navigate("addClothe", {id: id, clothe: clothe.serialize()})}>
+                        <Text style={styles.editButtonText}>Edit</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -47,36 +43,38 @@ const styles = StyleSheet.create({
         marginTop: -10,
         width: 300,
         height: 400,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "black",
+        borderRadius: 20,
+        
     },
     clothePicture: {
         width: '100%',
         height: '80%',
-    },
-    bottomText: {
-        height: '20%',
-        flexDirection: "row",
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
     },
     clotheBottomText: {
-        justifyContent: 'center',
-        flex: 0.8,
+        height: '20%',
+        backgroundColor: "#D9D9D9",
+        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Align items horizontally
+        alignItems: 'center', // Center items vertically
     },
     name: {
-        fontSize: 20,
+        padding: 15,
+        fontSize: 17,
         marginLeft: 5,
-    },
-    editContainer: {
-        justifyContent: 'center',
-        padding: 10,
-        marginHorizontal: 10,
-        backgroundColor: 'lightblue',
-        borderRadius: 5,
-        flex: 0.2,
-    },
-    buttonText: {
-        fontSize: 16,
         fontWeight: "bold",
+    },
+    editButton: {
+        backgroundColor: '#C100E0',
+        padding: 10,
+        borderRadius: 5,
+        margin: 15
+    },
+    editButtonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
     },
 });
