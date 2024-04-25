@@ -1,30 +1,31 @@
 import { Clothe } from '@/classes/clothe';
 
 export class Outfit {
-  private _shirt: Clothe;
-  private _pant: Clothe;
-  private _shoe: Clothe;
+  private _name: string;
+  private _shirt?: Clothe;
+  private _pant?: Clothe;
+  private _shoe?: Clothe;
 
-  constructor(shirt: Clothe, pant: Clothe, shoe: Clothe) {
-    if (shirt.type !== Clothe.Type.Shirt ||
-        pant.type !== Clothe.Type.Pants ||
-        shoe.type !== Clothe.Type.Shoes) {
-      throw new Error('Invalid clothes types. Outfit must contain one shirt, one pant, and one shoe.');
-    }
+  constructor(name: string, shirt?: Clothe, pant?: Clothe, shoe?: Clothe) {
+    this._name = name;
     this._shirt = shirt;
     this._pant = pant;
     this._shoe = shoe;
   }
 
-  public getShirt(): Clothe {
+  public get name(): string {
+    return this._name;
+  }
+
+  public get shirt(): Clothe | undefined {
     return this._shirt;
   }
 
-  public getPant(): Clothe {
+  public get pant(): Clothe | undefined {
     return this._pant;
   }
 
-  public getShoe(): Clothe {
+  public get shoe(): Clothe | undefined {
     return this._shoe;
   }
 
