@@ -41,7 +41,7 @@ export default function Closet() {
         );
     };
 
-    if (clothes.length === 0) {
+    if (clothes.size === 0) {
         return (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: "10%" }}>
                 <Text style={{ fontSize: 20, textAlign: "center" , fontWeight: "500" }}>
@@ -49,6 +49,12 @@ export default function Closet() {
                 </Text>
             </View>
         )
+    }
+
+    // Fixes crash caused by DB clothes refreshed via filter, while using previous index with new
+    // smaller DB clothes list, thus getting an `undefined` Clothe object for that index
+    if (clothes.size > 0 && clotheIndex >= clothes.size) {
+        setClotheIndex(clothes.size - 1);
     }
 
     return (
