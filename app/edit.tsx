@@ -8,6 +8,7 @@ import {addEditOutfitButton} from '@/components/EditOutfitButton'
 import {CancelButton} from '@/components/CancelButton'
 import {SaveButton} from '@/components/SaveButton'
 import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
+import { BottomSheet } from 'react-native-elements';
 
 
 export default function EditOutfits() {
@@ -66,14 +67,18 @@ export default function EditOutfits() {
 
                     </View> 
                     {/* Container with Outfits Buttons*/}
+                    
+                    
+                    {/* Save & Cancel Button Container */}
+                    <View style={styles.buttonContainer}>
+                        {CancelButton()}
+                        {SaveButton()}
+                    </View>                 
+                
                 </ScrollView>
 
 
-                {/* Save & Cancel Button Container */}
-                <View style={styles.buttonContainer}>
-                    {CancelButton()}
-                    {SaveButton()}
-                </View> 
+
 
             </View> 
 
@@ -189,14 +194,22 @@ const styles = StyleSheet.create({
     },
     // Cancel & Save Buttons
     buttonContainer:{
-        flex: 1,
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor: "#F0F0F0", 
         margin: 10, 
 
-        position: 'absolute',
-        bottom:50,
-        left: 110
+        ...Platform.select({
+            ios: {
+                height: "70%",
+                width: "95%",
+                bottom:20,
+            },
+            android: {
+                height: "70%",
+                width: "95%",
+                bottom:20,
+                
+            },
+        }),
     },
 });
