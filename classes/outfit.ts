@@ -49,4 +49,13 @@ export class Outfit {
     }
     this._shoe = shoe;
   }
+
+  serialize(): string {
+    return JSON.stringify(this);
+  }
+
+  static deserialize(json: string): Outfit {
+    const parse = JSON.parse(json);
+    return new Outfit(parse._name, parse._shirt, parse._pant, parse._shoe);
+  }
 }
