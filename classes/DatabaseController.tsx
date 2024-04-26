@@ -1,6 +1,7 @@
 import * as FileSystem from 'expo-file-system';
 import * as SQLite from 'expo-sqlite';
 import {Clothe} from "@/classes/clothe"
+import {Outfit} from "@/classes/outfit";
 
 export class DatabaseController {
 
@@ -9,6 +10,7 @@ export class DatabaseController {
 
     // Clothes cache, use getClothes when querying for the clothes.
     private static clothes: Map<number, Clothe> = new Map<number, Clothe>();
+    private static outfits: Map<number, Outfit> = new Map<number, Outfit>();
     private static filter?: DatabaseController.Filter;
 
     public static dependencies: DatabaseController.ClotheAddedCallback[] = [];
@@ -36,6 +38,7 @@ export class DatabaseController {
 
         await this.database.transactionAsync(async tx => {
             await tx.executeSqlAsync('CREATE TABLE IF NOT EXISTS clothes(id INTEGER PRIMARY KEY AUTOINCREMENT, clothe TEXT)', []);
+            await tx.executeSqlAsync('CREATE TABLE IF NOT EXISTS outfits(id INTEGER PRIMARY KEY AUTOINCREMENT, outfit TEXT)', []);
         }, false);
 
         return this.database;
@@ -90,6 +93,24 @@ export class DatabaseController {
     }
 
     /**
+     * Gets all the Outfits from the DB.
+     * If there is a filter present, then it is applied.
+     */
+    public static async getOutfits(): Promise<Map<number, Outfit>> {
+        if (this.outfits.size > 0) return this.outfits;
+
+        const db = await this.getDatabase();
+        await db.transactionAsync(async tx => {
+            const outfitRows = (await tx.executeSqlAsync('SELECT * FROM outfits')).rows;
+            for (const rowOutfit of outfitRows) {
+                this.outfits.set(rowOutfit.id, Outfit.deserialize(rowOutfit.outfit));
+            }
+        }, true);
+
+        return this.outfits;
+    }
+
+    /**
      * Inserts a clothe object into the clothes table.
      * @param clothe The clothe object to add to the database.
      * @return Returns true if it successfully added the Clothe object to the DB, false otherwise.
@@ -111,6 +132,34 @@ export class DatabaseController {
         // Add thy clothe to the cached clothes map
         if (success && clotheId !== undefined) {
             this.clothes.set(clotheId, clothe);
+            this.notifyAllRegisteredCallbacksOfClothesChange();
+        }
+
+        return success;
+    }
+
+    /**
+     * Inserts an outfit object into the outfits table.
+     * @param outfit The Outfit object to add to the database.
+     * @return Returns true if it successfully added the Clothe object to the DB, false otherwise.
+     */
+    public static async addOutfit(outfit: Outfit): Promise<boolean> {
+        const db = await this.getDatabase();
+        let success = false;
+        let outfitId = undefined;
+
+        console.log(`Saving ${outfit.name} to outfits table`)
+
+        await db.transactionAsync(async tx => {
+            const result = await tx.executeSqlAsync('INSERT INTO outfits (outfit) VALUES (?)',
+                [outfit.serialize()]);
+            success = result.rowsAffected > 0;
+            outfitId = result.insertId;
+        }, false);
+
+        // Add thy clothe to the cached clothes map
+        if (success && outfitId !== undefined) {
+            this.outfits.set(outfitId, outfit);
             this.notifyAllRegisteredCallbacksOfClothesChange();
         }
 

@@ -1,12 +1,30 @@
 import { ScrollView, StyleSheet, Platform } from 'react-native';
 import { View } from '@/components/Themed';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {searchPlaceHolder} from '@/components/SearchBarPlaceholder'
 import {addOutfitButton} from '@/components/OutfitButton'
 import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
+import {Outfit} from "@/classes/outfit";
 import OutfitComponent from "@/components/outfitWidget";
+import {DatabaseController} from "@/classes/DatabaseController";
 
 export default function TabTwoScreen() {
+    const [outfits, setOutfits] = useState<Map<number, Outfit>>(new Map<number, Outfit>());
+    const [outfitTrigger, setOutfitTrigger] = useState(false);
+
+    useEffect(() => {
+        DatabaseController.getOutfits()
+            .then((dbOutfits) => {
+                setOutfits(dbOutfits);
+            });
+    }, [outfitTrigger]);
+
+    DatabaseController.dependencies.push(
+        new class implements DatabaseController.ClotheAddedCallback {
+            public callback() {
+                setOutfitTrigger(!outfitTrigger);
+            }
+        }());
 
   return (
 
@@ -35,9 +53,14 @@ export default function TabTwoScreen() {
         <ScrollView>
         {/* Outfit Buttons */}      
         <View style={styles.outfitsButtonContainer}> 
-            <OutfitComponent />
-            <OutfitComponent />
-            <OutfitComponent />
+            {/* Render the outfitComponents inside ScrollView */}
+            {/* Include the OutfitComponent with the outfit prop, it's commented because the outfit constant is not implemented. */}
+            {[...outfits.values()].map((value, index, array) => {
+                return (
+                    <OutfitComponent outfit={value}/>
+                );
+            })
+            }
         </View>
         </ScrollView>
 
