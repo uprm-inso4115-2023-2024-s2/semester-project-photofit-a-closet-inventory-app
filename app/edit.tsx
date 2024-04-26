@@ -71,7 +71,7 @@ export default function EditOutfits() {
                     
                     {/* Save & Cancel Button Container */}
                     <View style={styles.buttonContainer}>
-                        {CancelButton()}
+                        {/* {CancelButton()} */}
                         {SaveButton()}
                     </View>                 
                 
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     },
     // Cancel & Save Buttons
     buttonContainer:{
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         flexDirection: 'row',
         margin: 10, 
 
