@@ -103,7 +103,7 @@ export class DatabaseController {
         await db.transactionAsync(async tx => {
             const outfitRows = (await tx.executeSqlAsync('SELECT * FROM outfits')).rows;
             for (const rowOutfit of outfitRows) {
-                this.outfits.set(rowOutfit.id, Outfit.deserialize(rowOutfit.clothe));
+                this.outfits.set(rowOutfit.id, Outfit.deserialize(rowOutfit.outfit));
             }
         }, true);
 
@@ -160,6 +160,7 @@ export class DatabaseController {
         // Add thy clothe to the cached clothes map
         if (success && outfitId !== undefined) {
             this.outfits.set(outfitId, outfit);
+            this.notifyAllRegisteredCallbacksOfClothesChange();
         }
 
         return success;
