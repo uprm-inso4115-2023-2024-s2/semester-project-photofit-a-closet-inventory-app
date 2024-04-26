@@ -9,15 +9,6 @@ import {CancelButton} from '@/components/CancelButton'
 import {SaveButton} from '@/components/SaveButton'
 import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
 
-/*
-    Edit Page 
-    **same page but edittable actions
-    - Eliminate Outfit Buttons - remove outfits
-    - Move Outfit Buttons - arrange outfits
-    
-    UI implemented, falta las acciones de mover y delete
-    - mover esta in progress
-*/
 
 export default function EditOutfits() {
 
@@ -93,18 +84,16 @@ export default function EditOutfits() {
 const styles = StyleSheet.create({    
     bigcontainer: { //all components are in this parent container
         flex: 1,
-        // backgroundColor: 'black', //ffff
         },
         
     smallercontainer: { //all components are inside this smaller container
         flex: 1,
-        // backgroundColor: 'pink',
         padding: 10, 
         margin: 5,
         borderRadius: 20,
         top:110,
         marginBottom:110,
-        zIndex: 1, // Ensure it appears above other content
+        zIndex: 1, 
         ...Platform.select({
           ios: {
               width: "95%",
@@ -138,7 +127,6 @@ const styles = StyleSheet.create({
     },
 
     searchContainer:{  //search bar is inside this container
-        // flex: 1,
         backgroundColor: '#D9D9D9',
         padding: 5, 
         margin: 10,
@@ -182,7 +170,6 @@ const styles = StyleSheet.create({
     // Outfit Buttons Container
     outfitsButtonContainer:{ // outfits buttons AND save button are inside this container
         flex: 1,
-        // backgroundColor: 'lightblue',
         padding: 10, 
         margin: 5, 
         borderRadius: 20, 

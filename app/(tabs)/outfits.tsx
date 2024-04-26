@@ -5,26 +5,6 @@ import {searchPlaceHolder} from '@/components/SearchBarPlaceholder'
 import {addOutfitButton} from '@/components/OutfitButton'
 import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
 
-/* To Do: 
-
-Main Outfits Page:
-- add photos of "outfits" inside the button --> access database and get id of outfits desired
-
-Edit Page:
-- fully design edit page
-- add functionality in Edit Outfit Page: 
-
-Make Your Outfit Page:
-- preview photos of their closet --> connect to database to preview each clothe item
-
-UI Design:
-  --see https://www.figma.com/file/ojPtY7fqcm1botgu9QryZf/PhotoFit-UI?type=design&node-id=0-1&mode=design&t=xGQxI8btmzRFtTNz-0
-
-GitHub Issues: 
-  -- github Issue #128 for New Outfits UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/128
-  and Issue #119 for "Make Your Outfit" UI - https://github.com/uprm-inso4115-2023-2024-s2/semester-project-photofit-a-closet-inventory-app/issues/119
-  
-*/
 
 export default function TabTwoScreen() {
 
@@ -75,18 +55,16 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   bigContainer: { //all components are in this parent container
     flex: 1,
-    // backgroundColor: 'black', //ffff
   },
 
   smallerContainer: { //all buttons are inside this smaller container
     flex: 1,
-    // backgroundColor: 'pink',
     padding: 10, 
-    margin: 5, //margin of the square - how big is it
-    borderRadius: 20, //rounds edges
+    margin: 5, 
+    borderRadius: 20, 
     top:120,
     marginBottom:140,
-    zIndex: 1, // Ensure it appears above other content
+    zIndex: 1,
     ...Platform.select({
       ios: {
           width: "95%",
@@ -104,7 +82,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    // backgroundColor: 'lightblue',
 
     ...Platform.select({
         ios: {
@@ -159,7 +136,6 @@ const styles = StyleSheet.create({
   // Outfit Buttons container
   outfitsButtonContainer:{ // all outfits buttons are inside this container
     flex: 1,
-    // backgroundColor: 'lightblue',
     padding: 10, 
     margin: 5, 
     borderRadius: 20, 

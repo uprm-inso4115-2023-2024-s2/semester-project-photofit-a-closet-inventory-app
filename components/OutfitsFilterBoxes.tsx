@@ -6,7 +6,14 @@ import React, {useState} from 'react';
 import { Clothe } from '@/classes/clothe';
 import {Picker} from '@react-native-picker/picker';
 
+/* Literally creo que los filters hay que cambiarlos, no solo es lo mismo de clothe y ya, 
+    deben tener como un vibe check o algo para identificar el outfit que uno quiere, ya sea sport,
+    occassion, color, etc.
+    Creo que un filter que sea occasion o type selection pero de tipo (casual, formal, athletic)
+    seria bueno para outfits
+    Para ambos honestly
 
+*/
 
 export function outfitFilterBoxes() {
 
@@ -91,18 +98,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#F0F0F0", 
     margin: 10, 
     marginBottom:0
-    // backgroundColor: 'black', //ffff
   },
     
   smallerContainer: { //all buttons are inside this smaller container
     flex: 1,
-    // backgroundColor: 'pink',
     padding: 10, 
     margin: 5,
     borderRadius: 20,
     top:100,
     marginBottom:100,
-    zIndex: 1, // Ensure it appears above other content
+    zIndex: 1, 
     ...Platform.select({
       ios: {
           width: "95%",
@@ -120,7 +125,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    // backgroundColor: 'lightblue',
     ...Platform.select({
       ios: {
           height: "20%",
@@ -159,7 +163,6 @@ const styles = StyleSheet.create({
         android: {
             height: "70%",
             width: "95%",
-            // top:5
         },
     }),
 },
@@ -194,7 +197,7 @@ pickerBox: { //container where pickers are located
     flexDirection: "row",
     justifyContent: 'space-evenly',
     height: "45%",
-    backgroundColor:  'rgba(52, 52, 52, 0)', //'lightblue',
+    backgroundColor:  'rgba(52, 52, 52, 0)', 
     ...Platform.select({
       ios: {
           width: "33%",
@@ -211,7 +214,6 @@ pickerBox: { //container where pickers are located
 picker: { // picker outside design
     borderColor: 'black',
     borderRadius: 10,
-    // width: pickerWidth, 
 
     ...Platform.select({
         ios: {

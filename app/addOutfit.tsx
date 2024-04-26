@@ -98,11 +98,9 @@ export default function EditScreen() {
 const styles = StyleSheet.create({
     bigContainer: { //all smaller containers are inside this big container
         flex: 1,
-        // backgroundColor: 'black',
     },
     smallerContainer:{ //smaller containers
         flex: 1,
-        // backgroundColor: 'pink',
         padding: 10, 
         margin: 5,
         borderRadius: 20,
@@ -121,8 +119,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 1, // Ensure it appears above other content
-
+        zIndex: 1,
         shadowColor: '#000',
         shadowOffset: {
         width: 0.9,
@@ -135,11 +132,9 @@ const styles = StyleSheet.create({
     
     outfitsContainer:{ //container that previews the outfits
         flex: 1,
-        // backgroundColor: 'pink',
         margin: 10,
         paddingHorizontal:10,
         paddingVertical: 5,
-        
         maxHeight: 350,
         marginTop: 75,
         marginBottom: 120,
@@ -150,7 +145,6 @@ const styles = StyleSheet.create({
             //     width: "95%",
             // },
             android: {
-                // height: "120%",
                 width: "94%",
                 top:'7%'
             },
@@ -158,27 +152,23 @@ const styles = StyleSheet.create({
         
     },
 
-
-    // Filter Boxes
     filterTitle:{
         alignItems: 'center',
-        backgroundColor: '#F0F0F0' ,//'#D9D9D9'
+        backgroundColor: '#F0F0F0' ,
     },
     filterTitleText:{
         fontWeight:'bold'
     },
 
-    // Name of Outfit and Save&CancelButton Container
     nameOfOutfitContainer:{
         position: 'absolute',
-        // top: 0,
         bottom:20,
         left: 0,
         right: 0,
-        borderRadius: 20, //rounds edges
+        borderRadius: 20,
         paddingTop:10,
         backgroundColor: '#F0F0F0',
-        zIndex: 1, // Ensure it appears above other content
+        zIndex: 1,
         
         shadowColor: '#000',
         shadowOffset: {
@@ -212,7 +202,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
-    //Save and Cancel Container
     saveAndCancelButtonContainer:{
         flex: 1,
         alignItems: 'center',

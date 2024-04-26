@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Platform} from 'react-native';
+import { Pressable, StyleSheet} from 'react-native';
 
 import { Text, View } from '@/components/Themed';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,15 +16,12 @@ export function addEditOutfitButton(){
   
       {/* Button */}
         <View style={styles.OutfitButton}> 
-          <Pressable  
-            // onPress={() => setModalVisible(true)}
-            >
+          <Pressable>
         <View style={{flex: 1,
             flexDirection: 'row', 
             alignItems:'center', 
             justifyContent:'space-between',
-            backgroundColor: '#F0F0F0' //'#F194FF'
-            
+            backgroundColor: '#F0F0F0'
             }}>
 
                 {/* drag icon */}
@@ -35,14 +32,6 @@ export function addEditOutfitButton(){
                     onPress={() => console.log('pressed')
                 }
                 />
-                {/* two lines drag icon */}
-                {/* <MaterialIcons 
-                    name="drag-handle" 
-                    size={24} 
-                    color="white" 
-                    style={styles.icon} 
-                    onPress={() => console.log('pressed')}
-                /> */}
 
                 <Text style={styles.OutfitButtonTextStyle}>Outfit</Text>
 
@@ -58,10 +47,8 @@ export function addEditOutfitButton(){
 
           </Pressable>
 
-
         </View>
-  
-  
+
       </View>
   
     );
@@ -69,31 +56,30 @@ export function addEditOutfitButton(){
 
 // Styles
 const styles = StyleSheet.create({
+  separator: { //added this to separate each button a smidge, is added just before a new button
+      marginVertical: 10,
+      height: .5,
+      width: '80%',
+  },
 
-    separator: { //added this to separate each button a smidge, is added just before a new button
-        marginVertical: 10,
-        height: .5,
-        width: '80%',
-    },
+  OutfitButton: {
+      borderRadius: 15,
+      padding: 17,
+      elevation: 2,
+      backgroundColor: '#F0F0F0',
+      shadowColor: '#000',
+      shadowOffset: {
+          width: 0.9,
+          height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,   
+      },
 
-    OutfitButton: {
-        borderRadius: 15,
-        padding: 17,
-        elevation: 2,
-        backgroundColor: '#F0F0F0',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0.9,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,   
-        },
-
-    OutfitButtonTextStyle: {
-        color: '#C100E0', 
-        fontWeight: 'bold',
-        textAlign: 'center',
-        },
+  OutfitButtonTextStyle: {
+      color: '#C100E0', 
+      fontWeight: 'bold',
+      textAlign: 'center',
+      },
 
 })
