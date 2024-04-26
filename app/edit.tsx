@@ -5,10 +5,8 @@ import {useNavigation} from "@react-navigation/native";
 
 import {searchPlaceHolder} from '@/components/SearchBarPlaceholder'
 import {addEditOutfitButton} from '@/components/EditOutfitButton'
-import {CancelButton} from '@/components/CancelButton'
 import {SaveButton} from '@/components/SaveButton'
 import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
-import { BottomSheet } from 'react-native-elements';
 
 
 export default function EditOutfits() {
@@ -71,7 +69,6 @@ export default function EditOutfits() {
                     
                     {/* Save & Cancel Button Container */}
                     <View style={styles.buttonContainer}>
-                        {/* {CancelButton()} */}
                         {SaveButton()}
                     </View>                 
                 
