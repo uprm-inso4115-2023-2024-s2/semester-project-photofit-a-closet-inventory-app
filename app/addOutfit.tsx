@@ -1,23 +1,20 @@
-import {Button, Pressable, Text, StyleSheet, Alert, TextInput} from 'react-native';
-import {View} from '@/components/Themed';
-import {useState} from "react";
+import React, {useLayoutEffect} from 'react';
+import { StyleSheet, ScrollView, Platform} from 'react-native';
+import {Text, View} from '@/components/Themed';
 import {useNavigation} from "@react-navigation/native";
-import React from 'react';
+
+import {nameOfOutfitPlaceholder} from '@/components/NameOfOutfitPlaceholder'
+import {CancelButton} from '@/components/CancelButton'
+import {SaveButton} from '@/components/SaveButton';
+import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
+
 
 export default function EditScreen() {
 
-    const [inputValue, setInputValue] = useState('');
     const navigation = useNavigation();
 
-    const handleCancel = () => {
-        // Optionally, you can reset any state or clear any data here
-        setInputValue('');
-        // Navigate back to the previous screen or any desired screen
-        navigation.goBack(); // Assuming you're using a Stack Navigator
-    };
-    
-    // Update the title dynamically
-    React.useLayoutEffect(() => {
+    // Update the title dynamically to "Make Your Outfit"
+    useLayoutEffect(() => {
         navigation.setOptions({
             title: 'Make Your Outfit',
             headerTitleAlign: 'center',
@@ -25,137 +22,195 @@ export default function EditScreen() {
         });
     }, [navigation]);
 
+
     return (
-        <View style={styles.container}>
 
-        {/* Filter Box */}
+        <View style={styles.bigContainer}>
 
-        <View style={styles.insideContainer}>
-        </View>
+            <View style={styles.smallerContainer}>
 
-        {/* Outfit cards - Preview */}
+                {/* Filter Box */}
+                <View style={styles.fixedContainer}>
+                    
+                    {/* add "Filters" title */}
+                    <View style={styles.filterTitle}>  
+                        <Text style={styles.filterTitleText}>Filters</Text>
+                    </View>
 
-        <View style={styles.insideContainerOutfits}>
-        </View>
-        {/* Name of Outfit & Save */}
+                    {/* Filter Titles and Boxes */}
+                    {outfitFilterBoxes()}
 
-        <View style={styles.insideContainer}>
-
-            <Text style={{alignItems:'center',backgroundColor: '#FFFFFF',
-}}
-            >Name of Outfit</Text>
-
-        <View style={styles.buttonContainer}>
-
-            {/* cancel Button */}
-                <View style={styles.cancelButton}> 
-                    <Pressable onPress={handleCancel} >
-                        <Text style={styles.cancelButtonText}>Cancel</Text>
-                    </Pressable>
-                </View>
-
-            <View style={styles.separator} lightColor="#ffff" darkColor="rgba(255,255,255,0.1)" />
-
-            {/* save Button */}
-                <View style={styles.saveButton}> 
-                    <Pressable onPress={handleCancel} >
-                        <Text style={styles.saveButtonText}>Save</Text>
-                    </Pressable>
-                </View>
-
-        {/* buttonContainer */} </View> 
-        {/* insideContainer */} </View>
+                </View> 
 
 
+                {/* Outfit cards - Preview */}
+                <View style={styles.outfitsContainer}>
+                    <ScrollView>
+
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>HIIIIII</Text>
+                        <Text>Last HIIIIII</Text>
+
+                    </ScrollView>
+                </View> 
 
 
-        </View>
+                {/* Name of Outfit & Save */}
+                <View style={styles.nameOfOutfitContainer}>
+                    {nameOfOutfitPlaceholder()}
+
+                    <View style={styles.saveAndCancelButtonContainer}>
+                        {CancelButton()}
+                        <Text style={{color: '#F0F0F0'}}>--</Text>
+                        {SaveButton()}
+                    </View> 
+                
+                </View> 
+
+            </View> 
+
+        </View> 
     );
 }
 
 const styles = StyleSheet.create({
-    container: { //all smaller containers are inside this big container
+    bigContainer: { //all smaller containers are inside this big container
         flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // backgroundColor: 'pink',
-
     },
-    insideContainer:{ //smaller containers
+    smallerContainer:{ //smaller containers
         flex: 1,
-        backgroundColor: '#F0F0F0',
-        padding: 25, 
-        margin: 10, //margin of the square - how big is it
-        borderRadius: 20, //rounds edges
-        paddingHorizontal:10,
-        paddingVertical: 10,
-        justifyContent:'flex-end',
-        // alignContent:'flex-end',
-        flexDirection: 'column',
-        // minHeight: '10%', 
-        // maxWidth: '80%'
+        padding: 10, 
+        margin: 5,
+        borderRadius: 20,
+        marginBottom:1
     },
 
-    insideContainerOutfits:{ //container that previews the outfits
+    fixedContainer: { //Filter Title and filters are inside this fixed container
+        backgroundColor: "#F0F0F0",
+        alignContent: 'space-between',
+        justifyContent: 'space-evenly',
+        borderRadius: 20, 
+        margin:10,
+        padding: 10,
+        marginTop:1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1,
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0.9,
+        height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4, 
+        elevation:2, 
+    },
+    
+    outfitsContainer:{ //container that previews the outfits
         flex: 1,
-        backgroundColor: 'white',
-        padding: 25, 
-        margin: 10, //margin of the square - how big is it
-        borderRadius: 20, //rounds edges
+        margin: 10,
         paddingHorizontal:10,
-        paddingVertical: 10,
-        justifyContent:'flex-end',
-        // alignContent:'flex-end',
-        // flexDirection: 'column',
-        minHeight: '55%', 
-        // maxWidth: '80%',
+        paddingVertical: 5,
+        maxHeight: 350,
+        marginTop: 75,
+        marginBottom: 120,
+
+        ...Platform.select({
+            // ios: {
+            //     height: "20%",
+            //     width: "95%",
+            // },
+            android: {
+                width: "94%",
+                top:'7%'
+            },
+        }),
         
     },
 
-    separator: { //added this to separate each button a smidge, is added just before a new button
-        marginVertical: 20,
-        height: 10,
-        width: '3%',
-        backgroundColor: '#F0F0F0',
+    filterTitle:{
+        alignItems: 'center',
+        backgroundColor: '#F0F0F0' ,
+    },
+    filterTitleText:{
+        fontWeight:'bold'
     },
 
-    buttonContainer:{
+    nameOfOutfitContainer:{
+        position: 'absolute',
+        bottom:20,
+        left: 0,
+        right: 0,
+        borderRadius: 20,
+        paddingTop:10,
+        backgroundColor: '#F0F0F0',
+        zIndex: 1,
+        
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0.9,
+        height: 3,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4, 
+        elevation:2,
+
+        ...Platform.select({
+            ios: {
+                height: "20%",
+                width: "100%",
+                left:10
+            },
+            android: {
+                height: "20%",
+                width: "100%",
+                left:10
+            },
+        }),
+    },
+    nameOfOutfitText:{
+        alignItems:'center',
+        backgroundColor: 'white',
+        padding: 5, 
+        margin: 10,
+        borderRadius: 10,
+        marginVertical: 1,
+        fontWeight: 'bold',
+    },
+
+    saveAndCancelButtonContainer:{
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        // flexWrap: 'wrap',
         backgroundColor: '#F0F0F0',
-        margin: 10, //margin of the square - how big is it
-        // justifyContent: 'space-between'
-        // minHeight: '50%', 
-        // maxWidth: '50%'
-    },
+        margin: 10,
+        marginVertical: 1,
+        borderRadius: 20, 
 
-    cancelButton: {
-        borderRadius: 10,
-        padding: 10,
-        // width: '11%',
-        maxWidth: '50%', 
-        backgroundColor: 'red'
-    },
-    cancelButtonText: {
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: 'bold'
-    },
-
-    saveButton: {
-        borderRadius: 10,
-        padding: 10,
-        // width: '11%',
-        maxWidth: '50%', 
-        backgroundColor: 'limegreen'
-    },
-    saveButtonText: {
-        color: 'white',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        
     },
 });
