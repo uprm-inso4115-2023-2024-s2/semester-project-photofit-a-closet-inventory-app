@@ -22,7 +22,7 @@ export default function TabLayout() {
     return (
         <Tabs
             screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+                tabBarActiveTintColor: '#C100E0',
                 // Disable the static render of the header on web
                 // to prevent a hydration error in React Navigation v6.
                 headerShown: useClientOnlyValue(false, true),
@@ -92,7 +92,7 @@ export default function TabLayout() {
             />
 
             <Tabs.Screen
-                name="three"
+                name="closet"
                 options={{
                     title: 'Closet',
                     tabBarIcon: ({color}) => <MaterialCommunityIcons name="hanger" size={24} color={color}/>,

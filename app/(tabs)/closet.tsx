@@ -7,8 +7,8 @@ import {Clothe} from "@/classes/clothe";
 import Filter from "@/components/Filter";
 
 // Closet screen
-export default function TabThreeScreen() {
-    const [clothes, setClothes] = useState<Clothe[]>([]);
+export default function Closet() {
+    const [clothes, setClothes] = useState<Map<number, Clothe>>(new Map<number, Clothe>());
     const [clotheIndex, setClotheIndex] = useState(0);
     const [clotheTrigger, setClotheTrigger] = useState(false);
 
@@ -32,21 +32,29 @@ export default function TabThreeScreen() {
         }());
 
     const handleNext = () => {
-        setClotheIndex((prevIndex) => (prevIndex + 1) % clothes.length);
+        setClotheIndex((prevIndex) => (prevIndex + 1) % clothes.size);
     };
 
     const handlePrevious = () => {
         setClotheIndex((prevIndex) =>
-            prevIndex === 0 ? clothes.length - 1 : prevIndex - 1
+            prevIndex === 0 ? clothes.size - 1 : prevIndex - 1
         );
     };
 
-    if (clothes.length === 0) {
+    if (clothes.size === 0) {
         return (
-            <View style={{flex: 1, alignItems: "center"}}>
-                <Text>No clothes saved</Text>
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: "10%" }}>
+                <Text style={{ fontSize: 20, textAlign: "center" , fontWeight: "500" }}>
+                    No clothes saved at the moment. Press the "+" button on the right corner to start adding items to your closet!
+                </Text>
             </View>
         )
+    }
+
+    // Fixes crash caused by DB clothes refreshed via filter, while using previous index with new
+    // smaller DB clothes list, thus getting an `undefined` Clothe object for that index
+    if (clothes.size > 0 && clotheIndex >= clothes.size) {
+        setClotheIndex(clothes.size - 1);
     }
 
     return (
@@ -57,19 +65,28 @@ export default function TabThreeScreen() {
             <KeyboardAvoidingView style={styles.keyboardContainer}>
                 <Filter/>
 
-                {/* The clothes cycler */}
-                <View style={styles.cyclerContainer}>
-                    <ClotheComponent clothe={clothes[clotheIndex]}/>
+                {/* Render the clothes cycler if there are clothe items saved in the database */}
+                {clothes.size > 0 &&
+                    <View style={styles.cyclerContainer}>
+                        {/* I get the array of values/Clothes and use the index to keep track of which clothe is
+                        displayed, then we can use the array of keys/ids to get the id of the clothe using the same
+                        index */}
+                        <ClotheComponent id={[...clothes.keys()][clotheIndex]} clothe={[...clothes.values()][clotheIndex]}/>
 
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={handlePrevious}>
-                            <Text style={styles.buttonText}>Previous</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={handleNext}>
-                            <Text style={styles.buttonText}>Next</Text>
-                        </TouchableOpacity>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+                                <Text style={styles.buttonText}>Previous</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={handleNext}>
+                                <Text style={styles.buttonText}>Next</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
+                }
+
+                {clothes.size === 0 &&
+                    <Text>No Clothes Found!</Text>
+                }
             </KeyboardAvoidingView>
         </ScrollView>
     );
@@ -95,15 +112,21 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginTop: 10,
         flexDirection: "row",
+        height: "7%",
+        justifyContent: "space-between",
+        width: "80%",
     },
     button: {
-        padding: 10,
-        marginHorizontal: 10,
-        backgroundColor: 'lightblue',
-        borderRadius: 5,
+        backgroundColor: '#C100E0',
+        width: "45%",
+        height: "100%",
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",  
     },
     buttonText: {
-        fontSize: 16,
-        fontWeight: "bold",
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 15,
     },
 });

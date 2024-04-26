@@ -4,7 +4,7 @@ import React from 'react';
 import {searchPlaceHolder} from '@/components/SearchBarPlaceholder'
 import {addOutfitButton} from '@/components/OutfitButton'
 import {outfitFilterBoxes} from '@/components/OutfitsFilterBoxes';
-
+import OutfitComponent from "@/components/outfitWidget";
 
 export default function TabTwoScreen() {
 
@@ -35,13 +35,9 @@ export default function TabTwoScreen() {
         <ScrollView>
         {/* Outfit Buttons */}      
         <View style={styles.outfitsButtonContainer}> 
-          {addOutfitButton()}
-          {addOutfitButton()}
-          {addOutfitButton()}
-          {addOutfitButton()}
-          {addOutfitButton()}
-          {addOutfitButton()}
-          {addOutfitButton()}
+            <OutfitComponent />
+            <OutfitComponent />
+            <OutfitComponent />
         </View>
         </ScrollView>
 
