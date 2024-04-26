@@ -148,7 +148,7 @@ export class DatabaseController {
         let success = false;
         let outfitId = undefined;
 
-        console.log(`Saving ${outfit.name} to clothes table`)
+        console.log(`Saving ${outfit.name} to outfits table`)
 
         await db.transactionAsync(async tx => {
             const result = await tx.executeSqlAsync('INSERT INTO outfits (outfit) VALUES (?)',
@@ -160,7 +160,6 @@ export class DatabaseController {
         // Add thy clothe to the cached clothes map
         if (success && outfitId !== undefined) {
             this.outfits.set(outfitId, outfit);
-            this.notifyAllRegisteredCallbacksOfClothesChange();
         }
 
         return success;
